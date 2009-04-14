@@ -1,0 +1,15 @@
+#! /bin/csh -f
+
+if ($#argv != 1) then
+    echo "Usage $0 commit-message"
+    exit 1
+endif
+
+rm -rf C*/*/build
+rm .DS_Store
+rm C*/.DS_Store
+rm C*/*/.DS_Store
+rm -rf C*/*/*.xcodeproj/ericasadun.*
+git add -A
+git commit -m "$1"
+git push
