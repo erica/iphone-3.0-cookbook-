@@ -13,14 +13,6 @@ NSString *jsonescape(NSString *string)
 	aString = [aString stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
 	aString = [aString stringByReplacingOccurrencesOfString:@"/" withString:@"\\/"];
 	
-	aString = [aString stringByReplacingOccurrencesOfString:@"," withString:@"\\,"];
-	aString = [aString stringByReplacingOccurrencesOfString:@"{" withString:@"\\{"];
-	aString = [aString stringByReplacingOccurrencesOfString:@"}" withString:@"\\}"];
-	aString = [aString stringByReplacingOccurrencesOfString:@"[" withString:@"\\["];
-	aString = [aString stringByReplacingOccurrencesOfString:@"]" withString:@"\\]"];
-	
-	aString = [aString stringByReplacingOccurrencesOfString:@"'" withString:@"\\'"];
-
 	aString = [aString stringByReplacingOccurrencesOfString:@"\b" withString:@""];
 	aString = [aString stringByReplacingOccurrencesOfString:@"\f" withString:@""];
 	aString = [aString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
