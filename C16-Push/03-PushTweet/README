@@ -1,0 +1,15 @@
+The pushtweet utility basically sits and loops, polling search.twitter.com at the time interval you specify. When it finds a new tweet (i.e. one that does not match the tweet that was most recently stored), it pushes that to your iPhone.
+
+1. You must supply your own push.pl (See Apple's dev forums). This is the utility that actually does the pushing. You must add your own credentials per the instructions.
+
+2. You should update the TWEET_FILE to your own choice of location. Right now it saves to /Users/ericasadun/.tweet, which is probably where you don't want to save stuff.
+
+3. Update the URL_STRING in XMLParser.m to the twitter search feed of your choice. Right now, it searches for, well, me.
+
+4. Optionally set SHOW_TICK, when set to YES, will show the start of each fetch loop.
+
+5. Out of complete paranoia, you'll need to supply your own push command. It should be easy to generate one from the twitter submitter and the message. You may want to add sound effects, etc.
+
+Pass the time interval between checks as the argument to the utility. It does atoi so time intervals are expected in integer seconds.
+
+Obviously, use at your own risk. Feel free to contribute bug fixes, etc. As always, feel free to contact me.

@@ -111,6 +111,12 @@ NSString *pushStatus ()
 
 @implementation SampleAppDelegate
 
+- (void) showString: (NSString *) aString
+{
+	UITextView *tv = (UITextView *)[[[UIApplication sharedApplication]  keyWindow] viewWithTag:TEXTVIEWTAG];
+	tv.text = aString;
+}
+
 // Retrieve the device token
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -121,36 +127,50 @@ NSString *pushStatus ()
 						 (rntypes & UIRemoteNotificationTypeSound) ? @"Yes" : @"No"];
 	
 	NSString *status = [NSString stringWithFormat:@"%@\nRegistration succeeded.\n\nDevice Token: %@\n%@", pushStatus(), deviceToken, results];
-	
-	UITextView *tv = (UITextView *)[[application keyWindow] viewWithTag:TEXTVIEWTAG];
-	tv.text = status;
-	
+	[self showString:status];
 	NSLog(@"deviceToken: %@", deviceToken); 
 } 
 
 // Provide a user explanation for when the registration fails
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error 
 {
-	UITextView *tv = (UITextView *)[[application keyWindow] viewWithTag:TEXTVIEWTAG];
 	NSString *status = [NSString stringWithFormat:@"%@\nRegistration failed.\n\nError: %@", pushStatus(), [error localizedDescription]];
-	tv.text = status;
+	[self showString:status];
     NSLog(@"Error in registration. Error: %@", error); 
 } 
 
 // Handle an actual notification
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-	UITextView *tv = (UITextView *)[[application keyWindow] viewWithTag:TEXTVIEWTAG];
 	NSString *status = [NSString stringWithFormat:@"Notification received:\n%@",[userInfo description]];
-	tv.text = status;
-	CFShow(userInfo);
+	[self showString:status];
+	CFShow([userInfo description]);
 }
+
+// Report the notification payload when launched by alert
+- (void) launchNotification: (NSNotification *) notification
+{
+	[self performSelector:@selector(showString:) withObject:[[notification userInfo] description] afterDelay:1.0f];
+}
+
+// Does not work reliably at the time of writing.
+/*- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+	// [self performSelector:@selector(showString:) withObject:[launchOptions description] afterDelay:2.0f];
+	printf("In launch options\n");
+	CFShow(launchOptions);
+	return YES;
+}
+ */
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {	
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedController alloc] init]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];
+	
+	// Listen for remote notification launches
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchNotification:) name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
 }
 @end
 

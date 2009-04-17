@@ -1,0 +1,2 @@
+rm ~/.tweet
+cp build/Debug/pushtweet ~/bin

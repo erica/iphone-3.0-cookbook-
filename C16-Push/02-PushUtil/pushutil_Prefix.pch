@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'pushutil' target in the 'pushutil' project.
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

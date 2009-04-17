@@ -1,0 +1,6 @@
+#! /bin/csh -f
+
+rm -rf build
+rm .DS_Store
+rm */.DS_Store
+rm -rf *.xcodeproj/ericasadun.*
