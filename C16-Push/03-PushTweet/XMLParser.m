@@ -36,7 +36,6 @@ static XMLParser *sharedInstance = nil;
 	[parser parse];
     [parser release];
 	[pool drain];
-	[pool release];
 	
 	// pop down to real root
 	TreeNode *realroot = [[root children] lastObject];

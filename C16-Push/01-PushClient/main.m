@@ -6,6 +6,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define COOKBOOK_PURPLE_COLOR	[UIColor colorWithRed:0.20392f green:0.19607f blue:0.61176f alpha:1.0f]
+#define BARBUTTON(TITLE, SELECTOR) 	[[[UIBarButtonItem alloc] initWithTitle:TITLE style:UIBarButtonItemStylePlain target:self action:SELECTOR] autorelease]
 #define TEXTVIEWTAG	11
 
 #pragma mark Notification types utility
@@ -90,17 +92,9 @@ NSString *pushStatus ()
 	self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.20392f green:0.19607f blue:0.61176f alpha:1.0f];
 	self.title = @"Push Client";
 	
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
-											   initWithTitle:@"Register" 
-											   style:UIBarButtonItemStylePlain 
-											   target:self 
-											   action:@selector(doOn)] autorelease];
+	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Register", @selector(doOn));
 	
-	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc]
-											  initWithTitle:@"Unregister" 
-											  style:UIBarButtonItemStylePlain 
-											  target:self 
-											  action:@selector(doOff)] autorelease];
+	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Unregister", @selector(doOff));
 	[self updateSwitches];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(confirmationWasHidden:) name:@"UIApplicationDidBecomeActiveNotification" object:nil];
 }

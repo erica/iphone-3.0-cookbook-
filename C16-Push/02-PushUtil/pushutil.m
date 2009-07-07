@@ -25,6 +25,7 @@ void usage()
 	printf("-msg message			Set the alert message\n");
 	printf("-okay				Use one OK button on the alert\n");
 	printf("-button text			Use custom button text\n");
+	printf("-feedback			Request feedback report\n");
 	printf("Note: This utility does not support custom payload entries at this time\n");
 }
 
@@ -347,6 +348,37 @@ int main (int argc, const char * argv[]) {
 			printf("Custom key value pairs added to dictionary\n");
 		}
 		
+		if ([darg caseInsensitiveCompare:@"-feedback"] == NSOrderedSame) 
+		{
+			NSString *dToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"defaultToken"];
+			if (!dToken)
+			{
+				printf("Error: Device token has not been set.\n");
+				exit(-1);
+			}
+			
+			NSData *dCert = apnsCert();
+			if (!dCert)
+			{
+				printf("Error retrieving apns certificate\n");
+				exit(-1);
+			}
+			
+			printf("Preparing to retrieve feedback\n");
+			
+			[APNSHelper sharedInstance].deviceTokenID = dToken;
+			[APNSHelper sharedInstance].certificateData = dCert;
+			NSData *feedbackData = [[APNSHelper sharedInstance] fetchFeedback];
+			printf("Retrieved %d bytes\n", feedbackData.length);
+			if (feedbackData.length > 0)
+			{
+				NSString *results = [[NSString alloc] initWithData:feedbackData encoding:NSUTF8StringEncoding];
+				CFShow(results);
+				[results release];
+			}
+			exit(1);
+		}
+	
 		if ([darg caseInsensitiveCompare:@"-undoc"] == NSOrderedSame)  // undocumented
 		{
 			printf("-undoc			print this message\n");

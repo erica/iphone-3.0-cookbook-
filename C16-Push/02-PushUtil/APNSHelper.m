@@ -7,6 +7,8 @@
 #import "APNSHelper.h"
 #import "ioSock.h"
 
+#define USE_SANDBOX	YES
+
 @implementation APNSHelper
 @synthesize certificateData;
 @synthesize deviceTokenID;
@@ -54,7 +56,10 @@ static APNSHelper *sharedInstance = nil;
 	
 	// Establish connection to server.
 	PeerSpec peer;
-	result = MakeServerConnection("gateway.sandbox.push.apple.com", 2195, &socket, &peer);
+	if (USE_SANDBOX)
+		result = MakeServerConnection("gateway.sandbox.push.apple.com", 2195, &socket, &peer);
+	else
+		result = MakeServerConnection("gateway.push.apple.com", 2195, &socket, &peer);
 	if (result)
 	{
 		printf("Error creating server connection\n");
@@ -126,6 +131,7 @@ static APNSHelper *sharedInstance = nil;
 	if (result)
 	{
 		printf("Error setting the client certificate\n");
+		CFRelease(certificates);
 		return NO;
 	}
 
@@ -182,6 +188,129 @@ static APNSHelper *sharedInstance = nil;
 		printf("Message sent.\n");
 		return YES;
 	}
+}
+
+// This is just a guess about how this will work. Not live, can't test.
+- (NSData *) fetchFeedback
+{
+	otSocket socket;
+	SSLContextRef context;
+	SecKeychainRef keychain;
+	SecIdentityRef identity;
+	SecCertificateRef certificate;
+	OSStatus result;
+
+	// Ensure device token
+	if (!self.deviceTokenID) 
+	{
+		printf("Error: Device Token is nil\n");
+		return NO;
+	}
+	
+	// Ensure certificate
+	if (!self.certificateData)
+	{
+		printf("Error: Certificate Data is nil\n");
+		return NO;
+	}
+	
+	// Establish connection to server.
+	PeerSpec peer;
+	if (USE_SANDBOX)
+		result = MakeServerConnection("feedback.sandbox.push.apple.com", 2196, &socket, &peer);
+	else
+		result = MakeServerConnection("feedback.push.apple.com", 2196, &socket, &peer);
+	if (result)
+	{
+		printf("Error creating server connection\n");
+		return NO;
+	}
+	
+	// Create new SSL context.
+	result = SSLNewContext(false, &context);
+	if (result)
+	{
+		printf("Error creating SSL context\n");
+		return NO;
+	}
+	
+	// Set callback functions for SSL context.
+	result = SSLSetIOFuncs(context, SocketRead, SocketWrite);
+	if (result)
+	{
+		printf("Error setting SSL context callback functions\n");
+		return NO;
+	}
+	
+	// Set SSL context connection.
+	result = SSLSetConnection(context, socket);
+	if (result)
+	{
+		printf("Error setting the SSL context connection\n");
+		return NO;
+	}
+	
+	// Set server domain name.
+	result = SSLSetPeerDomainName(context, "gateway.sandbox.push.apple.com", 30);
+	if (result)
+	{
+		printf("Error setting the server domain name\n");
+		return NO;
+	}
+	
+	// Open keychain.
+	result = SecKeychainCopyDefault(&keychain);
+	if (result)
+	{
+		printf("Error accessing keychain\n");
+		return NO;
+	}
+	
+	// Create certificate from data
+	CSSM_DATA data;
+	data.Data = (uint8 *)[self.certificateData bytes];
+	data.Length = [self.certificateData length];
+	result = SecCertificateCreateFromData(&data, CSSM_CERT_X_509v3, CSSM_CERT_ENCODING_BER, &certificate);
+	if (result)
+	{
+		printf("Error creating certificate from data\n");
+		return NO;
+	}
+	
+	// Create identity.
+	result = SecIdentityCreateWithCertificate(keychain, certificate, &identity);
+	if (result)
+	{
+		printf("Error creating identity from certificate\n");
+		return NO;
+	}
+	
+	// Set client certificate.
+	CFArrayRef certificates = CFArrayCreate(NULL, (const void **)&identity, 1, NULL);
+	result = SSLSetCertificate(context, certificates);
+	if (result)
+	{
+		printf("Error setting the client certificate\n");
+		CFRelease(certificates);
+		return NO;
+	}
+	
+	CFRelease(certificates);
+	
+	// Perform SSL handshake.
+	do {result = SSLHandshake(context);} while(result == errSSLWouldBlock);
+
+	// Retrieve message from SSL.
+	size_t processed = 0;
+	char buffer[38];
+	NSMutableData *mdata = [NSMutableData data];
+	do 
+	{
+		(SSLRead(context, buffer, 38, &processed));
+		[mdata appendBytes:buffer length:processed];
+	} while (processed > 0);
+	
+	return mdata;
 }
 
 - (void) dealloc

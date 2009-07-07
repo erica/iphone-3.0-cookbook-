@@ -1,0 +1,8 @@
+rm -rf /tmp/scan-build*
+rm -rf build
+
+# old
+# ~/bin/analyzer/scan-build --view xcodebuild
+
+# new
+~/bin/analyzer/scan-build -v -V --use-cc=/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 xcodebuild -activeconfiguration -activetarget -sdk iphonesimulator3.0

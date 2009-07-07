@@ -288,7 +288,7 @@ OSStatus AcceptClientConnection(
 {  
 	struct sockaddr_in  addr;
 	int          sock;
-    int                 len;
+    uint         len;
 	
     len = sizeof(struct sockaddr_in);
     sock = accept((int)listenSock, (struct sockaddr *) &addr, &len);

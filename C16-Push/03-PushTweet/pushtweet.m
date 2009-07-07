@@ -106,7 +106,6 @@ int main (int argc, const char * argv[]) {
 		found = nil;
 	
 		[wadingpool drain];
-		[wadingpool release];
 		
 		[NSThread sleepForTimeInterval:(double) delay];
 		if (SHOW_TICK) printf("tick\n");

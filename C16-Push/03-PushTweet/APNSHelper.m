@@ -126,6 +126,7 @@ static APNSHelper *sharedInstance = nil;
 	if (result)
 	{
 		printf("Error setting the client certificate\n");
+		CFRelease(certificates);
 		return NO;
 	}
 

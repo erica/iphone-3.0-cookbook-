@@ -1,0 +1,35 @@
+#! /usr/bin/perl
+#
+#  Erica Sadun, http://ericasadun.com
+#  iPhone Developer's Cookbook, 3.0 Edition
+#  BSD License, Use at your own risk
+#
+
+# Require a replacement id from the user
+if (!(@ARGV)) { die "Please supply a replacement for com.yourcompany\n"; } 
+print "About to replace com.yourcompany with $ARGV[0]\n";
+
+# Copy original templates folder to desktop
+my $doit = qq{cp -r '/Developer/Platforms/iPhoneOS.platform/Developer/Library/Xcode/Project Templates/Application' ~/Desktop};
+`$doit`;
+
+# Iterate through each template folder
+my $TEMPLATEDIR = "~/Desktop/Application";
+my $doit = qq{ls $TEMPLATEDIR};
+foreach my $folder (split('\n', `$doit`))
+{
+    # Iterate through each match within the folders
+    $doit = qq{grep -iR com.yourcompany $TEMPLATEDIR/*};
+    foreach my $match (split('\n', `$doit`))
+    {
+        # Perform the patching
+	$match =~ s/:.*//;
+        print `cat '$match' | sed 's/com.yourcompany/$ARGV[0]/' > '$match.delt'`;
+        `mv '$match.delt' '$match'`;
+    }
+}
+
+# Report results to user and show where to move the file
+print "Done.\n\n";
+print "The patched folder is found at ~/Desktop/Application. Move it to your\n";
+print "Application Support folder in Developer/Shared/Xcode/Project Templates\n";
