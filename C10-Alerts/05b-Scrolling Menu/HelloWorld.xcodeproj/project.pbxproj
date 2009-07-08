@@ -14,10 +14,7 @@
 		8E3A1F090FAA199F009B0518 /* cover320x416.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E3A1F080FAA199F009B0518 /* cover320x416.png */; };
 		8E4156E90FA4EE0E0006D27C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E4156E70FA4EE0E0006D27C /* Default.png */; };
 		8E4156EA0FA4EE0E0006D27C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E4156E80FA4EE0E0006D27C /* icon.png */; };
-		8E55B1B10FD5C5F6005D3CFF /* ModalHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E55B1B00FD5C5F6005D3CFF /* ModalHUD.m */; };
 		8E785FCB0FCDB853006EA81F /* TestBedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */; };
-		8E785FD50FCDB87B006EA81F /* BFlyCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E785FD40FCDB87B006EA81F /* BFlyCircle.png */; };
-		8EF574850FD5C16D0091C877 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EF574840FD5C16D0091C877 /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,11 +28,7 @@
 		8E3A1F080FAA199F009B0518 /* cover320x416.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cover320x416.png; sourceTree = "<group>"; };
 		8E4156E70FA4EE0E0006D27C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		8E4156E80FA4EE0E0006D27C /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		8E55B1AF0FD5C5F6005D3CFF /* ModalHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalHUD.h; sourceTree = "<group>"; };
-		8E55B1B00FD5C5F6005D3CFF /* ModalHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalHUD.m; sourceTree = "<group>"; };
 		8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestBedViewController.xib; sourceTree = "<group>"; };
-		8E785FD40FCDB87B006EA81F /* BFlyCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BFlyCircle.png; sourceTree = "<group>"; };
-		8EF574840FD5C16D0091C877 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +39,6 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				1D3623EC0D0F72F000981E51 /* CoreGraphics.framework in Frameworks */,
-				8EF574850FD5C16D0091C877 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +85,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8EF574840FD5C16D0091C877 /* MessageUI.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
@@ -103,9 +94,6 @@
 		8EB688610FA64AD100489E4B /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				8E55B1AF0FD5C5F6005D3CFF /* ModalHUD.h */,
-				8E55B1B00FD5C5F6005D3CFF /* ModalHUD.m */,
-				8E785FD40FCDB87B006EA81F /* BFlyCircle.png */,
 				8E3A1F080FAA199F009B0518 /* cover320x416.png */,
 				32CA4F630368D1EE00C91783 /* HelloWorld_Prefix.pch */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -161,7 +149,6 @@
 				8E4156EA0FA4EE0E0006D27C /* icon.png in Resources */,
 				8E3A1F090FAA199F009B0518 /* cover320x416.png in Resources */,
 				8E785FCB0FCDB853006EA81F /* TestBedViewController.xib in Resources */,
-				8E785FD50FCDB87B006EA81F /* BFlyCircle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,7 +160,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				8E55B1B10FD5C5F6005D3CFF /* ModalHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,7 +180,7 @@
 				INFOPLIST_FILE = Info.plist;
 				PREBINDING = NO;
 				PRODUCT_NAME = HelloWorld;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "44DBF7AB-4A01-4612-8FBF-E649E306F9F4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "09BC1CCF-453F-409C-B6C0-E6434BABBD03";
 			};
 			name = Debug;
 		};
