@@ -46,7 +46,7 @@
 	baseGreen = [[[UIImage imageNamed:@"green.png"] stretchableImageWithLeftCapWidth:capWidth topCapHeight:0.0f] retain];
 	baseRed = [[[UIImage imageNamed:@"red.png"] stretchableImageWithLeftCapWidth:capWidth topCapHeight:0.0f] retain];
 	altGreen = [[[UIImage imageNamed:@"green2.png"] stretchableImageWithLeftCapWidth:capWidth topCapHeight:0.0f] retain];
-	altGreen = [[[UIImage imageNamed:@"red2.png"] stretchableImageWithLeftCapWidth:capWidth topCapHeight:0.0f] retain];
+	altRed = [[[UIImage imageNamed:@"red2.png"] stretchableImageWithLeftCapWidth:capWidth topCapHeight:0.0f] retain];
 	
 	// Create a button sized to our art
 	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
