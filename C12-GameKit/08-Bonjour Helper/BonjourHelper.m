@@ -15,7 +15,6 @@
 
 @implementation BonjourHelper
 @synthesize server;
-@synthesize service;
 @synthesize browser;
 @synthesize inConnection;
 @synthesize outConnection;
@@ -121,7 +120,9 @@ BOOL outConnected;
 
 - (void) updateStatus
 {
-	printf("Incoming: %s, Outgoing: %s\n", inConnected ? "connected" : "not connected", outConnected ? "connected" : "not connected");
+	printf("Base:  Incoming: %s, Outgoing: %s\n", inConnection ? "connected" : "not connected", outConnection ? "connected" : "not connected");
+	printf("Final: Incoming: %s, Outgoing: %s\n", inConnected ? "connected" : "not connected", outConnected ? "connected" : "not connected");
+
 	// Must be connected to continue
 	if (!(self.inConnection && self.outConnection) ||
 		!(inConnected && outConnected))
@@ -162,6 +163,7 @@ BOOL outConnected;
 
 			// Stop browsing for services
 			[self.browser stop];
+			[netService release];
 			
 			// Create an outbound connection to this new service
 			self.outConnection = [[[TCPConnection alloc] initWithRemoteAddress:address] autorelease];
@@ -169,19 +171,17 @@ BOOL outConnected;
 			[self performSelector:@selector(checkForData)];
 
 			[self updateStatus];
-			[self.service stop];
 			return;
 		}
 	} 
 	
-	[self.service stop];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
 {
-	self.service = netService;
-	[service setDelegate:self];
-	[service resolveWithTimeout:0.0f];
+	[netService retain];
+	[netService setDelegate:self];
+	[netService resolveWithTimeout:0.0f];
 }
 
 + (void) startBrowsingForServices
@@ -213,9 +213,8 @@ BOOL outConnected;
 
 + (void) initConnections
 {
-	if (sharedInstance.browser)	[sharedInstance.browser stop];
-	if (sharedInstance.service) [sharedInstance.service stop];
-	if (sharedInstance.server)	[sharedInstance.server stop];
+	[sharedInstance.browser stop];
+	[sharedInstance.server stop];
 	
 	sharedInstance.inConnection = nil;
 	sharedInstance.outConnection = nil;

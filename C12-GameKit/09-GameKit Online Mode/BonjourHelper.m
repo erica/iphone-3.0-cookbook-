@@ -5,6 +5,7 @@
  */
 
 #import "BonjourHelper.h"
+#import "GameKitHelper.h"
 #import "ModalAlert.h"
 #import "NetReachability.h"
 #include <arpa/inet.h>
@@ -12,10 +13,10 @@
 
 #define DO_DATA_CALLBACK(X, Y) if (sharedInstance.dataDelegate && [sharedInstance.dataDelegate respondsToSelector:@selector(X)]) [sharedInstance.dataDelegate performSelector:@selector(X) withObject:Y];
 #define BARBUTTON(TITLE, SELECTOR) 	[[[UIBarButtonItem alloc] initWithTitle:TITLE style:UIBarButtonItemStylePlain target:[BonjourHelper class] action:SELECTOR] autorelease]
+#define GBARBUTTON(TITLE, SELECTOR) 	[[[UIBarButtonItem alloc] initWithTitle:TITLE style:UIBarButtonItemStylePlain target:[GameKitHelper class] action:SELECTOR] autorelease]
 
 @implementation BonjourHelper
 @synthesize server;
-@synthesize service;
 @synthesize browser;
 @synthesize inConnection;
 @synthesize outConnection;
@@ -114,14 +115,16 @@ BOOL outConnected;
 {
 	sharedInstance.viewController = aViewController;
 	if (sharedInstance.viewController)
-		sharedInstance.viewController.navigationItem.rightBarButtonItem = BARBUTTON(@"Connect", @selector(connect));
+		sharedInstance.viewController.navigationItem.rightBarButtonItem = GBARBUTTON(@"Connect", @selector(connect));
 }
 
 #pragma mark Handshaking
 
 - (void) updateStatus
 {
-	printf("Incoming: %s, Outgoing: %s\n", inConnected ? "connected" : "not connected", outConnected ? "connected" : "not connected");
+	printf("Base:  Incoming: %s, Outgoing: %s\n", inConnection ? "connected" : "not connected", outConnection ? "connected" : "not connected");
+	printf("Final: Incoming: %s, Outgoing: %s\n", inConnected ? "connected" : "not connected", outConnected ? "connected" : "not connected");
+	
 	// Must be connected to continue
 	if (!(self.inConnection && self.outConnection) ||
 		!(inConnected && outConnected))
@@ -142,6 +145,7 @@ BOOL outConnected;
 - (void)netServiceDidResolveAddress:(NSNetService *)netService
 {
 	NSArray* addresses = [netService addresses];
+	
 	if (addresses && addresses.count)
 	{
 		for (int i = 0; i < addresses.count; i++)
@@ -162,6 +166,7 @@ BOOL outConnected;
 
 			// Stop browsing for services
 			[self.browser stop];
+			[netService release];
 			
 			// Create an outbound connection to this new service
 			self.outConnection = [[[TCPConnection alloc] initWithRemoteAddress:address] autorelease];
@@ -169,19 +174,17 @@ BOOL outConnected;
 			[self performSelector:@selector(checkForData)];
 
 			[self updateStatus];
-			[self.service stop];
 			return;
 		}
 	} 
-	
-	[self.service stop];
+	[netService release];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
 {
-	self.service = netService;
-	[service setDelegate:self];
-	[service resolveWithTimeout:0.0f];
+	[netService retain];
+	[netService setDelegate:self];
+	[netService resolveWithTimeout:0.0f];
 }
 
 + (void) startBrowsingForServices
@@ -213,9 +216,8 @@ BOOL outConnected;
 
 + (void) initConnections
 {
-	if (sharedInstance.browser)	[sharedInstance.browser stop];
-	if (sharedInstance.service) [sharedInstance.service stop];
-	// if (sharedInstance.server)	[sharedInstance.server stop];
+	[sharedInstance.browser stop];
+	[sharedInstance.server stop];
 	
 	sharedInstance.inConnection = nil;
 	sharedInstance.outConnection = nil;
@@ -264,7 +266,7 @@ BOOL outConnected;
 	// reset 
 	[sharedInstance.hud dismissWithClickedButtonIndex:1 animated:YES];
 	if (sharedInstance.viewController)
-		sharedInstance.viewController.navigationItem.rightBarButtonItem = BARBUTTON(@"Connect", @selector(connect));
+		sharedInstance.viewController.navigationItem.rightBarButtonItem = GBARBUTTON(@"Connect", @selector(connect));
 }
 
 #pragma mark  Data Handling
@@ -297,7 +299,8 @@ BOOL outConnected;
 - (BOOL) server:(TCPServer*)server shouldAcceptConnectionFromAddress:(const struct sockaddr*)address
 {
 	// Accept connections only while not connected
-	return !self.isConnected;
+	// return !self.isConnected;
+	return YES;
 }
 
 - (void) connectionDidFailOpening:(TCPConnection*)connection
@@ -320,23 +323,18 @@ BOOL outConnected;
 	NSString *addressString = [BonjourHelper stringFromAddress:connection.remoteSocketAddress];
 	if (!addressString) return;
 	
-	BOOL wasConnected = self.isConnected;
-	
 	[BonjourHelper disconnect];
 	printf("Lost connection from %s\n", [addressString UTF8String]);
 	
-	if (wasConnected)
-		[ModalAlert say:@"Disconnected from peer (%@). You are no longer connected to another device.", addressString];
-	else
-		[ModalAlert say:@"Peer was lost before full connection could be established."];
+	[ModalAlert say:@"Disconnected from peer (%@). You are no longer connected to another device.", addressString];
 }
 
 - (void) server:(TCPServer*)server didOpenConnection:(TCPServerConnection*)connection
 {
 	// Set the connection but wait for it to fully open
 	self.inConnection = connection;
-	[self updateStatus];
 	[connection setDelegate:self];
+	[self updateStatus];
 }
 
 - (void) connectionDidOpen: (TCPConnection *) connection
@@ -354,5 +352,6 @@ BOOL outConnected;
 	printf("Connection did close: %s\n", (connection == self.inConnection) ? "incoming" : "outgoing");
 	if (connection == self.inConnection) inConnected = NO;
 	if (connection == self.outConnection) outConnected = NO;
+	[self updateStatus];
 }
 @end
