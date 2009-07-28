@@ -182,8 +182,7 @@ BOOL outConnected;
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
 {
-	[netService retain];
-	[netService setDelegate:self];
+	[[netService retain] setDelegate:self];
 	[netService resolveWithTimeout:0.0f];
 }
 
@@ -299,8 +298,8 @@ BOOL outConnected;
 - (BOOL) server:(TCPServer*)server shouldAcceptConnectionFromAddress:(const struct sockaddr*)address
 {
 	// Accept connections only while not connected
-	// return !self.isConnected;
-	return YES;
+	return !self.isConnected;
+	// return YES;
 }
 
 - (void) connectionDidFailOpening:(TCPConnection*)connection

@@ -174,13 +174,12 @@ BOOL outConnected;
 			return;
 		}
 	} 
-	
+	[netService release];
 }
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)netServiceBrowser didFindService:(NSNetService *)netService moreComing:(BOOL)moreServicesComing
 {
-	[netService retain];
-	[netService setDelegate:self];
+	[[netService retain] setDelegate:self];
 	[netService resolveWithTimeout:0.0f];
 }
 
