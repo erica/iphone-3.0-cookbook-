@@ -23,7 +23,6 @@
 @synthesize saveItem;
 @synthesize imageData;
 @synthesize browser;
-@synthesize service;
 
 // Build a properly oriented NSImage from the data
 - (NSImage *) imageFromData: (NSData *) data
@@ -78,8 +77,7 @@
 	
 	[self.saveItem setEnabled:YES];
 	[self.button setEnabled:YES];
-	[self.service stop];
-	self.service = nil;
+
 	[self.progress stopAnimation:nil];
 	
 	ANNOUNCE(@"Recived JPEG image (%d bytes).\n\nUse File > Save to save the received image to disk.", data.length);
@@ -91,12 +89,6 @@
 	if (success) return;
 	ANNOUNCE(@"Connection denied or lost. Sorry.");
 	
-	if (self.service)
-	{
-		[self.service stop];
-		self.service = nil;
-	}
-
 	self.imageData = nil;
 	[self.saveItem setEnabled:NO];
 	[self.imageView setImage:nil];
@@ -114,6 +106,7 @@
 		[connection setDelegate:self];
 		[self.statusText setTitleWithMnemonic:@"Requesting data..."];
 		[self.progress startAnimation:nil];
+		[netService release];
 		[connection receiveData];
 	}
 }
@@ -129,9 +122,8 @@
 	[self.browser stop];
 	self.browser = nil;
 	[self.statusText setTitleWithMnemonic:@"Resolving service."];
-	self.service = netService;
-	[self.service setDelegate:self];
-	[self.service resolveWithTimeout:0.0f];
+	[[netService retain] setDelegate:self];
+	[netService resolveWithTimeout:0.0f];
 }
 
 // Begin a catch request, start the service browser, and update UI
@@ -155,9 +147,7 @@
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 {
 	if (returnCode == NSCancelButton)
-	{
 		return;
-	}
 	else
 	{
 		[self.imageData writeToFile:[sheet filename] atomically:YES];

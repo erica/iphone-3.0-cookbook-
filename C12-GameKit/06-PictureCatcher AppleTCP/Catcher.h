@@ -12,7 +12,6 @@
 	
 	NSData *imageData;
 	NSNetServiceBrowser *browser;
-	NSNetService *service;
 	
 	BOOL success;
 }
@@ -25,7 +24,6 @@
 @property (retain) NSMenuItem *saveItem;
 @property (retain) NSData *imageData;
 @property (retain) NSNetServiceBrowser *browser;
-@property (retain) NSNetService *service;
 
 - (IBAction) catchPlease: (id) sender;
 - (IBAction) savePlease: (id) sender;
