@@ -29,7 +29,7 @@
 		[button setTitle:@"On" forState:UIControlStateNormal];
 		[button setTitle:@"On" forState:UIControlStateHighlighted];
 		[button setBackgroundImage:baseGreen forState:UIControlStateNormal];
-		[button setBackgroundImage:baseGreen forState:UIControlStateHighlighted];
+		[button setBackgroundImage:altGreen forState:UIControlStateHighlighted];
 	}
 	else
 	{

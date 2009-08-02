@@ -28,7 +28,7 @@
 	if (isOn = !isOn)
 	{
 		[button setBackgroundImage:baseGreen forState:UIControlStateNormal];
-		[button setBackgroundImage:baseGreen forState:UIControlStateHighlighted];
+		[button setBackgroundImage:altGreen forState:UIControlStateHighlighted];
 	}
 	else
 	{

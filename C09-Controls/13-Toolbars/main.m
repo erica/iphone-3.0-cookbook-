@@ -44,6 +44,7 @@
 	
 	tb.items = tbitems;
 	[self.view addSubview:tb];
+	[tb release];
 }
 @end
 
