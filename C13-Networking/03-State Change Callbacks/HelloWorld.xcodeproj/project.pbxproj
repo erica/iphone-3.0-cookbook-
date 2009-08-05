@@ -63,6 +63,8 @@
 			isa = PBXGroup;
 			children = (
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				8E000B101023CA480001BA2F /* UIDevice-Reachability.h */,
+				8E000B111023CA480001BA2F /* UIDevice-Reachability.m */,
 				8EB688610FA64AD100489E4B /* Support */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -84,8 +86,6 @@
 		8EB688610FA64AD100489E4B /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				8E000B101023CA480001BA2F /* UIDevice-Reachability.h */,
-				8E000B111023CA480001BA2F /* UIDevice-Reachability.m */,
 				8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */,
 				8E3A1F080FAA199F009B0518 /* cover320x416.png */,
 				32CA4F630368D1EE00C91783 /* HelloWorld_Prefix.pch */,

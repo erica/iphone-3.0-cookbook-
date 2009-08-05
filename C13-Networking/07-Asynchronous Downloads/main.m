@@ -110,13 +110,13 @@
 
 	// Prepare for download
 	self.navigationItem.rightBarButtonItem = nil;
+	self.navigationItem.leftBarButtonItem = nil;
 	[(UISegmentedControl *)self.navigationItem.titleView setEnabled:NO];
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 
 	// Set up the Download Helper and start download
 	[DownloadHelper sharedInstance].delegate = self;
 	[DownloadHelper download:urlString];
-	
 }
 
 - (void) viewDidLoad

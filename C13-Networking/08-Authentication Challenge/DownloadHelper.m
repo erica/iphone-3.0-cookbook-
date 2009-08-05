@@ -11,16 +11,24 @@
 
 static DownloadHelper *sharedInstance = nil;
 
-@interface DownloadOperation : NSOperation
-@end
+@implementation DownloadHelper
+@synthesize response;
+@synthesize data;
+@synthesize delegate;
+@synthesize urlString;
+@synthesize urlconnection;
+@synthesize isDownloading;
+@synthesize username;
+@synthesize password;
 
-@implementation DownloadOperation
-- (void) main
+- (void) start
 {
-	NSURL *url = [NSURL URLWithString:sharedInstance.urlString];
+	self.isDownloading = NO;
+	
+	NSURL *url = [NSURL URLWithString:self.urlString];
 	if (!url)
 	{
-		NSString *reason = [NSString stringWithFormat:@"Could not create URL from string %@", sharedInstance.urlString];
+		NSString *reason = [NSString stringWithFormat:@"Could not create URL from string %@", self.urlString];
 		DELEGATE_CALLBACK(dataDownloadFailed:, reason);
 		return;
 	}
@@ -28,36 +36,37 @@ static DownloadHelper *sharedInstance = nil;
 	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:url];
 	if (!theRequest)
 	{
-		NSString *reason = [NSString stringWithFormat:@"Could not create URL request from string %@", sharedInstance.urlString];
+		NSString *reason = [NSString stringWithFormat:@"Could not create URL request from string %@", self.urlString];
 		DELEGATE_CALLBACK(dataDownloadFailed:, reason);
 		return;
 	}
 	
-	NSURLConnection *theConnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:sharedInstance];
-	if (!theConnection)
+	self.urlconnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+	if (!self.urlconnection)
 	{
-		NSString *reason = [NSString stringWithFormat:@"URL connection failed for string %@", sharedInstance.urlString];
+		NSString *reason = [NSString stringWithFormat:@"URL connection failed for string %@", self.urlString];
 		DELEGATE_CALLBACK(dataDownloadFailed:, reason);
 		return;
 	}
+	
+	self.isDownloading = YES;
 	
 	// Create the new data object
-	sharedInstance.data = [NSMutableData data];
-	sharedInstance.response = nil;
+	self.data = [NSMutableData data];
+	self.response = nil;
 	
-	// Run modal
-	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:24 * 60 * 60]];
+	[self.urlconnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 }
-@end
 
+- (void) cleanup
+{
+	self.data = nil;
+	self.response = nil;
+	self.urlconnection = nil;
+	self.urlString = nil;
+	self.isDownloading = NO;
+}
 
-@implementation DownloadHelper
-@synthesize response;
-@synthesize data;
-@synthesize delegate;
-@synthesize urlString;
-@synthesize username;
-@synthesize password;
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
 	// Thanks to KickingVegas
@@ -78,15 +87,16 @@ static DownloadHelper *sharedInstance = nil;
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)aResponse
 {
 	// store the response information
-	sharedInstance.response = aResponse;
+	self.response = aResponse;
 	
 	// Check for bad connection
 	if ([aResponse expectedContentLength] < 0)
 	{
-		NSString *reason = [NSString stringWithFormat:@"Invalid URL [%@]", sharedInstance.urlString];
+		NSString *reason = [NSString stringWithFormat:@"Invalid URL [%@]", self.urlString];
 		DELEGATE_CALLBACK(dataDownloadFailed:, reason);
 		[connection cancel];
-		CFRunLoopStop(CFRunLoopGetCurrent());
+		[self cleanup];
+		return;
 	}
 	
 	if ([aResponse suggestedFilename])
@@ -96,11 +106,11 @@ static DownloadHelper *sharedInstance = nil;
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)theData
 {
 	// append the new data and update the delegate
-	[sharedInstance.data appendData:theData];
-	if (sharedInstance.response)
+	[self.data appendData:theData];
+	if (self.response)
 	{
-		float expectedLength = [sharedInstance.response expectedContentLength];
-		float currentLength = sharedInstance.data.length;
+		float expectedLength = [self.response expectedContentLength];
+		float currentLength = self.data.length;
 		float percent = currentLength / expectedLength;
 		DELEGATE_CALLBACK(dataDownloadAtPercent:, NUMBER(percent));
 	}
@@ -109,19 +119,24 @@ static DownloadHelper *sharedInstance = nil;
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
 	// finished downloading the data, cleaning up
-	sharedInstance.response = nil;
+	self.response = nil;
 	
 	// Delegate is responsible for releasing data
-	DELEGATE_CALLBACK(didReceiveData:, sharedInstance.data);
-	if (!sharedInstance.delegate) sharedInstance.data = nil;
-	CFRunLoopStop(CFRunLoopGetCurrent());
+	if (self.delegate)
+	{
+		NSData *theData = [self.data retain];
+		DELEGATE_CALLBACK(didReceiveData:, theData);
+	}
+	[self.urlconnection unscheduleFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+	[self cleanup];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+	self.isDownloading = NO;
 	NSLog(@"Error: Failed connection, %@", [error localizedDescription]);
 	DELEGATE_CALLBACK(dataDownloadFailed:, @"Failed Connection");
-	CFRunLoopStop(CFRunLoopGetCurrent());
+	[self cleanup];
 }
 
 + (DownloadHelper *) sharedInstance
@@ -132,8 +147,19 @@ static DownloadHelper *sharedInstance = nil;
 
 + (void) download:(NSString *) aURLString
 {
+	if (sharedInstance.isDownloading)
+	{
+		NSLog(@"Error: Cannot start new download until current download finishes");
+		DELEGATE_CALLBACK(dataDownloadFailed:, @"");
+		return;
+	}
+	
 	sharedInstance.urlString = aURLString;
-	NSOperation *operation = [[[DownloadOperation alloc] init] autorelease];
-	[operation start];
+	[sharedInstance start];
+}
+
++ (void) cancel
+{
+	if (sharedInstance.isDownloading) [sharedInstance.urlconnection cancel];
 }
 @end

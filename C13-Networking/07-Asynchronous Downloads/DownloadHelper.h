@@ -20,13 +20,18 @@
 	NSURLResponse *response;
 	NSMutableData *data;
 	NSString *urlString;
+	NSURLConnection *urlconnection;
 	id <DownloadHelperDelegate> delegate;
+	BOOL isDownloading;
 }
 @property (retain) NSURLResponse *response;
+@property (retain) NSURLConnection *urlconnection;
 @property (retain) NSMutableData *data;
 @property (retain) NSString *urlString;
 @property (retain) id delegate;
+@property (assign) BOOL isDownloading;
 
 + (DownloadHelper *) sharedInstance;
 + (void) download:(NSString *) aURLString;
++ (void) cancel;
 @end
