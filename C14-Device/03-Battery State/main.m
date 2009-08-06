@@ -36,7 +36,7 @@
 
 - (void) checkBattery: (id) sender
 {
-	NSArray *stateArray = [NSArray arrayWithObjects: @"Battery state is Unknown", @"Battery is unplugged", @"Battery is charging", @"Battery state is full", nil];
+	NSArray *stateArray = [NSArray arrayWithObjects: @"Battery state is Unknown", @"Battery is not plugged into a charging source", @"Battery is charging", @"Battery state is full", nil];
 	self.log = [NSMutableString string];
 	[self doLog:@"Battery level: %0.2f%", [[UIDevice currentDevice] batteryLevel] * 100];
 	[self doLog:@"Battery state: %@", [stateArray objectAtIndex:[[UIDevice currentDevice] batteryState]]];
