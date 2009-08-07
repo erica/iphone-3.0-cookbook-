@@ -57,7 +57,7 @@ BOOL isLandscape()
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:madelegate cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
 
 	// Set max number of items
-	int fewerthan = isLandscape() ? 5 : 8;
+	int fewerthan = isLandscape() ? 8 : 8; // hard coding for this example. This is not a general use case for this class
 	int count = 1;
 	for (NSString *title in buttons) 
 		if (count++ < fewerthan) [actionSheet addButtonWithTitle:title];

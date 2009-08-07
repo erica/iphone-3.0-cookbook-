@@ -140,7 +140,6 @@ static APNSHelper *sharedInstance = nil;
 	// Perform SSL handshake.
 	do {result = SSLHandshake(context);} while(result == errSSLWouldBlock);
 	
-	
 	// Convert string into device token data.
 	NSMutableData *deviceToken = [NSMutableData data];
 	unsigned value;
@@ -190,8 +189,7 @@ static APNSHelper *sharedInstance = nil;
 	}
 }
 
-// This is just a guess about how this will work. Not live, can't test.
-- (NSData *) fetchFeedback
+- (NSArray *) fetchFeedback
 {
 	otSocket socket;
 	SSLContextRef context;
@@ -199,7 +197,7 @@ static APNSHelper *sharedInstance = nil;
 	SecIdentityRef identity;
 	SecCertificateRef certificate;
 	OSStatus result;
-
+	
 	// Ensure device token
 	if (!self.deviceTokenID) 
 	{
@@ -284,6 +282,14 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error creating identity from certificate\n");
 		return NO;
 	}
+		
+	// Attempt to Disable Verify
+	result = SSLSetEnableCertVerify(context, NO);
+	if (result)
+	{
+		printf("Error disabling cert verify\n");
+		return NO;
+	}
 	
 	// Set client certificate.
 	CFArrayRef certificates = CFArrayCreate(NULL, (const void **)&identity, 1, NULL);
@@ -294,23 +300,46 @@ static APNSHelper *sharedInstance = nil;
 		CFRelease(certificates);
 		return NO;
 	}
-	
 	CFRelease(certificates);
 	
 	// Perform SSL handshake.
 	do {result = SSLHandshake(context);} while(result == errSSLWouldBlock);
-
+	if (result)
+	{
+		cssmPerror("Error", result);
+		return NO;
+	}
+	
+	NSMutableArray *results = [NSMutableArray array];
+	
+	// 4 big endian bytes for time_t
+	// 2 big endian bytes for token length (always 0, 32)
+	// 32 bytes for device token
+	
 	// Retrieve message from SSL.
 	size_t processed = 0;
 	char buffer[38];
-	NSMutableData *mdata = [NSMutableData data];
 	do 
 	{
-		(SSLRead(context, buffer, 38, &processed));
-		[mdata appendBytes:buffer length:processed];
+		result = SSLRead(context, buffer, 38, &processed);
+		if (result) break;
+
+		// Recover Date
+		char *b = buffer;
+		NSTimeInterval ti = ((unsigned char)b[0] << 24) + ((unsigned char)b[1] << 16) + ((unsigned char)b[2] << 8) + (unsigned char)b[3];
+		NSDate *date = [NSDate dateWithTimeIntervalSince1970:ti];
+				
+		// Recover Device ID
+		NSMutableString *deviceID = [NSMutableString string];
+		b += 6;
+		for (int i = 0; i < 32; i++) [deviceID appendFormat:@"%02x", (unsigned char)b[i]];
+
+		// Add dictionary to results
+		[results addObject:[NSDictionary dictionaryWithObject:date forKey:deviceID]];
+		
 	} while (processed > 0);
 	
-	return mdata;
+	return results;
 }
 
 - (void) dealloc

@@ -16,5 +16,5 @@
 
 + (APNSHelper *) sharedInstance;
 - (BOOL) push: (NSString *) payload;
-- (NSData *) fetchFeedback;
+- (NSArray *) fetchFeedback;
 @end

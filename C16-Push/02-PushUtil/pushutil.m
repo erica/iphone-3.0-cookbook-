@@ -364,19 +364,44 @@ int main (int argc, const char * argv[]) {
 				exit(-1);
 			}
 			
-			printf("Preparing to retrieve feedback\n");
-			
 			[APNSHelper sharedInstance].deviceTokenID = dToken;
 			[APNSHelper sharedInstance].certificateData = dCert;
-			NSData *feedbackData = [[APNSHelper sharedInstance] fetchFeedback];
-			printf("Retrieved %d bytes\n", feedbackData.length);
-			if (feedbackData.length > 0)
+			NSArray *resultsArray = [[APNSHelper sharedInstance] fetchFeedback];
+			
+			if	(resultsArray.count == 0)
 			{
-				NSString *results = [[NSString alloc] initWithData:feedbackData encoding:NSUTF8StringEncoding];
-				CFShow(results);
-				[results release];
+				printf("No feedback results at this time.\n");
 			}
-			exit(1);
+			else
+			{
+			
+				NSString *path = [workingDir() stringByAppendingPathComponent:@"feedback.txt"];
+				FILE *fp;
+				if ((fp = fopen([path UTF8String], "a")) == NULL)
+				{
+					printf("Cannot open feedback.txt for output\n");
+					exit(-1);
+				}
+				
+				printf("APNS has encountered the following delivery failures:\n\n");
+				NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
+				formatter.dateFormat = @"MM/dd/YY h:mm:ss a";
+				
+				for (NSDictionary *dict in resultsArray)
+				{
+					NSString *deviceid = [[dict allKeys] lastObject];
+					NSDate *date = [dict objectForKey:deviceid];
+					NSString *timestamp = [formatter stringFromDate:date];
+					fprintf(fp, "%s %s\n", [timestamp UTF8String], [deviceid UTF8String]);
+					printf("TIMESTAMP: %s\n", [timestamp UTF8String]);
+					printf("DEVICE ID: %s\n\n", [deviceid UTF8String]);
+				}
+				
+				fclose(fp);
+				printf("Wrote %d events to feedback.txt\n", resultsArray.count);
+			}
+			
+			exit(1); // successful exit
 		}
 	
 		if ([darg caseInsensitiveCompare:@"-undoc"] == NSOrderedSame)  // undocumented
