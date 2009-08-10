@@ -7,8 +7,6 @@
 #import "APNSHelper.h"
 #import "ioSock.h"
 
-#define USE_SANDBOX self.useSandboxServer
-
 @implementation APNSHelper
 @synthesize certificateData;
 @synthesize deviceTokenID;
@@ -57,7 +55,7 @@ static APNSHelper *sharedInstance = nil;
 	
 	// Establish connection to server.
 	PeerSpec peer;
-	if (USE_SANDBOX)
+	if (self.useSandboxServer)
 	{
 		printf("Sending message via sandbox\n");
 		result = MakeServerConnection("gateway.sandbox.push.apple.com", 2195, &socket, &peer);
@@ -226,7 +224,7 @@ static APNSHelper *sharedInstance = nil;
 	
 	// Establish connection to server.
 	PeerSpec peer;
-	if (USE_SANDBOX)
+	if (self.useSandboxServer)
 	{
 		printf("Recovering feedback via sandbox\n");	
 		result = MakeServerConnection("feedback.sandbox.push.apple.com", 2196, &socket, &peer);
