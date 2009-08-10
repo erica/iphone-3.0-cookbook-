@@ -58,7 +58,10 @@ static APNSHelper *sharedInstance = nil;
 	// Establish connection to server.
 	PeerSpec peer;
 	if (USE_SANDBOX)
+	{
+		printf("Sending message via sandbox\n");
 		result = MakeServerConnection("gateway.sandbox.push.apple.com", 2195, &socket, &peer);
+	}
 	else
 		result = MakeServerConnection("gateway.push.apple.com", 2195, &socket, &peer);
 	if (result)
@@ -224,7 +227,10 @@ static APNSHelper *sharedInstance = nil;
 	// Establish connection to server.
 	PeerSpec peer;
 	if (USE_SANDBOX)
+	{
+		printf("Recovering feedback via sandbox\n");	
 		result = MakeServerConnection("feedback.sandbox.push.apple.com", 2196, &socket, &peer);
+	}
 	else
 		result = MakeServerConnection("feedback.push.apple.com", 2196, &socket, &peer);
 	if (result)
