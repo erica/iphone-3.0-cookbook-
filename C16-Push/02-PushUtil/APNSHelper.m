@@ -7,11 +7,12 @@
 #import "APNSHelper.h"
 #import "ioSock.h"
 
-#define USE_SANDBOX	YES
+#define USE_SANDBOX self.useSandboxServer
 
 @implementation APNSHelper
 @synthesize certificateData;
 @synthesize deviceTokenID;
+@synthesize useSandboxServer;
 
 static APNSHelper *sharedInstance = nil;
 
@@ -122,6 +123,14 @@ static APNSHelper *sharedInstance = nil;
 	if (result)
 	{
 		printf("Error creating identity from certificate\n");
+		return NO;
+	}
+	
+	// Disable Verify
+	result = SSLSetEnableCertVerify(context, NO);
+	if (result)
+	{
+		printf("Error disabling cert verify\n");
 		return NO;
 	}
 	
@@ -283,7 +292,7 @@ static APNSHelper *sharedInstance = nil;
 		return NO;
 	}
 		
-	// Attempt to Disable Verify
+	// Disable Verify
 	result = SSLSetEnableCertVerify(context, NO);
 	if (result)
 	{

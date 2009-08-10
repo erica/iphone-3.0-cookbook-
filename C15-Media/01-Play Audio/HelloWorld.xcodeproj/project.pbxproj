@@ -76,6 +76,7 @@
 			children = (
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */,
+				8E2D1C5D102CAFEA00BF1779 /* Music */,
 				8EB688610FA64AD100489E4B /* Support */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -94,17 +95,24 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8EB688610FA64AD100489E4B /* Support */ = {
+		8E2D1C5D102CAFEA00BF1779 /* Music */ = {
 			isa = PBXGroup;
 			children = (
-				8EC63BEB102BA404003CC314 /* RhapsodyInBlue.mp3 */,
 				8EC63BE9102BA3EE003CC314 /* Tisket.mp3 */,
 				8EC63BE7102BA3DD003CC314 /* InTheMood.mp3 */,
-				8EC63B03102B9B32003CC314 /* ModalMenu.h */,
-				8EC63B04102B9B32003CC314 /* ModalMenu.m */,
+				8EC63BEB102BA404003CC314 /* RhapsodyInBlue.mp3 */,
 				8EC63A95102B95BB003CC314 /* ragtime.mp3 */,
 				8EC63B01102B9B0A003CC314 /* ARB-AJ.mp3 */,
 				8EC63AA9102B96A0003CC314 /* HMB1936.mp3 */,
+			);
+			name = Music;
+			sourceTree = "<group>";
+		};
+		8EB688610FA64AD100489E4B /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				8EC63B03102B9B32003CC314 /* ModalMenu.h */,
+				8EC63B04102B9B32003CC314 /* ModalMenu.m */,
 				8E3A1F080FAA199F009B0518 /* cover320x416.png */,
 				32CA4F630368D1EE00C91783 /* HelloWorld_Prefix.pch */,
 				8D1107310486CEB800E47090 /* Info.plist */,

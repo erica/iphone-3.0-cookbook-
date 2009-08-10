@@ -18,6 +18,7 @@
 		8EB803420F96391D00292E79 /* ping1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8EB8033F0F96391D00292E79 /* ping1.caf */; };
 		8EB803430F96391D00292E79 /* ping2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8EB803400F96391D00292E79 /* ping2.caf */; };
 		8EB803440F96391D00292E79 /* ping3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8EB803410F96391D00292E79 /* ping3.caf */; };
+		8EF50B8A103096F300131D81 /* AdHoc.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8EF50B89103096F300131D81 /* AdHoc.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		8EB8033F0F96391D00292E79 /* ping1.caf */ = {isa = PBXFileReference; lastKnownFileType = text; path = ping1.caf; sourceTree = "<group>"; };
 		8EB803400F96391D00292E79 /* ping2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ping2.caf; sourceTree = "<group>"; };
 		8EB803410F96391D00292E79 /* ping3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ping3.caf; sourceTree = "<group>"; };
+		8EF50B89103096F300131D81 /* AdHoc.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AdHoc.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				8EB803410F96391D00292E79 /* ping3.caf */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				8EF50B89103096F300131D81 /* AdHoc.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 				8EB803440F96391D00292E79 /* ping3.caf in Resources */,
 				8E93E6F00F97B34700C3BC13 /* icon.png in Resources */,
 				8E93E6F10F97B34700C3BC13 /* Default.png in Resources */,
+				8EF50B8A103096F300131D81 /* AdHoc.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +169,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Erica Sadun";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -173,7 +178,7 @@
 				GCC_PREFIX_HEADER = HelloWorld_Prefix.pch;
 				INFOPLIST_FILE = "HelloWorld-Info.plist";
 				PRODUCT_NAME = HelloWorld;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3F26AFC-7F4C-44C6-B7D7-F54FE50F1AFB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "44DBF7AB-4A01-4612-8FBF-E649E306F9F4";
 			};
 			name = Debug;
 		};
@@ -181,13 +186,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Erica Sadun";
+				CODE_SIGN_ENTITLEMENTS = AdHoc.plist;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Erica Sadun";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HelloWorld_Prefix.pch;
 				INFOPLIST_FILE = "HelloWorld-Info.plist";
 				PRODUCT_NAME = HelloWorld;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E31A75B4-8757-41DE-A9A4-8A3BF6DFF78D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "036C350C-74BE-4619-BC4D-5BF376CCFE1F";
 			};
 			name = Release;
 		};

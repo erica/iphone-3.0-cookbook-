@@ -8,11 +8,13 @@
 
 @interface APNSHelper : NSObject 
 {
-	NSString *deviceTokenID;
-	NSData *certificateData;
+	NSString	*deviceTokenID;
+	NSData		*certificateData;
+	BOOL		useSandboxServer;
 }
 @property (nonatomic, retain)	NSString *deviceTokenID;
 @property (nonatomic, retain)	NSData *certificateData;
+@property (assign) BOOL useSandboxServer;
 
 + (APNSHelper *) sharedInstance;
 - (BOOL) push: (NSString *) payload;

@@ -26,6 +26,7 @@ void usage()
 	printf("-okay				Use one OK button on the alert\n");
 	printf("-button text			Use custom button text\n");
 	printf("-feedback			Request feedback report\n");
+	printf("-sandbox			Use the sandboox (not the production) server\n");
 	printf("Note: This utility does not support custom payload entries at this time\n");
 }
 
@@ -128,9 +129,11 @@ int main (int argc, const char * argv[]) {
 			[payloadDict setObject:[NSNumber numberWithInt:[badge intValue]] forKey:@"badge"];
 		}
 		
-		if ([darg caseInsensitiveCompare:@"-sound"] == NSOrderedSame) 
+		if (([darg caseInsensitiveCompare:@"-sound"] == NSOrderedSame) ||
+			([darg caseInsensitiveCompare:@"-snd"] == NSOrderedSame))
 		{
 			NSString *sound = [[NSUserDefaults standardUserDefaults] objectForKey:@"sound"];
+			if (!sound) sound = [[NSUserDefaults standardUserDefaults] objectForKey:@"snd"];
 			if (!sound)
 			{
 				printf("Error: Supply file name with -sound\n");
@@ -139,7 +142,8 @@ int main (int argc, const char * argv[]) {
 			[payloadDict setObject:jsonescape(sound) forKey:@"sound"];
 		}
 		
-		if ([darg caseInsensitiveCompare:@"-okay"] == NSOrderedSame) 
+		if (([darg caseInsensitiveCompare:@"-okay"] == NSOrderedSame) ||
+			([darg caseInsensitiveCompare:@"-ok"] == NSOrderedSame))
 		{
 			[alertDict setObject:[NSNull null] forKey:@"action-loc-key"];
 		}
@@ -156,9 +160,11 @@ int main (int argc, const char * argv[]) {
 			[alertDict setObject:jsonescape(button) forKey:@"action-loc-key"];
 		}
 		
-		if ([darg caseInsensitiveCompare:@"-msg"] == NSOrderedSame) 
+		if (([darg caseInsensitiveCompare:@"-msg"] == NSOrderedSame) ||
+			([darg caseInsensitiveCompare:@"-message"] == NSOrderedSame))
 		{
 			NSString *msg = [[NSUserDefaults standardUserDefaults] objectForKey:@"msg"];
+			if (!msg) msg = [[NSUserDefaults standardUserDefaults] objectForKey:@"message"];
 			if (!msg)
 			{
 				printf("Error: Supply text with -msg\n");
@@ -168,15 +174,27 @@ int main (int argc, const char * argv[]) {
 			[alertDict setObject:jsonescape(msg) forKey:@"body"];
 		}
 		
-		if ([darg caseInsensitiveCompare:@"-add"] == NSOrderedSame) 
+		if (([darg caseInsensitiveCompare:@"-add"] == NSOrderedSame) ||
+			([darg caseInsensitiveCompare:@"-device"] == NSOrderedSame))
 		{
 			deviceName = [[NSUserDefaults standardUserDefaults] objectForKey:@"add"];
+			if (!deviceName) deviceName = [[NSUserDefaults standardUserDefaults] objectForKey:@"device"];
+			if (!deviceName)
+			{
+				printf("Error: Supply device name with -add\n");
+	   			continue;
+			}
 			continue;
 		}
 		
 		if ([darg caseInsensitiveCompare:@"-token"] == NSOrderedSame) 
 		{
 			token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
+			if (!token)
+			{
+				printf("Error: Supply token id with -token\n");
+	   			continue;
+			}
 			continue;
 		}
 		
@@ -206,6 +224,13 @@ int main (int argc, const char * argv[]) {
 			[[NSUserDefaults standardUserDefaults] setObject:usetoken forKey:@"defaultToken"];
 			[[NSUserDefaults standardUserDefaults] synchronize];
 			printf("Default token set for device %s\n", [use UTF8String]);
+			continue;
+		}
+
+		if ([darg caseInsensitiveCompare:@"-sandbox"] == NSOrderedSame)
+		{
+			[APNSHelper sharedInstance].useSandboxServer = YES;
+			printf("Will use sandbox (not production) sever.\n");
 			continue;
 		}
 	}
