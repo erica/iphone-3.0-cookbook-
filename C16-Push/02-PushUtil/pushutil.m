@@ -13,6 +13,7 @@ void usage()
 {
 	//      12345678901234567890123456789012345678901234567890123456789012345678901234567890
 	printf("Usage: pushutil options\n");
+	printf("-help				Print this usage message\n");
 	printf("-cwd				Use the current directory\n");
 	printf("-pwd				Print the active directory\n");
 	printf("-devices			List the available devices\n");
@@ -118,6 +119,13 @@ int main (int argc, const char * argv[]) {
 	
 	for (NSString *darg in dashedArgs)
 	{
+		if (([darg caseInsensitiveCompare:@"-help"] == NSOrderedSame) ||
+			([darg caseInsensitiveCompare:@"-usage"] == NSOrderedSame))
+		{
+			usage();
+			exit(1);
+		}
+		
 		if ([darg caseInsensitiveCompare:@"-badge"] == NSOrderedSame) 
 		{
 			NSString *badge = [[NSUserDefaults standardUserDefaults] objectForKey:@"badge"];
@@ -127,6 +135,7 @@ int main (int argc, const char * argv[]) {
 	   			continue;
 			}
 			[payloadDict setObject:[NSNumber numberWithInt:[badge intValue]] forKey:@"badge"];
+			continue;
 		}
 		
 		if (([darg caseInsensitiveCompare:@"-sound"] == NSOrderedSame) ||
@@ -140,12 +149,14 @@ int main (int argc, const char * argv[]) {
 	   			continue;
 			}
 			[payloadDict setObject:jsonescape(sound) forKey:@"sound"];
+			continue;
 		}
 		
 		if (([darg caseInsensitiveCompare:@"-okay"] == NSOrderedSame) ||
 			([darg caseInsensitiveCompare:@"-ok"] == NSOrderedSame))
 		{
 			[alertDict setObject:[NSNull null] forKey:@"action-loc-key"];
+			continue;
 		}
 		
 		if ([darg caseInsensitiveCompare:@"-button"] == NSOrderedSame) 
@@ -158,6 +169,7 @@ int main (int argc, const char * argv[]) {
 			}
 			
 			[alertDict setObject:jsonescape(button) forKey:@"action-loc-key"];
+			continue;
 		}
 		
 		if (([darg caseInsensitiveCompare:@"-msg"] == NSOrderedSame) ||
@@ -170,8 +182,8 @@ int main (int argc, const char * argv[]) {
 				printf("Error: Supply text with -msg\n");
 	   			continue;
 			}
-			
 			[alertDict setObject:jsonescape(msg) forKey:@"body"];
+			continue;
 		}
 		
 		if (([darg caseInsensitiveCompare:@"-add"] == NSOrderedSame) ||
@@ -274,7 +286,8 @@ int main (int argc, const char * argv[]) {
 			[[NSUserDefaults standardUserDefaults] setObject:cwd forKey:@"cwd"];
 			[[NSUserDefaults standardUserDefaults] synchronize];
 			printf("Updated working directory:\n    %s\n", [cwd UTF8String]);
-			checkCert();			
+			checkCert();
+			continue;
 		}
 		
 		if ([darg caseInsensitiveCompare:@"-pwd"] == NSOrderedSame) 
@@ -285,6 +298,7 @@ int main (int argc, const char * argv[]) {
 			else
 				printf("Working directory: %s\n", [cwd UTF8String]);
 			checkCert();
+			continue;
 		}
 		
 		if ([darg caseInsensitiveCompare:@"-clearwd"] == NSOrderedSame)  // undocumented
@@ -292,6 +306,7 @@ int main (int argc, const char * argv[]) {
 			[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cwd"];
 			[[NSUserDefaults standardUserDefaults] synchronize];
 			printf("Cleared working directory\n");
+			continue;
 		}
 		
 		if ([darg caseInsensitiveCompare:@"-cleartoken"] == NSOrderedSame)  // undocumented
@@ -299,6 +314,7 @@ int main (int argc, const char * argv[]) {
 			[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"defaultToken"];
 			[[NSUserDefaults standardUserDefaults] synchronize];
 			printf("Cleared default token\n");
+			continue;
 		}
 	
 		if ([darg caseInsensitiveCompare:@"-devices"] == NSOrderedSame) 
@@ -330,6 +346,7 @@ int main (int argc, const char * argv[]) {
 			if (!dtok) continue;
 			NSArray *keys = [dict allKeysForObject:dtok];
 			if (keys && ([keys count] > 0)) printf("Default device is %s\n", [[keys lastObject] UTF8String]);
+			continue;
 		}
 		
 		if ([darg caseInsensitiveCompare:@"-remove"] == NSOrderedSame)
@@ -357,6 +374,7 @@ int main (int argc, const char * argv[]) {
 			[dict removeObjectForKey:key];
 			[dict writeToFile:deviceFile() atomically:YES];
 			printf("Device %s removed from list.\n", [key UTF8String]);
+			continue;
 		}
 		
 		if ([darg caseInsensitiveCompare:@"-kvpairs"] == NSOrderedSame)  // undocumented
@@ -371,6 +389,7 @@ int main (int argc, const char * argv[]) {
 			}
 			
 			printf("Custom key value pairs added to dictionary\n");
+			continue;
 		}
 		
 		if ([darg caseInsensitiveCompare:@"-feedback"] == NSOrderedSame) 
@@ -432,9 +451,15 @@ int main (int argc, const char * argv[]) {
 		if ([darg caseInsensitiveCompare:@"-undoc"] == NSOrderedSame)  // undocumented
 		{
 			printf("-undoc			print this message\n");
+			printf("-usage			synonym for -help\n");
+			printf("-snd			synonym for -sound\n");
+			printf("-ok			synonym for -okay\n");
+			printf("-message		synonym for -msg\n");
+			printf("-device			synonym for -add\n");
 			printf("-clearwd		clear the current working directory from memory\n");
 			printf("-cleartoken		remove the active token setting\n");
 			printf("-kvpairs		manually add custom k/v pairs, string-to-string only\n");
+			continue;
 		}
 	}
 	
