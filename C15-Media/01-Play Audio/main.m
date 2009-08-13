@@ -19,6 +19,7 @@
 	IBOutlet UIProgressView *meter1;
 	IBOutlet UIProgressView *meter2;
 	IBOutlet UISlider *scrubber;
+	IBOutlet UISlider *volumeSlider;
 	IBOutlet UILabel *nowPlaying;
 	NSString *path;
 }
@@ -61,14 +62,25 @@
 	meter1.progress = 0.0f;
 	meter2.progress = 0.0f;
 	[timer invalidate];
+	volumeSlider.enabled = NO;
+	scrubber.enabled = NO;
 }
 
 - (void) play: (id) sender
 {
 	if (self.player) [self.player play];
+
+	volumeSlider.value = self.player.volume;
+	volumeSlider.enabled = YES;
+	
 	self.navigationItem.rightBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemPause, self, @selector(pause:));
 	timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(updateMeters) userInfo:nil repeats:YES];
 	scrubber.enabled = YES;
+}
+
+- (void) setVolume: (id) sender
+{
+	if (self.player) self.player.volume = volumeSlider.value;
 }
 
 - (void) scrubbingDone: (id) sender
@@ -78,8 +90,13 @@
 
 - (void) scrub: (id) sender
 {
+	// Pause the player
 	[self.player pause];
+	
+	// Calculate the new current time
 	self.player.currentTime = scrubber.value * self.player.duration;
+	
+	// Update the title, nav bar
 	self.title = [NSString stringWithFormat:@"%@ of %@", [self formatTime:self.player.currentTime], [self formatTime:self.player.duration]];
 	self.navigationItem.rightBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemPlay, self, @selector(play:));
 }
@@ -100,7 +117,7 @@
 	self.player.meteringEnabled = YES;
 	meter1.progress = 0.0f;
 	meter2.progress = 0.0f;
-
+	
 	self.player.delegate = self;
 	self.navigationItem.rightBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemPlay, self, @selector(play:));
 	scrubber.enabled = NO;
@@ -112,12 +129,14 @@
 {
 	self.navigationItem.rightBarButtonItem = nil;
 	scrubber.value = 0.0f;
-	scrubber.enabled = YES;
+	scrubber.enabled = NO;
+	volumeSlider.enabled = NO;
 	[self prepAudio];
 }
 
 - (void) pick
 {
+	// Each of these media files is in the public domain via archive.org
 	NSArray *choices = [@"Alexander's Ragtime Band*Hello My Baby*Ragtime Echoes*Rhapsody In Blue*A Tisket A Tasket*In the Mood*Cancel" componentsSeparatedByString:@"*"];
 	NSArray *media = [@"ARB-AJ*HMB1936*ragtime*RhapsodyInBlue*Tisket*InTheMood" componentsSeparatedByString:@"*"];
 	

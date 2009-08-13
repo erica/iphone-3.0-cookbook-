@@ -11,7 +11,7 @@
 #define BARBUTTON(TITLE, SELECTOR) 	[[[UIBarButtonItem alloc] initWithTitle:TITLE style:UIBarButtonItemStylePlain target:self action:SELECTOR] autorelease]
 #define SYSBARBUTTON(ITEM, TARGET, SELECTOR) [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:ITEM target:TARGET action:SELECTOR] autorelease]
 
-@interface TestBedViewController : UIViewController
+@interface TestBedViewController : UIViewController <AVAudioPlayerDelegate>
 {
 	AVAudioPlayer *player;
 }
@@ -25,73 +25,60 @@
 {
 	// Check for the file. "Drumskul" was released as a public domain audio loop on archive.org as part of "loops2try2". 
 	NSError *error;
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"loop" ofType:@"mp3"];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"MeetMeInSt.Louis1904" ofType:@"mp3"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:path]) return NO;
 	
 	// Initialize the player
 	self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
+	self.player.delegate = self;
 	if (!self.player)
 	{
 		NSLog(@"Error: %@", [error localizedDescription]);
 		return NO;
 	}
 	
-	// Prepare the player and set the loops to, basically, unlimited
 	[self.player prepareToPlay];
-	[self.player setNumberOfLoops:999999];
 
 	return YES;
 }
 
-- (void) viewDidAppear: (BOOL) animated
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
-	// Start playing at no-volume
-	self.player.volume = 0.0f;
+	// just keep playing
+	[self.player play];
+}
+
+- (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player
+{
+	// perform any interruption handling here
+	printf("Interruption Detected\n");
+	[[NSUserDefaults standardUserDefaults] setFloat:[self.player currentTime] forKey:@"Interruption"];
+}
+
+- (void)audioPlayerEndInterruption:(AVAudioPlayer *)player
+{
+	// resume playback at the end of the interruption
+	printf("Interruption ended\n");
 	[self.player play];
 	
-	// fade in the audio over a second
-	for (int i = 1; i <= 10; i++)
-	{
-		self.player.volume = i / 10.0f;
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
-	}
-	
-	// Add the push button
-	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Push", @selector(push));
-}
-
-- (void) viewWillDisappear: (BOOL) animated
-{
-	// fade out the audio over a second
-	for (int i = 9; i >= 0; i--)
-	{
-		self.player.volume = i / 10.0f;
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
-	}
-	
-	[self.player pause];
-}
-
-- (void) push
-{
-	// Create a simple new view controller
-	UIViewController *vc = [[UIViewController alloc] init];
-	vc.view.backgroundColor = [UIColor whiteColor];
-	vc.title = @"No Sounds";
-	
-	// Disable the now-pressed right-button
-	self.navigationItem.rightBarButtonItem = nil;
-
-	// push the new view controller
-	[self.navigationController pushViewController:[vc autorelease] animated:YES];
+	// remove the interruption key. it won't be needed
+	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Interruption"];
 }
 
 - (void) viewDidLoad
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Push", @selector(push));
-	self.title = @"Looped Sounds";
 	[self prepAudio];
+
+	// Check for previous interruption
+	if ([[NSUserDefaults standardUserDefaults] objectForKey:@"Interruption"])
+	{
+		self.player.currentTime = [[NSUserDefaults standardUserDefaults] floatForKey:@"Interruption"];
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Interruption"];
+	}
+	
+	// Start playback
+	[self.player play];
 }
 
 @end
