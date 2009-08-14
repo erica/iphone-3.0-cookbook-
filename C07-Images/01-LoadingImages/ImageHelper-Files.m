@@ -41,12 +41,14 @@ NSString *DCIMFolder()
 {
 	NSString *path = [ImageHelper pathForItemNamed:aName inFolder:bundleFolder()];
 	path = path ? path : [ImageHelper pathForItemNamed:aName inFolder:documentsFolder()];
+	if (!path) return nil;
 	return [UIImage imageWithContentsOfFile:path];
 }
 
 + (UIImage *) imageFromURLString: (NSString *) urlstring
 {
-	return [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlstring]]];
+	NSURL *url = [NSURL URLWithString:urlstring];
+	return [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
 }
 
 + (NSArray *) DCIMImages

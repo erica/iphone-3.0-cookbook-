@@ -15,11 +15,6 @@
 		8E4156E90FA4EE0E0006D27C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E4156E70FA4EE0E0006D27C /* Default.png */; };
 		8E4156EA0FA4EE0E0006D27C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E4156E80FA4EE0E0006D27C /* icon.png */; };
 		8E785FCB0FCDB853006EA81F /* TestBedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */; };
-		8EAA499E0FE8266000AD8230 /* heartmask.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EAA499D0FE8266000AD8230 /* heartmask.png */; };
-		8EAA4AE90FE8332900AD8230 /* spademask.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EAA4AE60FE8332900AD8230 /* spademask.png */; };
-		8EAA4AEA0FE8332900AD8230 /* diamondmask.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EAA4AE70FE8332900AD8230 /* diamondmask.png */; };
-		8EAA4AEB0FE8332900AD8230 /* clubmask.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EAA4AE80FE8332900AD8230 /* clubmask.png */; };
-		8EAA4B450FE8482000AD8230 /* ImageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EAA4B440FE8482000AD8230 /* ImageHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,12 +29,6 @@
 		8E4156E70FA4EE0E0006D27C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		8E4156E80FA4EE0E0006D27C /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestBedViewController.xib; sourceTree = "<group>"; };
-		8EAA499D0FE8266000AD8230 /* heartmask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heartmask.png; sourceTree = "<group>"; };
-		8EAA4AE60FE8332900AD8230 /* spademask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spademask.png; sourceTree = "<group>"; };
-		8EAA4AE70FE8332900AD8230 /* diamondmask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamondmask.png; sourceTree = "<group>"; };
-		8EAA4AE80FE8332900AD8230 /* clubmask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clubmask.png; sourceTree = "<group>"; };
-		8EAA4B430FE8482000AD8230 /* ImageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageHelper.h; sourceTree = "<group>"; };
-		8EAA4B440FE8482000AD8230 /* ImageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,8 +73,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				8EAA4B430FE8482000AD8230 /* ImageHelper.h */,
-				8EAA4B440FE8482000AD8230 /* ImageHelper.m */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 				8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */,
 				8EB688610FA64AD100489E4B /* Support */,
@@ -107,10 +94,6 @@
 		8EB688610FA64AD100489E4B /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				8EAA4AE60FE8332900AD8230 /* spademask.png */,
-				8EAA4AE70FE8332900AD8230 /* diamondmask.png */,
-				8EAA4AE80FE8332900AD8230 /* clubmask.png */,
-				8EAA499D0FE8266000AD8230 /* heartmask.png */,
 				8E3A1F080FAA199F009B0518 /* cover320x416.png */,
 				32CA4F630368D1EE00C91783 /* HelloWorld_Prefix.pch */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -166,10 +149,6 @@
 				8E4156EA0FA4EE0E0006D27C /* icon.png in Resources */,
 				8E3A1F090FAA199F009B0518 /* cover320x416.png in Resources */,
 				8E785FCB0FCDB853006EA81F /* TestBedViewController.xib in Resources */,
-				8EAA499E0FE8266000AD8230 /* heartmask.png in Resources */,
-				8EAA4AE90FE8332900AD8230 /* spademask.png in Resources */,
-				8EAA4AEA0FE8332900AD8230 /* diamondmask.png in Resources */,
-				8EAA4AEB0FE8332900AD8230 /* clubmask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,7 +160,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				8EAA4B450FE8482000AD8230 /* ImageHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,7 +186,6 @@
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Erica Sadun";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;

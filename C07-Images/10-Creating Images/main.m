@@ -17,11 +17,33 @@
 @end
 
 @implementation TestBedViewController
-
-Ex
-
 #define	SIDE_LENGTH	60.0f
 #define INSET_AMT	2.0f
+// Draw centered text into the context
+void centerText(CGContextRef context, NSString *fontname, float textsize, NSString *text, CGPoint point, UIColor *color)
+{
+	CGContextSaveGState(context);
+	CGContextSelectFont(context, [fontname UTF8String], textsize, kCGEncodingMacRoman);
+	
+	// Retrieve the text width without actually drawing anything
+	CGContextSaveGState(context);
+	CGContextSetTextDrawingMode(context, kCGTextInvisible);
+	CGContextShowTextAtPoint(context, 0.0f, 0.0f, [text UTF8String], text.length);
+	CGPoint endpoint = CGContextGetTextPosition(context);
+	CGContextRestoreGState(context);
+	
+	// Query for size to recover height. Width is less reliable
+	CGSize stringSize = [text sizeWithFont:[UIFont fontWithName:fontname size:textsize]];
+	
+	// Draw the text
+	[color setFill];
+	CGContextSetShouldAntialias(context, true);
+	CGContextSetTextDrawingMode(context, kCGTextFill);
+	CGContextSetTextMatrix (context, CGAffineTransformMake(1, 0, 0, -1, 0, 0));
+	CGContextShowTextAtPoint(context, point.x - endpoint.x / 2.0f, point.y + stringSize.height / 4.0f, [text UTF8String], text.length); 
+	CGContextRestoreGState(context);
+}
+
 - (UIImage *) createImageWithColor: (UIColor *) color
 {
 	UIGraphicsBeginImageContext(CGSizeMake(SIDE_LENGTH, SIDE_LENGTH));

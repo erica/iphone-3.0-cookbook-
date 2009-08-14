@@ -5,6 +5,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 #define COOKBOOK_PURPLE_COLOR	[UIColor colorWithRed:0.20392f green:0.19607f blue:0.61176f alpha:1.0f]
 #define BARBUTTON(TITLE, SELECTOR) 	[[[UIBarButtonItem alloc] initWithTitle:TITLE style:UIBarButtonItemStylePlain target:self action:SELECTOR] autorelease]
@@ -14,60 +15,63 @@
 @end
 
 @implementation TestBedViewController
-
-// 3.0-3.1 compatibility
-- (void) setAllowsEditing:(BOOL)doesAllow forPicker:(UIImagePickerController *) ipc
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-	SEL allowsSelector;
-	if ([ipc respondsToSelector:@selector(setAllowsEditing:)]) allowsSelector = @selector(setAllowsEditing:);
-	
-	NSMethodSignature *ms = [ipc methodSignatureForSelector:allowsSelector];
-	NSInvocation *inv = [NSInvocation invocationWithMethodSignature:ms];
-	
-	[inv setTarget:ipc];
-	[inv setSelector:allowsSelector];
-	[inv setArgument:&doesAllow atIndex:2];
-	[inv invoke];
+	if (!error) 
+		self.title = @"Saved!";
+	else 
+		CFShow([error localizedDescription]);
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-	SETIMAGE([info objectForKey:@"UIImagePickerControllerOriginalImage"]);
+	// recover video URL
+	NSURL *url = [info objectForKey:UIImagePickerControllerMediaURL];
+	
+	// check if video is compatible with album
+	BOOL compatible = UIVideoAtPathIsCompatibleWithSavedPhotosAlbum([url path]);
+	
+	// save
+	if (compatible)
+		UISaveVideoAtPathToSavedPhotosAlbum([url path], self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
+	
 	[self dismissModalViewControllerAnimated:YES];
 	[picker release];
 }
 
-// Provide 2.x compliance
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)editingInfo
-{
-	NSDictionary *dict = [NSDictionary dictionaryWithObject:image forKey:@"UIImagePickerControllerOriginalImage"];
-	[self imagePickerController:picker didFinishPickingMediaWithInfo:dict];
-}
-
-// Optional but "expected" dismiss
-/*
-- (void) imagePickerControllerDidCancel: 
-(UIImagePickerController *)picker
+- (void) imagePickerControllerDidCancel: (UIImagePickerController *) picker
 {
 	[self dismissModalViewControllerAnimated:YES];
 	[picker release];
 }
-*/
 
-- (void) pickImage: (id) sender
+- (void) recordVideo: (id) sender
 {
 	UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-	ipc.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
+	ipc.sourceType =  UIImagePickerControllerSourceTypeCamera;
 	ipc.delegate = self;
-	ipc.allowsImageEditing = NO;
+	ipc.allowsEditing = YES;
+	ipc.videoQuality = UIImagePickerControllerQualityTypeMedium;
+	ipc.videoMaximumDuration = 30.0f; // 30 seconds
+	ipc.mediaTypes = [NSArray arrayWithObject:@"public.movie"];
+	// ipc.mediaTypes = [NSArray arrayWithObjects:@"public.movie", @"public.image", nil];
 	[self presentModalViewController:ipc animated:YES];	
+}
+
+- (BOOL) videoRecordingAvailable
+{
+	if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) return NO;
+	return [[UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeCamera] containsObject:@"public.movie"];
 }
 
 - (void) viewDidLoad
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Pick", @selector(pickImage:));
-	self.title = @"Image Picker";
+	
+	if ([self videoRecordingAvailable])
+		self.navigationItem.rightBarButtonItem = BARBUTTON(@"Record", @selector(recordVideo:));
+	else 
+		self.title = @"No Video Recording";
 }
 @end
 

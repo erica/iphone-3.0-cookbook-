@@ -131,7 +131,7 @@
 					<string key="className">TestBedViewController</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">view</string>
-						<string key="NS.object.0">id</string>
+						<string key="NS.object.0">UIView</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>

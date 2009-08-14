@@ -20,13 +20,16 @@
 - (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
 	UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-	if (SEGMENT == 0) SETIMAGE([ImageHelper frameImage:image withMask:[UIImage imageNamed:@"heartmask.png"]]);
-	else if (SEGMENT == 1) SETIMAGE([ImageHelper frameImage:image withMask:[UIImage imageNamed:@"clubmask.png"]]);
-	else if (SEGMENT == 2) SETIMAGE([ImageHelper frameImage:image withMask:[UIImage imageNamed:@"diamondmask.png"]]);
-	else if (SEGMENT == 3) SETIMAGE([ImageHelper frameImage:image withMask:[UIImage imageNamed:@"spademask.png"]]);
-	// SETIMAGE(image);
 	[self dismissModalViewControllerAnimated:YES];
 	[picker release];
+
+	UIImage *maskImage;
+	if (SEGMENT == 0) maskImage =[ImageHelper frameImage:image withMask:[UIImage imageNamed:@"heartmask.png"]];
+	else if (SEGMENT == 1) maskImage =[ImageHelper frameImage:image withMask:[UIImage imageNamed:@"clubmask.png"]];
+	else if (SEGMENT == 2) maskImage =[ImageHelper frameImage:image withMask:[UIImage imageNamed:@"diamondmask.png"]];
+	else if (SEGMENT == 3) maskImage =[ImageHelper frameImage:image withMask:[UIImage imageNamed:@"spademask.png"]];
+	UIImage *fitImage = [ImageHelper image:maskImage fitInSize:CGSizeMake(320.0f, 416.0f)];
+	SETIMAGE(fitImage);
 }
 
 // Provide 2.x compliance
