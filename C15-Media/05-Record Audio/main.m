@@ -70,7 +70,16 @@
 	self.title = nil;
 	meter1.hidden = NO;
 	meter2.hidden = NO;
-	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Record", @selector(record));
+	{
+		// Return to play and record session
+		NSError *error;
+		if (![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:&error])
+		{
+			NSLog(@"Error: %@", [error localizedDescription]);
+			return;
+		}
+		self.navigationItem.rightBarButtonItem = BARBUTTON(@"Record", @selector(record));
+	}
 
 	// Delete the current recording
 	[ModalAlert say:@"Deleting recording"];
@@ -100,6 +109,15 @@
 	// Start playback
 	AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:self.recorder.url error:nil];
 	player.delegate = self;
+	
+	// Change audio session for playback
+	NSError *error;
+	if (![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error])
+	{
+		NSLog(@"Error: %@", [error localizedDescription]);
+		return;
+	}
+
 	[player play];
 }
 

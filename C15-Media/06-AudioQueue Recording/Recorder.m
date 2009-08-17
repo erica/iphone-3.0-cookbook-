@@ -1,3 +1,9 @@
+/*
+ Erica Sadun, http://ericasadun.com
+ iPhone Developer's Cookbook, 3.0 Edition
+ BSD License, Use at your own risk
+ */
+
 #import "Recorder.h"
 
 #define SAMPLES_PER_SECOND	8000.0f

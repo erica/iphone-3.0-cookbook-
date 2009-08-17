@@ -6,6 +6,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 #define COOKBOOK_PURPLE_COLOR	[UIColor colorWithRed:0.20392f green:0.19607f blue:0.61176f alpha:1.0f]
 #define BARBUTTON(TITLE, SELECTOR) 	[[[UIBarButtonItem alloc] initWithTitle:TITLE style:UIBarButtonItemStylePlain target:self action:SELECTOR] autorelease]
@@ -21,15 +22,43 @@
 @implementation TestBedViewController
 @synthesize player;
 
+void interruptionListenerCallback (void    *userData, UInt32  interruptionState)
+{
+	// TestBedViewController *tbvc = (TestBedViewController *) userData;
+	if (interruptionState == kAudioSessionBeginInterruption)
+	{
+		printf("(ilc) Interruption Detected\n");
+	}
+	else if (interruptionState == kAudioSessionEndInterruption)
+	{
+		printf("(ilc) Interruption ended\n");
+	}
+}
+
 - (BOOL) prepAudio
 {
 	NSError *error;
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"MeetMeInSt.Louis1904" ofType:@"mp3"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:path]) return NO;
 	
+	// Catch interruptions via callback
+	AudioSessionInitialize(NULL, NULL, interruptionListenerCallback, self);
+	AudioSessionSetActive(true);
+	UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
+	AudioSessionSetProperty( kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
+	
+	/* Audio ends up too low!
+	if (![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:&error])
+	{
+		NSLog(@"Error: %@", [error localizedDescription]);
+		return NO;
+	}
+	 */
+	
 	// Initialize the player
 	self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
-	self.player.delegate = self;
+	self.player.volume = 1.0f;
+	self.player.delegate = self; 
 	if (!self.player)
 	{
 		NSLog(@"Error: %@", [error localizedDescription]);
@@ -50,14 +79,14 @@
 - (void)audioPlayerBeginInterruption:(AVAudioPlayer *)player
 {
 	// perform any interruption handling here
-	printf("Interruption Detected\n");
+	printf("(apbi) Interruption Detected\n");
 	[[NSUserDefaults standardUserDefaults] setFloat:[self.player currentTime] forKey:@"Interruption"];
 }
 
 - (void)audioPlayerEndInterruption:(AVAudioPlayer *)player
 {
 	// resume playback at the end of the interruption
-	printf("Interruption ended\n");
+	printf("(apei) Interruption ended\n");
 	[self.player play];
 	
 	// remove the interruption key. it won't be needed
