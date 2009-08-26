@@ -1,0 +1,134 @@
+Almond #EED9C4
+Antique Brass #C88A65
+Apricot #FDD5B1
+Aquamarine #71D9E2
+Asparagus #7BA05B
+Atomic Tangerine #FF9966
+Banana Mania #FBE7B2
+Beaver #926F5B
+Bittersweet #FE6F5E
+Black #000000
+Blizzard Blue #A3E3ED
+Blue #0066FF
+Blue Bell #9999CC
+Blue Green #0095B6
+Blue Violet #6456B7
+Brick Red #C62D42
+Brink Pink #FB607F
+Brown #AF593E
+Burnt Orange #FF7034
+Burnt Sienna #E97451
+Cadet Blue #A9B2C3
+Canary #FFFF99
+Caribbean Green #00CC99
+Carnation Pink #FFA6C9
+Cerise #DA3287
+Cerulean #02A4D3
+Chartreuse #FF9966
+Chestnut #B94E48
+Copper #DA8A67
+Cornflower #93CCEA
+Cotton Candy #FFB7D5
+Cranberry #DB5079
+Dandelion #FED85D
+Denim #1560BD
+Desert Sand #EDC9AF
+Eggplant #614051
+Electric Lime #CCFF00
+Fern #63B76C
+Flesh #FFCBA4
+Forest Green #5FA777
+Fuchsia #C154C1
+Fuzzy Wuzzy Brown #C45655
+Gold #E6BE8A
+Goldenrod #FCD667
+Granny Smith Apple #9DE093
+Gray #8B8680
+Green #01A368
+Green Yellow #F1E788
+Happy Ever After #6CDA37
+Hot Magenta #FF00CC
+Inch Worm #B0E313
+Indian Red #B94E48
+Indigo #4F69C6
+Jazzberry Jam #A50B5E
+Jungle Green #29AB87
+Laser Lemon #FFFF66
+Lavender #FBAED2
+Macaroni And Cheese #FFB97B
+Magenta #F653A6
+Magic Mint #AAF0D1
+Mahogany #CA3435
+Manatee #8D90A1
+Mango Tango #E77200
+Maroon #C32148
+Mauvelous #F091A9
+Melon #FEBAAD
+Midnight Blue #003366
+Mountain Meadow #1AB385
+Mulberry #C54B8C
+Navy Blue #0066CC
+Neon Carrot #FF9933
+Olive Green #B5B35C
+Orange #FF681F
+Orchid #E29CD2
+Outer Space #2D383A
+Outrageous Orange #FF6037
+Pacific Blue #009DC4
+Peach #FFCBA4
+Periwinkle #C3CDE6
+Pig Pink #FDD7E4
+Pine Green #01796F
+Pink Flamingo #FF66FF
+Plum #843179
+Prussian Blue #003366
+Purple Heart #652DC1
+Purple Mountain's Majesty #9678B6
+Purple Pizzazz #FF00CC
+Radical Red #FF355E
+Raw Sienna #D27D46
+Razzle Dazzle Rose #FF33CC
+Razzmatazz #E30B5C
+Red #ED0A3F
+Red Orange #FF3F34
+Red Violet #BB3385
+Robin's Egg Blue #00CCCC
+Royal Purple #6B3FA0
+Salmon #FF91A4
+Scarlet #FD0E35
+Screamin' Green #66FF66
+Sea Green #93DFB8
+Sepia #9E5B40
+Shadow #837050
+Shamrock #33CC99
+Shocking Pink #FF6FFF
+Silver #C9C0BB
+Sky Blue #76D7EA
+Spring Green #ECEBBD
+Sunglow #FFCC33
+Sunset Orange #FE4C40
+Tan #FA9D5A
+Tickle Me Pink #FC80A5
+Timberwolf #D9D6CF
+Torch Red #FD0E35
+Tropical Rain Forest #00755E
+Tumbleweed #DEA681
+Turquoise Blue #6CDAE7
+Ultra Green #66FF66
+Ultra Orange #FF6037
+Ultra Pink #FF6FFF
+Ultra Red #FD5B78
+Ultra Yellow #FFFF66
+Unmellow Yellow #FFFF66
+Violet (purple) #8359A3
+Violet Red #F7468A
+Vivid Tangerine #FF9980
+Vivid Violet #803790
+White #FFFFFF
+Wild Blue Yonder #7A89B8
+Wild Strawberry #FF3399
+Wild Watermelon #FD5B78
+Wisteria #C9A0DC
+Yellow #FBE870
+Yellow Green #C5E17A
+Yellow Orange #FFAE42

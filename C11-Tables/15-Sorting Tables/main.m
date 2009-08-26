@@ -70,8 +70,7 @@
 {
 	UITableViewCellStyle style =  UITableViewCellStyleDefault;
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:@"BaseCell"];
-	if (!cell) 
-		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
+	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"BaseCell"] autorelease];
 	NSString *crayon = [items objectAtIndex:indexPath.row];
 	cell.textLabel.text = CRAYON_NAME(crayon);
 	if (![CRAYON_NAME(crayon) hasPrefix:@"White"])

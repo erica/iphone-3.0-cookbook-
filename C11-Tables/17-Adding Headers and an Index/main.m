@@ -121,7 +121,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
-	if (title == UITableViewIndexSearch) return 0;
+	if (title == UITableViewIndexSearch) 
+	{
+		[self.tableView scrollRectToVisible:self.searchBar.frame animated:NO];
+		return -1;
+	}
 	return [ALPHA rangeOfString:title].location;
 }
 
