@@ -142,8 +142,8 @@
 		if (person.department.manager == person) person.department.manager = nil;
 
 		// remove person from department
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF != %@", person];
-		if (person.department.members) person.department.members = [person.department.members filteredSetUsingPredicate:pred];
+		// NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF != %@", person];
+		// if (person.department.members) person.department.members = [person.department.members filteredSetUsingPredicate:pred];
 
 		// delete the person object
 		[self.context deleteObject:person];
