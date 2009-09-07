@@ -19,7 +19,7 @@
 	NSMutableString *log;
 	IBOutlet UITextView *textView;
 }
-@property (retain) NSMutableString *log;
+@property (retain) NSMutableString *log;	
 @property (retain) UITextView *textView;
 @end
 
