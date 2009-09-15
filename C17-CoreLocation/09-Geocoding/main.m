@@ -14,7 +14,7 @@
 
 #define COOKBOOK_PURPLE_COLOR	[UIColor colorWithRed:0.20392f green:0.19607f blue:0.61176f alpha:1.0f]
 #define BARBUTTON(TITLE, SELECTOR) 	[[[UIBarButtonItem alloc] initWithTitle:TITLE style:UIBarButtonItemStylePlain target:self action:SELECTOR] autorelease]
-#define API_KEY	@"YOUR YAHOO API KEY HERE" // please use your own API key, not mine
+#define API_KEY	@"YOUR API KEY HERE" // please use your own API key, not mine
 #define LOCATIONS [NSArray arrayWithObjects:@"White House", @"Big Chicken", @"LA Zoo", @"Big Hot Dog", @"Ray's Donuts", nil]
 #define PIC_SIZE	32.0f
 
@@ -126,6 +126,7 @@
 	}
 	
 	whichItem = (whichItem + 1) % [LOCATIONS count];
+	whichLocation = [LOCATIONS objectAtIndex:whichItem];
 	self.navigationItem.rightBarButtonItem = BARBUTTON(whichLocation, @selector(findme));
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
