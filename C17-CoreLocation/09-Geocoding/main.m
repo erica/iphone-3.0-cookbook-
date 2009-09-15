@@ -30,7 +30,7 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
 	MapAnnotation *annotation = view.annotation;
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:annotation.subtitle]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:annotation.urlstring]];
 }
 
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
@@ -126,7 +126,7 @@
 	}
 	
 	whichItem = (whichItem + 1) % [LOCATIONS count];
-	self.navigationItem.rightBarButtonItem = BARBUTTON([LOCATIONS objectAtIndex:whichItem], @selector(findme));
+	self.navigationItem.rightBarButtonItem = BARBUTTON(whichLocation, @selector(findme));
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
