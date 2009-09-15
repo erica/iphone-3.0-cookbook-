@@ -103,7 +103,7 @@ static AudioChatHelper *sharedInstance = nil;
 	if (![[GKVoiceChatService defaultVoiceChatService] startVoiceChatWithParticipantID: peerID error: &error])
 	{
 		showAlert(@"Could not start voice chat. Sorry!");
-		NSLog(@"Error starting voice chat");
+		NSLog(@"Error starting voice chat: %@", [error userInfo]);
 	}
 }
 

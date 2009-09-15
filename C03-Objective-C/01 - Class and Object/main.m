@@ -24,14 +24,14 @@
 	
 	// CHECKING OBJECT MEMORY
 	// This returns 4, the size of an object pointer
-	printf("object pointer: %d\n", sizeof(object));
+	printf("object pointer: %d\n", (int) sizeof(object));
 	// This returns 4, the size of an NSObject object
-	printf("object itself: %d\n", sizeof(*object));
+	printf("object itself: %d\n", (int) sizeof(*object));
 	
 	// This returns 4, again the size of an object pointer
-	printf("myCar pointer: %d\n", sizeof(myCar));
+	printf("myCar pointer: %d\n", (int) sizeof(myCar));
 	// This returns 16, the size of a Car object
-	printf("myCar object: %d\n", sizeof(*myCar));
+	printf("myCar object: %d\n", (int) sizeof(*myCar));
 	
 	// SET UP THE OBJECT DATA
 	[myCar setMake:@"Ford" andModel:@"Prefect" andYear:1986];
@@ -62,7 +62,8 @@
 	// This causes the program to bomb by sending a message to an object that
 	// does not implement that selector.
 
-	// Uncomment this to bomb
+	// Uncomment this to bomb by sending a message to an object
+	// that does not implement that selector
 	// NSArray *array = [NSArray array];
 	// [array printCarInfo];
 	
@@ -70,11 +71,11 @@
 	NSString *string = @"Hello World";
 	
 	// This is 12 bytes of addressable memory
-	printf("CString: %d\n", sizeof("Hello World"));
+	printf("CString: %d\n", (int) sizeof("Hello World"));
 	
 	// This 4-byte object points to non-addressable memory
-	printf("String object: %d\n", sizeof(*string));
-	printf("String constant: %d\n", sizeof(@"abcdefghijkl"));
+	printf("String object: %d\n", (int) sizeof(*string));
+	printf("String constant: %d\n", (int) sizeof(@"abcdefghijkl"));
 	
 	// DYNAMIC TYPING DEMONSTRATION
 	NSArray *array = [NSArray array];

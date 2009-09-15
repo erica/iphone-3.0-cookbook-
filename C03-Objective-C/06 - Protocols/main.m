@@ -21,7 +21,8 @@
 @implementation TestBedViewController
 @synthesize jack;
 
-// Required client method
+/*
+ // Required client method
 - (void) jackDidAppear
 {
 	NSLog(@"The Jack jumped out of the box.");
@@ -38,7 +39,7 @@
 - (void) nothingDidHappen
 {
 	NSLog(@"Nothing happened. No music, no jack.");
-}
+} */
 
 // Tell the jack to turn the crank
 - (void) action: (id) sender
