@@ -247,6 +247,12 @@
 }
 
 #pragma mark cleanup
+- (void) teardown
+{
+	for (TreeNode *node in [[self.children copy] autorelease]) [node teardown];
+	[self.parent.children removeObject:self];
+}
+
 - (void) dealloc
 {
 	self.parent = nil;

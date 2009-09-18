@@ -184,13 +184,13 @@
 				INFOPLIST_FILE = Info.plist;
 				PREBINDING = NO;
 				PRODUCT_NAME = HelloWorld;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A2FA5C45-7EC1-4FE4-A834-590BCF399409";
 			};
 			name = Debug;
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: Erica Sadun";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -199,6 +199,8 @@
 				INFOPLIST_FILE = Info.plist;
 				PREBINDING = NO;
 				PRODUCT_NAME = HelloWorld;
+				PROVISIONING_PROFILE = "44DBF7AB-4A01-4612-8FBF-E649E306F9F4";
+				SDKROOT = iphoneos3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

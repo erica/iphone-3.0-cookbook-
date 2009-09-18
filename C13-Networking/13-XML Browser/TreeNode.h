@@ -38,6 +38,7 @@
 
 + (TreeNode *) treeNode;
 - (NSString *) dump;
+- (void) teardown;
 
 // Leaf Utils
 - (BOOL) isLeaf;
