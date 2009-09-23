@@ -74,10 +74,11 @@ static void HandleInputBuffer (void *aqData, AudioQueueRef inAQ, AudioQueueBuffe
 	// new input queue
     OSStatus status;
     status = AudioQueueNewInput(&recordState.dataFormat, HandleInputBuffer, &recordState, CFRunLoopGetCurrent(),kCFRunLoopCommonModes, 0, &recordState.queue);
-    if (status) {printf("Could not establish new queue\n"); return NO;}
+    if (status) {CFRelease(fileURL); printf("Could not establish new queue\n"); return NO;}
   
 	// create new audio file
     status = AudioFileCreateWithURL(fileURL, kAudioFileAIFFType, &recordState.dataFormat, kAudioFileFlags_EraseFile, &recordState.audioFile);
+	CFRelease(fileURL); // thanks august joki
     if (status) {printf("Could not create file to record audio\n"); return NO;}
     
 	// figure out the buffer size
