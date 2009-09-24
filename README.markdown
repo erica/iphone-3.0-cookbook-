@@ -1,6 +1,5 @@
 <h3>iPhone Developer's Cookbook</h3>
-Welcome to the source code repository for the 3.0 edition of the iPhone Developer's Cookbook. This code is a work in progress.
-
+Welcome to the source code repository for the 3.0 edition of the iPhone Developer's Cookbook.  Sample code is never a fixed target. It continues to evolve as Apple updates its SDK and the CocoaTouch libraries. Get involved. You can pitch in by suggesting bug fixes and corrections as well as by expanding the code that's on offer. Github allows you to fork repositories and grow them with your own tweaks and features, and share those back to the main repository. If you come up with a new idea or approach, let us know. We'd be happy to include great suggestions both at the repository and in the next edition of this cookbook.
 
 <h3>About the Cookbook</h3>
 The iPhone Developer's Cookbook is written for experienced developers who want to build apps for the iPhone and iPod touch. It helps to be already be familiar with Objective-C, the Cocoa frameworks, and the Xcode Tools. That said, if you're new to the platform, this new edition of The iPhone Developer's Cookbook includes a quick-and-dirty introduction to Objective-C along with an intro to the Xcode Tools to help you quickly get up to speed.
