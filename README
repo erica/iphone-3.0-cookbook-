@@ -1,0 +1,1 @@
+Before compiling,  make sure you select a deployment target (such as Simulator 3.0 or Device 3.1) from the Project > Set Active SDK menu.  All projects in this cookbook have been automatically stripped of specdific target details.
