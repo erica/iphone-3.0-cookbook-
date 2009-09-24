@@ -4,16 +4,14 @@ Welcome to the source code repository for the 3.0 edition of the iPhone Develope
 <h3>About the Cookbook</h3>
 The iPhone Developer's Cookbook is written for experienced developers who want to build apps for the iPhone and iPod touch. It helps to be already be familiar with Objective-C, the Cocoa frameworks, and the Xcode Tools. That said, if you're new to the platform, this new edition of The iPhone Developer's Cookbook includes a quick-and-dirty introduction to Objective-C along with an intro to the Xcode Tools to help you quickly get up to speed.
 
-Although each programmer brings different goals and experiences to the table, most iPhone developers end up solving similar tasks in their development work: 
-"How do I build a table?"
+Although each programmer brings different goals and experiences to the table, most iPhone developers end up solving similar tasks in their development work:
 
-"How do I create a secure Keychain entry?"
 
-"How do I search the Address Book?"
-
-"How do I move between views?"
-
-"How do I use Core Location and the iPhone 3GS's magnetometer?"
+* "How do I build a table?"
+* "How do I create a secure Keychain entry?"
+* "How do I search the Address Book?"
+* "How do I move between views?"
+* "How do I use Core Location and the iPhone 3GS's magnetometer?"
 
 And so on. If you've asked yourself these questions, then this book is for you. With its clear, fully documented examples, The iPhone Developer’s Cookbook will get you up to speed and working with the iPhone SDK in no time. All of the recipes in the book have been tested, offering you ready-to-use solutions for the apps you're building today.
 
