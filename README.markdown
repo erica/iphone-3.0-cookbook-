@@ -13,7 +13,7 @@ Although each programmer brings different goals and experiences to the table, mo
 * "How do I move between views?"
 * "How do I use Core Location and the iPhone 3GS's magnetometer?"
 
-And so on. If you've asked yourself these questions, then this book is for you. With its clear, fully documented examples, The iPhone Developer’s Cookbook will get you up to speed and working with the iPhone SDK in no time. All of the recipes in the book have been tested, offering you ready-to-use solutions for the apps you're building today.
+And so on. If you've asked yourself these questions, then this book is for you. The iPhone Developer's Cookbook will get you up to speed and working with the iPhone SDK, offering you ready-to-use solutions for the apps you're building today.
 
 <h3>What's the deal with main.m?</h3>
 For the sake of pedagogy, this book's sample code usually presents itself in a single main.m file. This is not how people normally develop iPhone or Cocoa applications, or should be developing them, but it provides a great way of presenting a single big idea. It's hard to tell a story when readers must look through 5 or 7 or 9 individual files at once. Offering a single file concentrates that story, allowing access to that idea in a single chunk.
