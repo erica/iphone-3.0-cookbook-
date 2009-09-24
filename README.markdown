@@ -25,7 +25,7 @@ There are two exceptions to this one-file rule. First, application-creation walk
 
 Second, standard class and header files are provided when the class itself is the recipe or provides a pre-cooked utility class. Instead of highlighting a technique, some recipes offer these pre-cooked class implementations and categories (that is, extensions to a pre-existing class rather than a new class). For those recipes, look for separate .m and .h files in addition to the skeletal main.m that encapsulates the rest of the story.
 
-For the most part, the samples for this book use a single application identifier, com.sadun.helloworld. You will need to replace this identifier with one that matches your provision profile. This book uses one identifier to avoid clogging up your iPhone with dozens of samples at once. Each sample replaces the previous one, ensuring that SpringBoard remains relatively uncluttered. If you want to install several samples at once, simply edit the identifier, adding a unique suffix, such as com.sadun.helloworld.table-edits.
-
-<h3>How to build these projectss</h3>
+<h3>How to build these projects</h3>
 Before compiling, make sure you select a deployment target (such as Simulator 3.0 or Device 3.1) from the Project > Set Active SDK menu.  All projects in this cookbook have been automatically stripped of specdific target details.
+
+For the most part, the samples for this book use a single application identifier, com.sadun.helloworld. You will need to replace this identifier with one that matches your provision profile. This book uses one identifier to avoid clogging up your iPhone with dozens of samples at once. Each sample replaces the previous one, ensuring that SpringBoard remains relatively uncluttered. If you want to install several samples at once, simply edit the identifier, adding a unique suffix, such as com.sadun.helloworld.table-edits.
