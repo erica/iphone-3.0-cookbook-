@@ -20,6 +20,7 @@
 -(void)myMovieFinishedCallback:(NSNotification*)aNotification
 {
     MPMoviePlayerController* theMovie=[aNotification object];
+	CFShow([aNotification userInfo]);
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:theMovie];
     [theMovie release];
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Play", @selector(play:));

@@ -16,12 +16,6 @@
 	BOOL success;
 }
 
-@property (retain) NSImageView *imageView;
-@property (retain) NSTextField *textField;
-@property (retain) NSTextField *statusText;
-@property (retain) NSButton *button;
-@property (retain) NSProgressIndicator *progress;
-@property (retain) NSMenuItem *saveItem;
 @property (retain) NSData *imageData;
 @property (retain) NSNetServiceBrowser *browser;
 

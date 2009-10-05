@@ -16,7 +16,6 @@
 	IBOutlet UITextView *textView;
 }
 @property (retain) NSMutableString *log;
-@property (retain) UITextView *textView;
 @end
 
 @implementation TestBedViewController
@@ -32,7 +31,7 @@
 	va_end(arglist);
 	[self.log appendString:outstring];
 	[self.log appendString:@"\n"];
-	self.textView.text = self.log;
+	textView.text = self.log;
 }
 
 - (void) action: (UIBarButtonItem *) bbi

@@ -15,18 +15,14 @@
 	IBOutlet UITextView *sendView;
 	IBOutlet UITextView *receiveView;
 }
-@property (retain) UITextView *sendView;
-@property (retain) UITextView *receiveView;
 @end
 
 @implementation TestBedViewController
-@synthesize sendView;
-@synthesize receiveView;
 
 - (void)textViewDidChange:(UITextView *)textView
 {
 	if (![GameKitHelper sharedInstance].isConnected) return;
-	NSString *text = self.sendView.text;
+	NSString *text = sendView.text;
 	if (!text || (text.length == 0)) text = @"xyzzyclear";
 	NSData *textData = [text dataUsingEncoding:NSUTF8StringEncoding];
 	[GameKitHelper sendData:textData];
@@ -35,12 +31,12 @@
 -(void) receivedData: (NSData *) data
 {
 	NSString *text = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-	self.receiveView.text = [text isEqualToString:@"xyzzyclear"] ? @"" : text;
+	receiveView.text = [text isEqualToString:@"xyzzyclear"] ? @"" : text;
 }
 
 - (void) clear
 {
-	self.sendView.text = @"";
+	sendView.text = @"";
 }
 
 - (void) viewDidLoad
@@ -52,7 +48,7 @@
 	[GameKitHelper sharedInstance].dataDelegate = self;
 	[GameKitHelper assignViewController:self];
 
-	[self.sendView becomeFirstResponder];		
+	[sendView becomeFirstResponder];		
 }
 @end
 

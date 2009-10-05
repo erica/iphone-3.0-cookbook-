@@ -10,8 +10,6 @@
 #define BARBUTTON(TITLE, SELECTOR) 	[[[UIBarButtonItem alloc] initWithTitle:TITLE style:UIBarButtonItemStylePlain target:self action:SELECTOR] autorelease]
 
 @implementation SettingsViewController
-@synthesize username;
-@synthesize password;
 @synthesize wrapper;
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -23,8 +21,8 @@
 - (void) dismiss: (id) sender
 {
 	// recover data, save it, and dismiss
-	NSString *uname = [self.username text];
-	NSString *pword = [self.password text];
+	NSString *uname = [username text];
+	NSString *pword = [password text];
 	
 	if (uname) [self.wrapper setObject:uname forKey:(id)kSecAttrAccount];
 	if (pword) [self.wrapper setObject:pword forKey:(id)kSecValueData];
@@ -48,17 +46,17 @@
 	NSString *uname = [self.wrapper objectForKey:(id)kSecAttrAccount];
 	NSString *pword = [self.wrapper objectForKey:(id)kSecValueData];
 	
-	if (uname) self.username.text = uname;
-	if (pword) self.password.text = pword;
+	if (uname) username.text = uname;
+	if (pword) password.text = pword;
 	
-	self.username.delegate = self;
-	self.password.delegate = self;	
+	username.delegate = self;
+	password.delegate = self;	
 }
 
 - (void) dealloc
 {
-	self.username = nil;
-	self.password = nil;
+	username = nil;
+	password = nil;
 	self.wrapper = nil;
 	[super dealloc];
 }

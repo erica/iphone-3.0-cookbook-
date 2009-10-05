@@ -14,7 +14,5 @@
 	KeychainItemWrapper *wrapper;
 	
 }
-@property (retain) UITextField *username;
-@property (retain) UITextField *password;
 @property (retain) KeychainItemWrapper *wrapper;
 @end

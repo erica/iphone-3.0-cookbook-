@@ -17,13 +17,11 @@
 	NSString *savePath;
 }
 @property (retain) NSMutableString *log;
-@property (retain) UITextView *textView;
 @property (retain) NSString *savePath;
 @end
 
 @implementation TestBedViewController
 @synthesize log;
-@synthesize textView;
 @synthesize savePath;
 
 // relatively short movie (3 MB)
@@ -60,7 +58,7 @@
 	va_end(arglist);
 	[self.log appendString:outstring];
 	[self.log appendString:@"\n"];
-	[self.textView performSelectorOnMainThread:@selector(setText:) withObject:self.log waitUntilDone:NO];
+	[textView performSelectorOnMainThread:@selector(setText:) withObject:self.log waitUntilDone:NO];
 }
 
 - (void) finishedGettingData

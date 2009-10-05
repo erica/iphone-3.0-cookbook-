@@ -19,15 +19,11 @@
 	NSString *savePath;
 }
 @property (retain) NSMutableString *log;
-@property (retain) UITextView *textView;
-@property (retain) UIProgressView *progress;
 @property (retain) NSString *savePath;
 @end
 
 @implementation TestBedViewController
 @synthesize log;
-@synthesize textView;
-@synthesize progress;
 @synthesize savePath;
 
 #define SMALL_URL	@"http://www.archive.org/download/Drive-inSaveFreeTv/Drive-in--SaveFreeTv_512kb.mp4"
@@ -58,7 +54,7 @@
 	va_end(arglist);
 	[self.log appendString:outstring];
 	[self.log appendString:@"\n"];
-	[self.textView setText:self.log];
+	[textView setText:self.log];
 }
 
 - (void) restoreGUI
@@ -68,13 +64,13 @@
 		self.navigationItem.leftBarButtonItem = BARBUTTON(@"Play", @selector(startPlayback:));	
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	[(UISegmentedControl *)self.navigationItem.titleView setEnabled:YES];
-	[self.progress setHidden:YES];
+	[progress setHidden:YES];
 }
 
 - (void) dataDownloadAtPercent: (NSNumber *) aPercent
 {
-	[self.progress setHidden:NO];
-	[self.progress setProgress:[aPercent floatValue]];
+	[progress setHidden:NO];
+	[progress setProgress:[aPercent floatValue]];
 }
 
 - (void) dataDownloadFailed: (NSString *) reason

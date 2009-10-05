@@ -25,12 +25,10 @@
 	IBOutlet UITextView *textView;
 }
 @property (retain) NSMutableString *log;
-@property (retain) UITextView *textView;
 @end
 
 @implementation TestBedViewController
 @synthesize log;
-@synthesize textView;
 - (void) doLog: (NSString *) formatstring, ...
 {
 	va_list arglist;
@@ -40,7 +38,7 @@
 	va_end(arglist);
 	[self.log appendString:outstring];
 	[self.log appendString:@"\n"];
-	self.textView.text = self.log;
+	textView.text = self.log;
 }
 
 - (void) serviceCouldNotBeEstablished

@@ -18,15 +18,11 @@
 	NSString *savePath;
 }
 @property (retain) NSMutableString *log;
-@property (retain) UITextView *textView;
-@property (retain) UIProgressView *progress;
 @property (retain) NSString *savePath;
 @end
 
 @implementation TestBedViewController
 @synthesize log;
-@synthesize textView;
-@synthesize progress;
 @synthesize savePath;
 
 #define DEST_PATH	[NSHomeDirectory() stringByAppendingString:@"/Documents/"]
@@ -40,7 +36,7 @@
 	va_end(arglist);
 	[self.log appendString:outstring];
 	[self.log appendString:@"\n"];
-	[self.textView setText:self.log];
+	[textView setText:self.log];
 }
 
 - (void) restoreGUI
@@ -48,13 +44,13 @@
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Unauthorized", @selector(unauthorized:));
 	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Authorized", @selector(authorized:));
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-	[self.progress setHidden:YES];
+	[progress setHidden:YES];
 }
 
 - (void) dataDownloadAtPercent: (NSNumber *) aPercent
 {
-	[self.progress setHidden:NO];
-	[self.progress setProgress:[aPercent floatValue]];
+	[progress setHidden:NO];
+	[progress setProgress:[aPercent floatValue]];
 }
 
 - (void) dataDownloadFailed: (NSString *) reason

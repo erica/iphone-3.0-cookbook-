@@ -21,12 +21,10 @@
 	IBOutlet UITextView *textView;
 }
 @property (retain) NSMutableString *log;
-@property (retain) UITextView *textView;
 @end
 
 @implementation TestBedViewController
 @synthesize log;
-@synthesize textView;
 
 - (void) doLog: (NSString *) formatstring, ...
 {
@@ -37,13 +35,13 @@
 	va_end(arglist);
 	[self.log appendString:outstring];
 	[self.log appendString:@"\n"];
-	self.textView.text = self.log;
+	textView.text = self.log;
 }
 
 #pragma mark ***** TESTING LISTINGS
 - (void) receivedListing: (NSArray *) listing
 {
-	self.textView.font = [UIFont fontWithName:@"Courier" size:10.0f];
+	textView.font = [UIFont fontWithName:@"Courier" size:10.0f];
 	self.log = [NSMutableString string];
 
 	[self doLog:@"FILE LISTING"];
@@ -53,7 +51,7 @@
 
 - (void) listingFailed
 {
-	self.textView.font = [UIFont systemFontOfSize:16.0f];
+	textView.font = [UIFont systemFontOfSize:16.0f];
 	self.log = [NSMutableString string];
 	[self doLog:@"Listing failed."];
 }
@@ -61,7 +59,7 @@
 #pragma mark ***** TESTING UPLOAD
 - (void) dataUploadFinished: (NSNumber *) bytes;
 {
-	self.textView.font = [UIFont systemFontOfSize:16.0f];
+	textView.font = [UIFont systemFontOfSize:16.0f];
 	self.log = [NSMutableString string];
 	[self doLog:@"Upload Finished!"];
 	[self doLog:@"Uploaded %@ bytes", bytes];
@@ -69,7 +67,7 @@
 
 - (void) dataUploadFailed: (NSString *) reason
 {
-	self.textView.font = [UIFont systemFontOfSize:16.0f];
+	textView.font = [UIFont systemFontOfSize:16.0f];
 	self.log = [NSMutableString string];
 	[self doLog:@"Upload Failed."];
 }
@@ -78,7 +76,7 @@
 
 - (void) downloadFinished
 {
-	self.textView.font = [UIFont systemFontOfSize:16.0f];
+	textView.font = [UIFont systemFontOfSize:16.0f];
 	self.log = [NSMutableString string];
 	
 	// There are probably better ways to get the file size
@@ -89,7 +87,7 @@
 
 - (void) dataDownloadFailed: (NSString *) reason
 {
-	self.textView.font = [UIFont systemFontOfSize:16.0f];
+	textView.font = [UIFont systemFontOfSize:16.0f];
 	self.log = [NSMutableString string];
 	[self doLog:@"Download failed..."];
 	[self doLog:reason];

@@ -35,17 +35,11 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	UIImage *image;
 	KeychainItemWrapper *wrapper;
 }
-@property (retain) UIButton *button;
-@property (retain) UIImageView *imageView;
-@property (retain) UIActivityIndicatorView *activity;
 @property (retain) UIImage *image;
 @property (retain) KeychainItemWrapper *wrapper;
 @end
 
 @implementation TestBedViewController
-@synthesize button;
-@synthesize imageView;
-@synthesize activity;
 @synthesize wrapper;
 @synthesize image;
 
@@ -63,9 +57,9 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 
 - (void) doneTweeting : (NSString *) outstring
 {
-	[self.activity stopAnimating];
+	[activity stopAnimating];
 	showAlert(outstring);
-	[self.button setEnabled:YES];
+	[button setEnabled:YES];
 	[self showButtons];
 }
 
@@ -73,8 +67,8 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 {
 	UIImage *img = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
 	self.image = [ImageHelper image:img fillSize:(CGSizeMake(320.0f, 480.0f))];
-	UIImage *thumb = [ImageHelper image:self.image fitInSize:self.imageView.frame.size];
-	self.imageView.image = thumb;
+	UIImage *thumb = [ImageHelper image:self.image fitInSize:imageView.frame.size];
+	imageView.image = thumb;
 	
 	[self dismissModalViewControllerAnimated:YES];
 	[picker release];
@@ -104,8 +98,8 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	}
 	
 	[self hideButtons];
-	self.button.enabled = NO;
-	[self.activity startAnimating];
+	button.enabled = NO;
+	[activity startAnimating];
 	
 	TwitPicOperation *operation = [[[TwitPicOperation alloc] init] autorelease];
 	operation.delegate = self;

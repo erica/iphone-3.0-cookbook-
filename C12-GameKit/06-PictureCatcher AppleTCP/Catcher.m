@@ -12,15 +12,9 @@
 #import "TCPConnection.h"
 
 #define STRINGEQ(X,Y) ([X caseInsensitiveCompare:Y] == NSOrderedSame)
-#define ANNOUNCE(format, ...) [self.statusText setTitleWithMnemonic:[NSString stringWithFormat:format, ##__VA_ARGS__]];
+#define ANNOUNCE(format, ...) [statusText setTitleWithMnemonic:[NSString stringWithFormat:format, ##__VA_ARGS__]];
 
 @implementation Catcher
-@synthesize imageView;
-@synthesize textField;
-@synthesize statusText;
-@synthesize button;
-@synthesize progress;
-@synthesize saveItem;
 @synthesize imageData;
 @synthesize browser;
 
@@ -73,12 +67,12 @@
 	success = YES;
 	self.imageData = data;
 	NSImage *image = [self imageFromData:data];
-	[self.imageView setImage:image];
+	[imageView setImage:image];
 	
-	[self.saveItem setEnabled:YES];
-	[self.button setEnabled:YES];
+	[saveItem setEnabled:YES];
+	[button setEnabled:YES];
 
-	[self.progress stopAnimation:nil];
+	[progress stopAnimation:nil];
 	
 	ANNOUNCE(@"Recived JPEG image (%d bytes).\n\nUse File > Save to save the received image to disk.", data.length);
 }
@@ -90,10 +84,10 @@
 	ANNOUNCE(@"Connection denied or lost. Sorry.");
 	
 	self.imageData = nil;
-	[self.saveItem setEnabled:NO];
-	[self.imageView setImage:nil];
-	[self.button setEnabled:YES];
-	[self.progress stopAnimation:nil];
+	[saveItem setEnabled:NO];
+	[imageView setImage:nil];
+	[button setEnabled:YES];
+	[progress stopAnimation:nil];
 }
 
 // Upon resolving address, create a connection to that address and request data
@@ -104,8 +98,8 @@
 		struct sockaddr* address = (struct sockaddr*)[[addresses objectAtIndex:0] bytes];
 		TCPConnection *connection = [[TCPConnection alloc] initWithRemoteAddress:address];
 		[connection setDelegate:self];
-		[self.statusText setTitleWithMnemonic:@"Requesting data..."];
-		[self.progress startAnimation:nil];
+		[statusText setTitleWithMnemonic:@"Requesting data..."];
+		[progress startAnimation:nil];
 		[netService release];
 		[connection receiveData];
 	}
@@ -113,7 +107,7 @@
 
 // Complain when resolve fails
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict {
-	[self.statusText setTitleWithMnemonic:@"Error resolving service. Sorry."];
+	[statusText setTitleWithMnemonic:@"Error resolving service. Sorry."];
 }
 
 // Upon finding a service, stop the browser and resolve
@@ -121,7 +115,7 @@
 {
 	[self.browser stop];
 	self.browser = nil;
-	[self.statusText setTitleWithMnemonic:@"Resolving service."];
+	[statusText setTitleWithMnemonic:@"Resolving service."];
 	[[netService retain] setDelegate:self];
 	[netService resolveWithTimeout:0.0f];
 }
@@ -130,17 +124,17 @@
 - (IBAction) catchPlease: (id) sender
 {
 	success = NO;
-	[self.statusText setTitleWithMnemonic:@"Scanning for service"];
+	[statusText setTitleWithMnemonic:@"Scanning for service"];
 	
 	self.browser = [[[NSNetServiceBrowser alloc] init] autorelease];
 	[self.browser setDelegate:self];
 	NSString *type = [TCPConnection bonjourTypeFromIdentifier:@"PictureThrow"];
 	[self.browser searchForServicesOfType:type inDomain:@"local"];
 	
-	[self.button setEnabled:NO];
+	[button setEnabled:NO];
 	self.imageData = nil;
-	[self.saveItem setEnabled:NO];
-	[self.imageView setImage:nil];
+	[saveItem setEnabled:NO];
+	[imageView setImage:nil];
 }
 
 // Write data to disk based on save panel settings
@@ -151,7 +145,7 @@
 	else
 	{
 		[self.imageData writeToFile:[sheet filename] atomically:YES];
-		[self.saveItem setEnabled:NO];
+		[saveItem setEnabled:NO];
 	}
 }
 

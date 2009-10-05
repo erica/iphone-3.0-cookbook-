@@ -20,12 +20,10 @@
 	IBOutlet UITextView *textView;
 }
 @property (retain) NSMutableString *log;
-@property (retain) UITextView *textView;
 @end
 
 @implementation TestBedViewController
 @synthesize log;
-@synthesize textView;
 
 // Direct from Apple. Thank you Apple
 - (BOOL)addressFromString:(NSString *)IPAddress address:(struct sockaddr_in *)address
@@ -98,7 +96,7 @@
 	va_end(arglist);
 	[self.log appendString:outstring];
 	[self.log appendString:@"\n"];
-	self.textView.text = self.log;
+	textView.text = self.log;
 }
 
 #define CHECK(SITE) [self doLog:@"• %@ : %@", SITE, [self hostAvailable:SITE] ? @"available" : @"not available"];

@@ -15,18 +15,16 @@
 {
 	IBOutlet UITextView *textView;
 }
-@property (retain) UITextView *textView;
 @end
 
 @implementation TestBedViewController
-@synthesize textView;
 - (void) listenForStderr: (NSTimer *) timer;
 {
-	NSString *contents = [NSString stringWithContentsOfFile:STDERR_OUT];
+	NSString *contents = [NSString stringWithContentsOfFile:STDERR_OUT encoding:NSUTF8StringEncoding error:NULL];
 	contents = [contents stringByReplacingOccurrencesOfString:@"\n" withString:@"\n\n"];
-	if ([contents isEqualToString:self.textView.text]) return;
-	[self.textView setText:contents];
-	self.textView.contentOffset = CGPointMake(0.0f, MAX(self.textView.contentSize.height - self.textView.frame.size.height, 0.0f));
+	if ([contents isEqualToString:textView.text]) return;
+	[textView setText:contents];
+	textView.contentOffset = CGPointMake(0.0f, MAX(textView.contentSize.height - textView.frame.size.height, 0.0f));
 }
 
 - (void) viewDidLoad

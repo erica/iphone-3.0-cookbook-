@@ -32,15 +32,11 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	IBOutlet UIActivityIndicatorView *activity;
 	KeychainItemWrapper *wrapper;
 }
-@property (retain) UITextField *textField;
 @property (retain) KeychainItemWrapper *wrapper;
-@property (retain) UIActivityIndicatorView *activity;
 @end
 
 @implementation TestBedViewController
-@synthesize textField;
 @synthesize wrapper;
-@synthesize activity;
 
 - (void) hideButtons
 {
@@ -56,7 +52,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 
 - (void) doneTweeting : (NSString *) outstring
 {
-	[self.activity stopAnimating];
+	[activity stopAnimating];
 	
 	if (outstring.length < 60) // probable error
 		showAlert(outstring);
@@ -66,26 +62,26 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	{
 		// probable success
 		showAlert(@"Success! Your message was tweeted.");
-		self.textField.text = @"";
+		textField.text = @"";
 	}
 	
-	[self.textField setEnabled:YES];
+	[textField setEnabled:YES];
 	[self showButtons];
 }
 
 - (void) tweet: (UIBarButtonItem *) bbi
 {
-	NSString *text = self.textField.text;
+	NSString *text = textField.text;
 	if (!text || (text.length == 0))
 	{
 		showAlert(@"Please enter text before you tweet.");
 		return;
 	}
 	
-	[self.textField resignFirstResponder];
-	[self.textField setEnabled:NO];
+	[textField resignFirstResponder];
+	[textField setEnabled:NO];
 	[self hideButtons];
-	[self.activity startAnimating];
+	[activity startAnimating];
 	
 	TwitterOperation *operation = [[[TwitterOperation alloc] init] autorelease];
 	operation.delegate = self;

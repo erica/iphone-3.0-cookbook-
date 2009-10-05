@@ -251,6 +251,7 @@
 {
 	for (TreeNode *node in [[self.children copy] autorelease]) [node teardown];
 	[self.parent.children removeObject:self];
+	self.parent = nil;
 }
 
 - (void) dealloc

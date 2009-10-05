@@ -17,11 +17,9 @@
 {
 	IBOutlet UITextField *textField;
 }
-@property (retain) UITextField *textField;
 @end
 
 @implementation TestBedViewController
-@synthesize textField;
 
 - (void) settings: (UIBarButtonItem *) bbi
 {

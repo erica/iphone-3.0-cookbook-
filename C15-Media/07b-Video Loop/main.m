@@ -5,58 +5,43 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 #define COOKBOOK_PURPLE_COLOR	[UIColor colorWithRed:0.20392f green:0.19607f blue:0.61176f alpha:1.0f]
 #define BARBUTTON(TITLE, SELECTOR) 	[[[UIBarButtonItem alloc] initWithTitle:TITLE style:UIBarButtonItemStylePlain target:self action:SELECTOR] autorelease]
 
+// Offsite resource Silence short @Archive.org
+#define PATHSTRING @"http://www.archive.org/download/silence/silence_512kb.mp4"
+
 @interface TestBedViewController : UIViewController
-{
-	NSMutableString *log;
-	IBOutlet UITextView *textView;
-}
-@property (retain) NSMutableString *log;
 @end
 
 @implementation TestBedViewController
-@synthesize log;
-
-- (void) doLog: (NSString *) formatstring, ...
+-(void)myMovieFinishedCallback:(NSNotification*)aNotification
 {
-	va_list arglist;
-	if (!formatstring) return;
-	va_start(arglist, formatstring);
-	NSString *outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
-	va_end(arglist);
-	[self.log appendString:outstring];
-	[self.log appendString:@"\n"];
-	textView.text = self.log;
+    MPMoviePlayerController* theMovie=[aNotification object];
+	[theMovie play];
+    // [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:theMovie];
+	// self.navigationItem.rightBarButtonItem = BARBUTTON(@"Play", @selector(play:));
+	// self.title = nil;
+	// [self play:nil];
 }
 
-- (NSString *) uniqueString
+- (void) play: (UIBarButtonItem *) bbi
 {
-	CFUUIDRef unique = CFUUIDCreate(kCFAllocatorDefault);
-	NSString *result = [(NSString *)CFUUIDCreateString(kCFAllocatorDefault, unique) autorelease];
-	CFRelease(unique);
-	return result;
-}
-
-- (void) generate
-{
-	[self doLog:@"%@", [self uniqueString]];
-}
-
-- (void) clear
-{
-	self.log = [NSMutableString string];
-	textView.text = @"";
+	self.navigationItem.rightBarButtonItem = nil;
+	self.title = @"Contacting Server";
+	MPMoviePlayerController* theMovie=[[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:PATHSTRING]];
+	// theMovie.movieControlMode = MPMovieControlModeVolumeOnly;
+	// theMovie.backgroundColor = [UIColor blackColor];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myMovieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:theMovie];
+	[theMovie play];
 }
 
 - (void) viewDidLoad
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Generate", @selector(generate));
-	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Clear", @selector(clear));
-	self.log = [NSMutableString string];
+	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Play", @selector(play:));
 }
 @end
 
