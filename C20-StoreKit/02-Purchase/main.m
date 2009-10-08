@@ -110,11 +110,9 @@
 
 - (void) handleFailedTransaction: (SKPaymentTransaction *) transaction
 {
-	if (transaction.error.code != SKErrorPaymentCancelled) 
-	{
+	if (transaction.error.code != SKErrorPaymentCancelled)
 		[ModalAlert say:@"Transaction Error. Please try again later."];
-		[[SKPaymentQueue defaultQueue] finishTransaction: transaction];
-	}
+	[[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions 
