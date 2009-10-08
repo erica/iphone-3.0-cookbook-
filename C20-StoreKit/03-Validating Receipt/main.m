@@ -129,8 +129,7 @@
 
 - (void) handleFailedTransaction: (SKPaymentTransaction *) transaction
 {
-	if (transaction.error.code != SKErrorPaymentCancelled) 
-		[[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+	[[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions 
