@@ -15,13 +15,9 @@
 	IBOutlet UIView *messageView;
 	CGRect mvframe;
 }
-@property (retain) UIView *overlay;
-@property (retain) UIView *messageView;
 @end
 
 @implementation TestBedViewController
-@synthesize overlay;
-@synthesize messageView;
 
 - (void) dismiss: (id) sender
 {
@@ -30,30 +26,30 @@
 	[UIView setAnimationDuration:0.3f];
 	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
 	mvframe.origin = CGPointMake(0.0f, -300.0f);
-	self.messageView.frame = mvframe;
+	messageView.frame = mvframe;
 	[UIView commitAnimations];
 
 	// Hide the overlay
-	[self.overlay performSelector:@selector(setAlpha:) withObject:nil afterDelay:0.3f];
+	[overlay performSelector:@selector(setAlpha:) withObject:nil afterDelay:0.3f];
 }
 
 - (void) action: (id) sender
 {
-	self.overlay.frame = self.view.window.frame;
+	overlay.frame = self.view.window.frame;
 	mvframe.size.width = UIDeviceOrientationIsPortrait([[UIDevice currentDevice] orientation]) ? 320.0f : 480.0f;
 	mvframe.origin = CGPointMake(0.0f, -mvframe.size.height);
-	self.messageView.frame = mvframe;
+	messageView.frame = mvframe;
 
 	// Show the overlay
-	if (!self.overlay.superview) [self.view.window addSubview:self.overlay];
-	self.overlay.alpha = 1.0f;
+	if (!overlay.superview) [self.view.window addSubview:overlay];
+	overlay.alpha = 1.0f;
 	
 	// Animate the message view into place
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.3f];
 	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
 	mvframe.origin = CGPointMake(0.0f, 20.0f);
-	self.messageView.frame = mvframe;
+	messageView.frame = mvframe;
 	[UIView commitAnimations];
 }
 
@@ -63,29 +59,29 @@
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Action", @selector(action:));
 
 	// Initialize the overlay and message view
-	self.overlay.alpha = 0.0f;
-	[self.overlay addSubview:self.messageView];
+	overlay.alpha = 0.0f;
+	[overlay addSubview:messageView];
 	mvframe = messageView.frame;
 	mvframe.origin = CGPointMake(0.0f, -300.0f);
-	self.messageView.frame = mvframe;
+	messageView.frame = mvframe;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-		self.overlay.transform = CGAffineTransformMakeRotation(M_PI);
+		overlay.transform = CGAffineTransformMakeRotation(M_PI);
 	else if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-		self.overlay.transform = CGAffineTransformMakeRotation(-M_PI / 2.0f);
+		overlay.transform = CGAffineTransformMakeRotation(-M_PI / 2.0f);
 	else if (interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-		self.overlay.transform = CGAffineTransformMakeRotation(M_PI / 2.0f);
+		overlay.transform = CGAffineTransformMakeRotation(M_PI / 2.0f);
 	else 
-		self.overlay.transform = CGAffineTransformIdentity;
+		overlay.transform = CGAffineTransformIdentity;
 	return YES;
 }
 
 - (void) dealloc
 {
-	self.overlay = nil;
+	overlay = nil;
 	[super dealloc];
 }
 @end

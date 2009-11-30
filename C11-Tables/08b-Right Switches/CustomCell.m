@@ -10,12 +10,4 @@
 	if (self.tableViewController)
 		[self.tableViewController performSelector:@selector(updateSwitch:forItem:) withObject:aSwitch withObject:[self.customLabel text]];
 }
-
-- (void) dealloc
-{
-	self.customLabel = nil;
-	self.customSwitch = nil;
-	self.tableViewController = nil;
-	[super dealloc];
-}
 @end

@@ -21,19 +21,13 @@
 
 - (void) action: (id) sender
 {
-	[self.view.window addSubview:self.overlay];
+	[self.view.window addSubview:overlay];
 }
 
 - (void) viewDidLoad
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Action", @selector(action:));
-}
-
-- (void) dealloc
-{
-	self.overlay = nil;
-	[super dealloc];
 }
 @end
 

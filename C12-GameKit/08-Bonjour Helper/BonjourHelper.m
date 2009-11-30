@@ -85,11 +85,11 @@ BOOL outConnected;
 	char baseHostName[255];
 	int success = gethostname(baseHostName, 255);
 	if (success != 0) return nil;
-	baseHostName[255] = '\0';
+	// baseHostName[255] = '\0'; // This is a Simulator killer in 3.1.2 SDK
 #if TARGET_IPHONE_SIMULATOR
-	return [NSString stringWithCString:baseHostName];
-#else
-	return [[NSString stringWithCString:baseHostName] stringByAppendingString:@".local"];
+	return [NSString stringWithCString:baseHostName encoding: NSUTF8StringEncoding];
+#else 
+	return [[NSString stringWithCString:baseHostName encoding: NSUTF8StringEncoding] stringByAppendingString:@".local"];
 #endif
 }
 
@@ -103,7 +103,7 @@ BOOL outConnected;
 	}
     else {
         struct in_addr **list = (struct in_addr **)host->h_addr_list;
-		return [NSString stringWithCString:inet_ntoa(*list[0])];
+		return [NSString stringWithCString:inet_ntoa(*list[0]) encoding:NSUTF8StringEncoding];
     }
 	return nil;
 }
@@ -207,7 +207,7 @@ BOOL outConnected;
 	sharedInstance.server = [[[TCPServer alloc] initWithPort:0] autorelease];
 	[sharedInstance.server setDelegate:sharedInstance];
 	[sharedInstance.server startUsingRunLoop:[NSRunLoop currentRunLoop]];
-	[sharedInstance.server enableBonjourWithDomain:@"local" applicationProtocol:sharedInstance.sessionID name:[self localHostname]];
+	[sharedInstance.server enableBonjourWithDomain:nil applicationProtocol:sharedInstance.sessionID name:[BonjourHelper localHostname]];
 }
 
 + (void) initConnections

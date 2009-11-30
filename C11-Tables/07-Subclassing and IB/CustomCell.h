@@ -6,9 +6,9 @@
     IBOutlet UILabel *secondaryLabel;
 }
 
-@property (retain) UIButton *button;
-@property (retain) UILabel *primaryLabel;
-@property (retain) UILabel *secondaryLabel;
+@property (assign) UIButton *button;
+@property (assign) UILabel *primaryLabel;
+@property (assign) UILabel *secondaryLabel;
 
 - (IBAction) buttonPress: (UIButton *) aButton;
 @end

@@ -15,10 +15,11 @@
 		8E4156E90FA4EE0E0006D27C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E4156E70FA4EE0E0006D27C /* Default.png */; };
 		8E4156EA0FA4EE0E0006D27C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E4156E80FA4EE0E0006D27C /* icon.png */; };
 		8E785FCB0FCDB853006EA81F /* TestBedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */; };
-		8EC64C0210A34B22009F0B4F /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC64C0110A34B22009F0B4F /* KeychainItemWrapper.m */; };
-		8EC74ABC1023A32E00509CE3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EC74ABA1023A32E00509CE3 /* SettingsViewController.xib */; };
-		8EC74AF21023A56000509CE3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC74AF11023A56000509CE3 /* Security.framework */; };
-		8EEC58E410272DAF00D2D3CD /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC58E310272DAF00D2D3CD /* SettingsViewController.m */; };
+		8EFD3C7C10518CF4007BACA7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFD3C7B10518CF4007BACA7 /* StoreKit.framework */; };
+		8EFD3CAD10518F16007BACA7 /* UIDevice-Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD3CAC10518F16007BACA7 /* UIDevice-Reachability.m */; };
+		8EFD3D0B1051917D007BACA7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EFD3D0A1051917D007BACA7 /* SystemConfiguration.framework */; };
+		8EFD3D5A1051977F007BACA7 /* ModalAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD3D591051977F007BACA7 /* ModalAlert.m */; };
+		8EFD3D9C10519F84007BACA7 /* NSData-Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EFD3D9B10519F84007BACA7 /* NSData-Base64.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,12 +34,14 @@
 		8E4156E70FA4EE0E0006D27C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		8E4156E80FA4EE0E0006D27C /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestBedViewController.xib; sourceTree = "<group>"; };
-		8EC64C0010A34B22009F0B4F /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
-		8EC64C0110A34B22009F0B4F /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
-		8EC74ABA1023A32E00509CE3 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
-		8EC74AF11023A56000509CE3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		8EEC58E210272DAF00D2D3CD /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		8EEC58E310272DAF00D2D3CD /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		8EFD3C7B10518CF4007BACA7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		8EFD3CAB10518F16007BACA7 /* UIDevice-Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice-Reachability.h"; sourceTree = "<group>"; };
+		8EFD3CAC10518F16007BACA7 /* UIDevice-Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice-Reachability.m"; sourceTree = "<group>"; };
+		8EFD3D0A1051917D007BACA7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = "../../../00SampleCodeWork/ZZ-TextOutputApp/iphoneos2.0/System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SOURCE_ROOT; };
+		8EFD3D581051977F007BACA7 /* ModalAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalAlert.h; sourceTree = "<group>"; };
+		8EFD3D591051977F007BACA7 /* ModalAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalAlert.m; sourceTree = "<group>"; };
+		8EFD3D9A10519F84007BACA7 /* NSData-Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData-Base64.h"; sourceTree = "<group>"; };
+		8EFD3D9B10519F84007BACA7 /* NSData-Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData-Base64.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,7 +52,8 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				1D3623EC0D0F72F000981E51 /* CoreGraphics.framework in Frameworks */,
-				8EC74AF21023A56000509CE3 /* Security.framework in Frameworks */,
+				8EFD3C7C10518CF4007BACA7 /* StoreKit.framework in Frameworks */,
+				8EFD3D0B1051917D007BACA7 /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,12 +71,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				8EEC58E210272DAF00D2D3CD /* SettingsViewController.h */,
-				8EEC58E310272DAF00D2D3CD /* SettingsViewController.m */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
-				8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */,
-				8EC74ABA1023A32E00509CE3 /* SettingsViewController.xib */,
-				8EC64BFF10A34B22009F0B4F /* Apple */,
 				8EB688610FA64AD100489E4B /* Support */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -83,7 +82,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8EC74AF11023A56000509CE3 /* Security.framework */,
+				8EFD3D0A1051917D007BACA7 /* SystemConfiguration.framework */,
+				8EFD3C7B10518CF4007BACA7 /* StoreKit.framework */,
 				1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -94,6 +94,13 @@
 		8EB688610FA64AD100489E4B /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				8EFD3D9A10519F84007BACA7 /* NSData-Base64.h */,
+				8EFD3D9B10519F84007BACA7 /* NSData-Base64.m */,
+				8EFD3D581051977F007BACA7 /* ModalAlert.h */,
+				8EFD3D591051977F007BACA7 /* ModalAlert.m */,
+				8EFD3CAB10518F16007BACA7 /* UIDevice-Reachability.h */,
+				8EFD3CAC10518F16007BACA7 /* UIDevice-Reachability.m */,
+				8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */,
 				8E3A1F080FAA199F009B0518 /* cover320x416.png */,
 				32CA4F630368D1EE00C91783 /* HelloWorld_Prefix.pch */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -101,15 +108,6 @@
 				8E4156E70FA4EE0E0006D27C /* Default.png */,
 			);
 			name = Support;
-			sourceTree = "<group>";
-		};
-		8EC64BFF10A34B22009F0B4F /* Apple */ = {
-			isa = PBXGroup;
-			children = (
-				8EC64C0010A34B22009F0B4F /* KeychainItemWrapper.h */,
-				8EC64C0110A34B22009F0B4F /* KeychainItemWrapper.m */,
-			);
-			path = Apple;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,7 +156,6 @@
 				8E4156EA0FA4EE0E0006D27C /* icon.png in Resources */,
 				8E3A1F090FAA199F009B0518 /* cover320x416.png in Resources */,
 				8E785FCB0FCDB853006EA81F /* TestBedViewController.xib in Resources */,
-				8EC74ABC1023A32E00509CE3 /* SettingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,8 +167,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				8EEC58E410272DAF00D2D3CD /* SettingsViewController.m in Sources */,
-				8EC64C0210A34B22009F0B4F /* KeychainItemWrapper.m in Sources */,
+				8EFD3CAD10518F16007BACA7 /* UIDevice-Reachability.m in Sources */,
+				8EFD3D5A1051977F007BACA7 /* ModalAlert.m in Sources */,
+				8EFD3D9C10519F84007BACA7 /* NSData-Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +184,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/System/Library/Frameworks,
+					"\"$(SRCROOT)/../../../00SampleCodeWork/ZZ-TextOutputApp/iphoneos2.0/System/Library/Frameworks\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -206,7 +204,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/System/Library/Frameworks,
+					"\"$(SRCROOT)/../../../00SampleCodeWork/ZZ-TextOutputApp/iphoneos2.0/System/Library/Frameworks\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

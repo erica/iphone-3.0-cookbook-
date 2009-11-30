@@ -6,8 +6,8 @@
 	UITableViewController *tableViewController;
 }
 
-@property (retain) UISwitch *customSwitch;
-@property (retain) UILabel *customLabel;
-@property (retain) UITableViewController *tableViewController;
+@property (assign) UISwitch *customSwitch;
+@property (assign) UILabel *customLabel;
+@property (assign) UITableViewController *tableViewController;
 - (IBAction) switchChanged: (UISwitch *) aSwitch;
 @end

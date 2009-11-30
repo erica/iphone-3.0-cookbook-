@@ -15,10 +15,8 @@
 		8E4156E90FA4EE0E0006D27C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E4156E70FA4EE0E0006D27C /* Default.png */; };
 		8E4156EA0FA4EE0E0006D27C /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E4156E80FA4EE0E0006D27C /* icon.png */; };
 		8E785FCB0FCDB853006EA81F /* TestBedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */; };
-		8EC64C0210A34B22009F0B4F /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EC64C0110A34B22009F0B4F /* KeychainItemWrapper.m */; };
-		8EC74ABC1023A32E00509CE3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EC74ABA1023A32E00509CE3 /* SettingsViewController.xib */; };
-		8EC74AF21023A56000509CE3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC74AF11023A56000509CE3 /* Security.framework */; };
-		8EEC58E410272DAF00D2D3CD /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EEC58E310272DAF00D2D3CD /* SettingsViewController.m */; };
+		8E9B2373101E2D3A005DB65B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E9B2372101E2D3A005DB65B /* SystemConfiguration.framework */; };
+		8ED1F9AE102A159D00501086 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8ED1F9AD102A159D00501086 /* arrow.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,12 +31,8 @@
 		8E4156E70FA4EE0E0006D27C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		8E4156E80FA4EE0E0006D27C /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestBedViewController.xib; sourceTree = "<group>"; };
-		8EC64C0010A34B22009F0B4F /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
-		8EC64C0110A34B22009F0B4F /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
-		8EC74ABA1023A32E00509CE3 /* SettingsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
-		8EC74AF11023A56000509CE3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
-		8EEC58E210272DAF00D2D3CD /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		8EEC58E310272DAF00D2D3CD /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		8E9B2372101E2D3A005DB65B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		8ED1F9AD102A159D00501086 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,7 +43,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				1D3623EC0D0F72F000981E51 /* CoreGraphics.framework in Frameworks */,
-				8EC74AF21023A56000509CE3 /* Security.framework in Frameworks */,
+				8E9B2373101E2D3A005DB65B /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,12 +61,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				8EEC58E210272DAF00D2D3CD /* SettingsViewController.h */,
-				8EEC58E310272DAF00D2D3CD /* SettingsViewController.m */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
-				8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */,
-				8EC74ABA1023A32E00509CE3 /* SettingsViewController.xib */,
-				8EC64BFF10A34B22009F0B4F /* Apple */,
 				8EB688610FA64AD100489E4B /* Support */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -83,7 +72,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8EC74AF11023A56000509CE3 /* Security.framework */,
+				8E9B2372101E2D3A005DB65B /* SystemConfiguration.framework */,
 				1D3623EB0D0F72F000981E51 /* CoreGraphics.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
@@ -94,6 +83,8 @@
 		8EB688610FA64AD100489E4B /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				8ED1F9AD102A159D00501086 /* arrow.png */,
+				8E785FCA0FCDB853006EA81F /* TestBedViewController.xib */,
 				8E3A1F080FAA199F009B0518 /* cover320x416.png */,
 				32CA4F630368D1EE00C91783 /* HelloWorld_Prefix.pch */,
 				8D1107310486CEB800E47090 /* Info.plist */,
@@ -101,15 +92,6 @@
 				8E4156E70FA4EE0E0006D27C /* Default.png */,
 			);
 			name = Support;
-			sourceTree = "<group>";
-		};
-		8EC64BFF10A34B22009F0B4F /* Apple */ = {
-			isa = PBXGroup;
-			children = (
-				8EC64C0010A34B22009F0B4F /* KeychainItemWrapper.h */,
-				8EC64C0110A34B22009F0B4F /* KeychainItemWrapper.m */,
-			);
-			path = Apple;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,7 +140,7 @@
 				8E4156EA0FA4EE0E0006D27C /* icon.png in Resources */,
 				8E3A1F090FAA199F009B0518 /* cover320x416.png in Resources */,
 				8E785FCB0FCDB853006EA81F /* TestBedViewController.xib in Resources */,
-				8EC74ABC1023A32E00509CE3 /* SettingsViewController.xib in Resources */,
+				8ED1F9AE102A159D00501086 /* arrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,8 +152,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				8EEC58E410272DAF00D2D3CD /* SettingsViewController.m in Sources */,
-				8EC64C0210A34B22009F0B4F /* KeychainItemWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,10 +164,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Erica Sadun";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/System/Library/Frameworks,
-				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -204,10 +180,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/System/Library/Frameworks,
-				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HelloWorld_Prefix.pch;

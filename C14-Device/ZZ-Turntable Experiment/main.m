@@ -11,7 +11,8 @@
 
 @interface TestBedViewController : UIViewController <UIAccelerometerDelegate>
 {
-	IBOutlet UIImageView *arrow;
+	IBOutlet UIImageView *xarrow;
+	IBOutlet UIImageView *yarrow;
 }
 @end
 
@@ -19,12 +20,12 @@
 
 - (void)accelerometer:(UIAccelerometer *)accelerometer didAccelerate:(UIAcceleration *)acceleration
 {
-	float xx = -[acceleration x];
-	float yy = [acceleration y];
-	float angle = atan2(yy, xx);
-	[arrow setTransform:CGAffineTransformMakeRotation(angle)];
+	float xx = [acceleration x];
+	xarrow.transform = CGAffineTransformMakeScale(MAX(MIN(xx, 1.0f), -1.0f), 1.0f);
+	
+	float yy = -[acceleration y];
+	yarrow.transform = CGAffineTransformRotate(CGAffineTransformMakeScale(1.0f, MAX(MIN(yy, 1.0f), -1.0f)), M_PI/2.0f);
 }
-
 
 - (void) viewDidLoad
 {

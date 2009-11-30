@@ -13,22 +13,19 @@
 {
 	IBOutlet UIView *overlay;
 }
-@property (retain) UIView *overlay;
 @end
 
 @implementation TestBedViewController
-@synthesize overlay;
-
 - (void) finish
 {
-	[(UIActivityIndicatorView *)[self.overlay viewWithTag:202] stopAnimating];
-	[self.overlay removeFromSuperview];
+	[(UIActivityIndicatorView *)[overlay viewWithTag:202] stopAnimating];
+	[overlay removeFromSuperview];
 }
 
 - (void) action: (id) sender
 {
-	[self.view.window addSubview:self.overlay];
-	[(UIActivityIndicatorView *)[self.overlay viewWithTag:202] startAnimating];
+	[self.view.window addSubview:overlay];
+	[(UIActivityIndicatorView *)[overlay viewWithTag:202] startAnimating];
 	
 	[self performSelector:@selector(finish) withObject:nil afterDelay:3.0f];
 }
@@ -37,12 +34,6 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Action", @selector(action:));
-}
-
-- (void) dealloc
-{
-	self.overlay = nil;
-	[super dealloc];
 }
 @end
 
