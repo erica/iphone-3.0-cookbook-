@@ -49,7 +49,7 @@
 	char baseHostName[255];
 	int success = gethostname(baseHostName, 255);
 	if (success != 0) return nil;
-	baseHostName[255] = '\0';
+	// baseHostName[255] = '\0';
 	
     #if !TARGET_IPHONE_SIMULATOR
 	return [NSString stringWithFormat:@"%s.local", baseHostName];

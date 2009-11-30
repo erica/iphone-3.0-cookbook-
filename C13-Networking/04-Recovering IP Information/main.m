@@ -20,7 +20,6 @@
 
 @implementation TestBedViewController
 @synthesize log;
-@synthesize textView;
 
 - (void) doLog: (NSString *) formatstring, ...
 {
