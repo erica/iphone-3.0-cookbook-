@@ -102,7 +102,7 @@
 	if (needsBuilding)
 	{
 		NSString *pathname = [[NSBundle mainBundle]  pathForResource:@"crayons" ofType:@"txt" inDirectory:@"/"];
-		NSArray *crayons = 	[[NSString stringWithContentsOfFile:pathname] componentsSeparatedByString:@"\n"];
+		NSArray *crayons = 	[[NSString stringWithContentsOfFile:pathname encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
 		for (NSString *colorString in crayons) [self addColorToDB:colorString];
 	}
 
@@ -190,6 +190,14 @@
 }
 
 #pragma mark Search Bar
+
+// Cancel button fix provided by jluckyiv. 
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	[self.searchBar setText:@""]; 
+	[self performFetch];
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
 	[self performFetch];
