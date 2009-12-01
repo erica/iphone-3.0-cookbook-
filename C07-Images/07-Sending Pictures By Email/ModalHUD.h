@@ -8,5 +8,5 @@
 
 @interface ModalHUD : NSObject
 + (void) showHUD:(id)formatstring,...;
-+ (void) dismiss;
++ (BOOL) dismiss;
 @end

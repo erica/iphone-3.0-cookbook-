@@ -9,10 +9,19 @@
 #define MODAL_HUD_UNIQUE_ID	314159265
 
 @implementation ModalHUD
-+ (void) dismiss
+// Thanks to xhan for pointing out potential for dismiss errors when dismiss message sent too soon
+// Dismiss changed to BOOL, offering success feedback
++ (BOOL) dismiss
 {
-	UIAlertView *av = (UIAlertView *)[[[UIApplication sharedApplication] keyWindow] viewWithTag:MODAL_HUD_UNIQUE_ID];
-	[av dismissWithClickedButtonIndex:0 animated:YES];
+	UIAlertView *av;
+	
+	if (av = (UIAlertView *)[[[UIApplication sharedApplication] keyWindow] viewWithTag:MODAL_HUD_UNIQUE_ID])
+	{
+		[av dismissWithClickedButtonIndex:0 animated:YES];
+		return YES;
+	}
+	
+	return NO;
 }
 
 #pragma mark Activity Indicator HUD Utilities

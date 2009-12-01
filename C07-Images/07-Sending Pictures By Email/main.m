@@ -22,6 +22,12 @@
 	[self dismissModalViewControllerAnimated:YES];
 }
 
+- (void) dismissHUD
+{
+	if (![ModalHUD dismiss])
+		[self performSelector:@selector(dismissHUD) withObject:nil afterDelay:0.2f];
+}
+
 - (void) emailImage: (UIImage *) image
 {
 	if ([MFMailComposeViewController canSendMail])
@@ -33,7 +39,7 @@
 		[mcvc setMessageBody:body isHTML:YES];
 		[mcvc addAttachmentData:UIImageJPEGRepresentation(image, 1.0f) mimeType:@"image/jpeg" fileName:@"pickerimage.jpg"];
 		[self presentModalViewController:mcvc animated:YES];
-		[ModalHUD dismiss];
+		[self dismissHUD];
 	}
 }
 

@@ -31,11 +31,17 @@
 	if ([(UIImageView *)self.view image] == self.original) SETIMAGE(self.processed) else SETIMAGE(self.original);
 }
 
+- (void) dismissHUD
+{
+	if (![ModalHUD dismiss])
+		[self performSelector:@selector(dismissHUD) withObject:nil afterDelay:0.2f];
+}
+
 - (void) finish
 {
 	SETIMAGE(self.processed);
 	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Swap", @selector(swap));
-	[ModalHUD dismiss];
+	[self dismissHUD];
 }
 
 - (void) process
@@ -54,11 +60,10 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-	[ModalHUD showHUD:@"Processing\nPlease wait."];
 	self.original = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
 	[self dismissModalViewControllerAnimated:YES];
 	[picker release];
-	
+	[ModalHUD performSelector:@selector(showHUD:) withObject:@"Processing\nPlease wait." afterDelay:0.01f];
 	[NSThread detachNewThreadSelector:@selector(process) toTarget:self withObject:nil];
 }
 
