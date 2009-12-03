@@ -21,7 +21,7 @@ int main (int argc, const char * argv[]) {
 	// Fetch certificate and device information from the current directory as set up with pushutil
 	char wd[256];
 	getwd(wd);
-	NSString *cwd = [NSString stringWithCString:wd];
+	NSString *cwd = [NSString stringWithCString:wd  encoding:NSUTF8StringEncoding];
 	NSArray *contents = [[NSFileManager defaultManager] directoryContentsAtPath:cwd];
 	
 	NSArray *dfiles = [contents pathsMatchingExtensions:[NSArray arrayWithObject:@"devices"]];

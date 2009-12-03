@@ -75,7 +75,7 @@ NSString* HostGetName()
 	int success = gethostname(baseHostName, 255);
 	if (success != 0) return nil;
 	baseHostName[255] = '\0'; 
-	return [NSString stringWithCString:baseHostName];
+	return [NSString stringWithCString:baseHostName encoding:NSUTF8StringEncoding];
 }
 
 NSString* SockaddrToString(const struct sockaddr* address)

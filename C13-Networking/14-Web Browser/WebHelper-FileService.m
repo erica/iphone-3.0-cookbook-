@@ -78,7 +78,7 @@
 	int len = read(fd, buffer, BUFSIZE); 	
 	buffer[len] = '\0';
 	
-	NSString *request = [NSString stringWithCString:buffer];
+	NSString *request = [NSString stringWithCString:buffer encoding:NSUTF8StringEncoding];
 	NSArray *reqs = [request componentsSeparatedByString:@"\n"];
 	NSString *getreq = [[reqs objectAtIndex:0] substringFromIndex:4];
 	NSRange range = [getreq rangeOfString:@"HTTP/"];

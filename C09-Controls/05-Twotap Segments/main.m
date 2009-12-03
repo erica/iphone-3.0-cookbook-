@@ -19,7 +19,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	id outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 	va_end(arglist);
 	
-	NSString *filename = [[NSString stringWithCString:__FILE__] lastPathComponent];
+	NSString *filename = [[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding] lastPathComponent];
 	NSString *debugInfo = [NSString stringWithFormat:@"%@:%d\n%s", filename, line, functname];
     
     UIAlertView *av = [[[UIAlertView alloc] initWithTitle:outstring message:debugInfo delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil] autorelease];

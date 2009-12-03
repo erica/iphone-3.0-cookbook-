@@ -282,7 +282,7 @@ int main (int argc, const char * argv[]) {
 			char wd[256];
 			getwd(wd);
 			
-			NSString *cwd = [NSString stringWithCString:wd];
+			NSString *cwd = [NSString stringWithCString:wd encoding:NSUTF8StringEncoding];
 			[[NSUserDefaults standardUserDefaults] setObject:cwd forKey:@"cwd"];
 			[[NSUserDefaults standardUserDefaults] synchronize];
 			printf("Updated working directory:\n    %s\n", [cwd UTF8String]);
