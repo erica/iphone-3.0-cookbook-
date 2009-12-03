@@ -24,10 +24,10 @@
 
 + (id) contactWithRecordID: (ABRecordID) recordID
 {
-	ABAddressBookRef addressBook = ABAddressBookCreate();
+	ABAddressBookRef addressBook = CFAutorelease(ABAddressBookCreate());
 	ABRecordRef contactrec = ABAddressBookGetPersonWithRecordID(addressBook, recordID);
 	ABContact *contact = [self contactWithRecord:contactrec];
-	CFRelease(contactrec);
+	// CFRelease(contactrec); // Thanks Gary Fung
 	return contact;
 }
 
