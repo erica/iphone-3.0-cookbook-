@@ -44,6 +44,12 @@
 	return self.filteredArray.count;
 }
 
+// Via Jack Lucky
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	[self.searchBar setText:@""]; 
+}
+
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// Dequeue or create a cell
