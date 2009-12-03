@@ -52,10 +52,10 @@ SCNetworkReachabilityRef reachability;
 
 + (NSString *) hostname
 {
-	char baseHostName[255];
+	char baseHostName[256]; // Thanks, Gunnar Larisch
 	int success = gethostname(baseHostName, 255);
 	if (success != 0) return nil;
-	// baseHostName[255] = '\0'; // 3.1.2 SDK bug
+	baseHostName[255] = '\0';
 	
 #if !TARGET_IPHONE_SIMULATOR
 	return [NSString stringWithFormat:@"%s.local", baseHostName];

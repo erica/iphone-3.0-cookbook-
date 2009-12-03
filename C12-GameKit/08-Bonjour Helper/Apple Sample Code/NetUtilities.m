@@ -71,15 +71,11 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 NSString* HostGetName()
 {
-#if TARGET_IPHONE_SIMULATOR
-	return @"Simulator";
-#else
-	char baseHostName[255];
+	char baseHostName[256]; // Thanks, Gunnar Larisch
 	int success = gethostname(baseHostName, 255);
 	if (success != 0) return nil;
-	// baseHostName[255] = '\0'; // This is a Simulator killer in 3.1.2 SDK
-	return [NSString stringWithCString:baseHostName encoding:NSUTF8StringEncoding];
-#endif
+	baseHostName[255] = '\0'; 
+	return [NSString stringWithCString:baseHostName];
 }
 
 NSString* SockaddrToString(const struct sockaddr* address)

@@ -73,10 +73,10 @@
 
 - (NSString *) hostname
 {
-	char baseHostName[255];
+	char baseHostName[256]; // Thanks, Gunnar Larisch
 	int success = gethostname(baseHostName, 255);
 	if (success != 0) return nil;
-	// baseHostName[255] = '\0'; // This is a Simulator Killer in SDK 3.1.2
+	baseHostName[255] = '\0';
 	return [NSString stringWithCString:baseHostName];
 }
 
