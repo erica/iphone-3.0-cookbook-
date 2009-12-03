@@ -54,6 +54,12 @@
 	else return nil;
 }
 
+// Via Jack Lucky
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	[self.searchBar setText:@""]; 
+}
+
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
 {
 	// Normal table
@@ -148,7 +154,7 @@
 {
 	// Prepare the crayon color dictionary
 	NSString *pathname = [[NSBundle mainBundle]  pathForResource:@"crayons" ofType:@"txt" inDirectory:@"/"];
-	NSArray *rawCrayons = [[NSString stringWithContentsOfFile:pathname] componentsSeparatedByString:@"\n"];
+	NSArray *rawCrayons = [[NSString stringWithContentsOfFile:pathname encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
 	self.crayonColors = [NSMutableDictionary dictionary];
 	
 	self.sectionArray = [NSMutableArray array];

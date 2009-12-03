@@ -191,7 +191,24 @@
 
 #pragma mark Search Bar
 
-// Cancel button fix provided by jluckyiv. 
+/*
+Cancel button fix suggested by Jack Lucky, who writes:
+
+"After some more research, I think my solution was really a workaround. After reading the documentation for 
+ UISearchDisplayController, I think the problem is that when tableView:numberOfRowsInSection: fires, there is a 
+ disconnect between it and [tableView reload]... Here's my approach:
+
+- (void)refreshTableView {
+    [self performFetch];
+    if (searchBar.text && searchBar.text.length) {
+        [self.searchDC.searchResultsTableView reloadData];
+    } else {
+        [self.tableView reloadData];
+    }  
+}
+ "
+ */
+
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
 	[self.searchBar setText:@""]; 
