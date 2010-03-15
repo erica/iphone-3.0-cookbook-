@@ -21,7 +21,8 @@ unsigned char *getBitmapFromImage (UIImage *image)
     }
 	
 	CGSize size = image.size;
-    void *bitmapData = malloc(size.width * size.height * 4);
+	// void *bitmapData = malloc(size.width * size.height * 4);
+	unsigned char *bitmapData = calloc(size.width * size.height * 4, 1); // Courtesy of Dirk. Thanks!
     if (bitmapData == NULL)
     {
         fprintf (stderr, "Error: Memory not allocated!");

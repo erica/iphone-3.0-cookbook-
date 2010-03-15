@@ -13,6 +13,19 @@
 @end
 
 @implementation TestBedViewController
+
+// Return an exhaustive descent of the view's subviews
+NSArray *allSubviews(UIView *aView)
+{
+	NSArray *results = [aView subviews];
+	for (UIView *eachView in [aView subviews])
+	{
+		NSArray *riz = allSubviews(eachView);
+		if (riz) results = [results arrayByAddingObjectsFromArray:riz];
+	}
+	return results;
+}
+
 -(void) segmentAction: (UISegmentedControl *) sender
 {
 	// Update the label with the segment number
@@ -41,6 +54,8 @@
 	segmentedControl.momentary = NO;
 	segmentedControl.selectedSegmentIndex = 0;
 #endif
+	
+	CFShow(allSubviews(segmentedControl));
 
 
 	// Add it to the navigation bar
