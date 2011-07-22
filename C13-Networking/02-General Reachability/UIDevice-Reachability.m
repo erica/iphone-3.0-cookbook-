@@ -32,7 +32,7 @@ SCNetworkConnectionFlags connectionFlags;
 			if (cursor->ifa_addr->sa_family == AF_INET && (cursor->ifa_flags & IFF_LOOPBACK) == 0) 
 			{
 				NSString *name = [NSString stringWithUTF8String:cursor->ifa_name];
-				if ([name isEqualToString:@"en0"])  // Wi-Fi adapter
+                if ([name isEqualToString:@"en0"] || [name isEqualToString:@"bridge0"])  //  Wi-Fi adapter, or iPhone 4 Personal hotspot bridge adapter
 					return [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)cursor->ifa_addr)->sin_addr)];
 			}
 			cursor = cursor->ifa_next;
@@ -79,4 +79,12 @@ SCNetworkConnectionFlags connectionFlags;
 {
 	return ([UIDevice localWiFiIPAddress] != nil);
 }
+
++ (BOOL) activePersonalHotspot
+{
+    // Personal hotspot is fixed to 172.20.10
+    NSString* localWifiAddress = [self localWiFiIPAddress];
+    return (localWifiAddress != nil && [localWifiAddress hasPrefix:@"172.20.10"]);
+}
+
 @end
