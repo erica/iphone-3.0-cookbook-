@@ -12,7 +12,7 @@
 + (CGImageRef) createGradientImage: (CGSize)size
 {
 	CGFloat colors[] = {0.0, 1.0, 1.0, 1.0};
-    
+
 	// Create gradient in gray device color space
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
 	CGContextRef context = CGBitmapContextCreate(nil, size.width, size.height, 8, 0, colorSpace, kCGImageAlphaNone);
@@ -23,7 +23,7 @@
 	CGPoint p1 = CGPointZero;
 	CGPoint p2 = CGPointMake(0, size.height);
 	CGContextDrawLinearGradient(context, gradient, p1, p2, kCGGradientDrawsAfterEndLocation);
-	
+
 	// Return the CGImage
 	CGImageRef theCGImage = CGBitmapContextCreateImage(context);
 	CFRelease(gradient);
@@ -42,7 +42,7 @@
 	[theView.layer renderInContext:context];
 	UIImage *partialimg = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
-	
+
 	// build the mask
 	CGImageRef mask = [ImageHelper createGradientImage:size];
 	CGImageRef ref = CGImageCreateWithMask(partialimg.CGImage, mask);

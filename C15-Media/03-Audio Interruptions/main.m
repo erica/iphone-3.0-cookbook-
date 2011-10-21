@@ -26,7 +26,7 @@
 	NSError *error;
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"MeetMeInSt.Louis1904" ofType:@"mp3"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:path]) return NO;
-	
+
 	// Initialize the player
 	self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
 	self.player.delegate = self;
@@ -35,7 +35,7 @@
 		NSLog(@"Error: %@", [error localizedDescription]);
 		return NO;
 	}
-	
+
 	[self.player prepareToPlay];
 
 	return YES;
@@ -59,7 +59,7 @@
 	// resume playback at the end of the interruption
 	printf("Interruption ended\n");
 	[self.player play];
-	
+
 	// remove the interruption key. it won't be needed
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Interruption"];
 }
@@ -75,7 +75,7 @@
 		self.player.currentTime = [[NSUserDefaults standardUserDefaults] floatForKey:@"Interruption"];
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Interruption"];
 	}
-	
+
 	// Start playback
 	[self.player play];
 }
@@ -86,7 +86,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

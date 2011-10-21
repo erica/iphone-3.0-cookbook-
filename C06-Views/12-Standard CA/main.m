@@ -20,7 +20,7 @@
 
 - (void) updateColor: (UISegmentedControl *) seg
 {
-	if (seg.selectedSegmentIndex) 
+	if (seg.selectedSegmentIndex)
 		[self.view viewWithTag:88].backgroundColor = [UIColor blackColor];
 	else
 		[self.view viewWithTag:88].backgroundColor = [UIColor whiteColor];
@@ -39,20 +39,20 @@
 	UIView *theView = [self.view viewWithTag:101];
 	[CATransaction begin];
     [CATransaction setValue:[NSNumber numberWithFloat:ANIMATION_DURATION] forKey:kCATransactionAnimationDuration];
-	
+
     // scale it down
     CABasicAnimation *shrinkAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
 	shrinkAnimation.delegate = self;
     shrinkAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
     shrinkAnimation.toValue = [NSNumber numberWithFloat:0.0];
 	[[theView layer] addAnimation:shrinkAnimation forKey:@"shrinkAnimation"];
-	
+
 	// fade it out
     CABasicAnimation *fadeAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     fadeAnimation.toValue = [NSNumber numberWithFloat:0.0];
     fadeAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
     [[theView layer] addAnimation:fadeAnimation forKey:@"fadeAnimation"];
-	
+
 	// make it jump a couple of times
     CAKeyframeAnimation *positionAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     CGMutablePathRef positionPath = CGAutorelease(CGPathCreateMutable());
@@ -63,8 +63,8 @@
     positionAnimation.path = positionPath;
     positionAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
     [[theView layer] addAnimation:positionAnimation forKey:@"positionAnimation"];
-    
-	[CATransaction commit];	
+
+	[CATransaction commit];
 }
 
 - (void) viewDidLoad
@@ -72,7 +72,7 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Action", @selector(action:));
 	[self.view viewWithTag:101].clipsToBounds = NO;
-	
+
 	UISegmentedControl *seg = [[UISegmentedControl alloc] initWithItems:[@"White Black" componentsSeparatedByString:@" "]];
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
 	seg.selectedSegmentIndex = 0;
@@ -85,7 +85,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -9,7 +9,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface ToDoItem :  NSManagedObject  
+@interface ToDoItem :  NSManagedObject
 {
 }
 

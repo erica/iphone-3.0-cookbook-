@@ -45,10 +45,10 @@ NSString *deviceFile()
 {
 	NSString *cwd = workingDir();
 	if (!cwd) return nil;
-	
+
 	NSArray *contents = [[NSFileManager defaultManager] directoryContentsAtPath:cwd];
 	NSArray *dfiles = [contents pathsMatchingExtensions:[NSArray arrayWithObject:@"devices"]];
-	
+
 	if (![dfiles count])
 	{
 		NSDictionary *dict = [NSDictionary dictionary];
@@ -56,7 +56,7 @@ NSString *deviceFile()
 		[dict writeToFile:path atomically:YES];
 		return path;
 	}
-	
+
 	return [cwd stringByAppendingPathComponent:[dfiles lastObject]];
 }
 
@@ -77,7 +77,7 @@ NSData *apnsCert()
 {
 	NSString *dcert = cert();
 	if (!dcert) return nil;
-	
+
 	NSString *path = [workingDir() stringByAppendingPathComponent:dcert];
 	return [NSData dataWithContentsOfFile:path];
 }
@@ -94,7 +94,7 @@ void checkCert()
 
 int main (int argc, const char * argv[]) {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	
+
 	if (argc == 1)
 	{
 		usage();
@@ -105,18 +105,18 @@ int main (int argc, const char * argv[]) {
 	NSArray *args = [[NSProcessInfo processInfo] arguments];
 	NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF beginswith '-'"];
 	NSArray *dashedArgs = [args filteredArrayUsingPredicate:pred];
-	
+
 	// Prepare the main, payload, and alert dictionaries
 	NSMutableDictionary *mainDict = [NSMutableDictionary dictionary];
 	NSMutableDictionary *payloadDict = [NSMutableDictionary dictionary];
 	NSMutableDictionary *alertDict = [NSMutableDictionary dictionary];
 	[payloadDict setObject:alertDict forKey:@"alert"];
 	[mainDict setObject:payloadDict forKey:@"aps"];
-	
+
 	// Scan for device adds
 	NSString *deviceName = nil;
 	NSString *token = nil;
-	
+
 	for (NSString *darg in dashedArgs)
 	{
 		if (([darg caseInsensitiveCompare:@"-help"] == NSOrderedSame) ||
@@ -125,8 +125,8 @@ int main (int argc, const char * argv[]) {
 			usage();
 			exit(1);
 		}
-		
-		if ([darg caseInsensitiveCompare:@"-badge"] == NSOrderedSame) 
+
+		if ([darg caseInsensitiveCompare:@"-badge"] == NSOrderedSame)
 		{
 			NSString *badge = [[NSUserDefaults standardUserDefaults] objectForKey:@"badge"];
 			if (!badge)
@@ -137,7 +137,7 @@ int main (int argc, const char * argv[]) {
 			[payloadDict setObject:[NSNumber numberWithInt:[badge intValue]] forKey:@"badge"];
 			continue;
 		}
-		
+
 		if (([darg caseInsensitiveCompare:@"-sound"] == NSOrderedSame) ||
 			([darg caseInsensitiveCompare:@"-snd"] == NSOrderedSame))
 		{
@@ -151,15 +151,15 @@ int main (int argc, const char * argv[]) {
 			[payloadDict setObject:jsonescape(sound) forKey:@"sound"];
 			continue;
 		}
-		
+
 		if (([darg caseInsensitiveCompare:@"-okay"] == NSOrderedSame) ||
 			([darg caseInsensitiveCompare:@"-ok"] == NSOrderedSame))
 		{
 			[alertDict setObject:[NSNull null] forKey:@"action-loc-key"];
 			continue;
 		}
-		
-		if ([darg caseInsensitiveCompare:@"-button"] == NSOrderedSame) 
+
+		if ([darg caseInsensitiveCompare:@"-button"] == NSOrderedSame)
 		{
 			NSString *button = [[NSUserDefaults standardUserDefaults] objectForKey:@"button"];
 			if (!button)
@@ -167,11 +167,11 @@ int main (int argc, const char * argv[]) {
 				printf("Error: Supply text with -button\n");
 	   			continue;
 			}
-			
+
 			[alertDict setObject:jsonescape(button) forKey:@"action-loc-key"];
 			continue;
 		}
-		
+
 		if (([darg caseInsensitiveCompare:@"-msg"] == NSOrderedSame) ||
 			([darg caseInsensitiveCompare:@"-message"] == NSOrderedSame))
 		{
@@ -185,7 +185,7 @@ int main (int argc, const char * argv[]) {
 			[alertDict setObject:jsonescape(msg) forKey:@"body"];
 			continue;
 		}
-		
+
 		if (([darg caseInsensitiveCompare:@"-add"] == NSOrderedSame) ||
 			([darg caseInsensitiveCompare:@"-device"] == NSOrderedSame))
 		{
@@ -198,8 +198,8 @@ int main (int argc, const char * argv[]) {
 			}
 			continue;
 		}
-		
-		if ([darg caseInsensitiveCompare:@"-token"] == NSOrderedSame) 
+
+		if ([darg caseInsensitiveCompare:@"-token"] == NSOrderedSame)
 		{
 			token = [[NSUserDefaults standardUserDefaults] objectForKey:@"token"];
 			if (!token)
@@ -209,30 +209,30 @@ int main (int argc, const char * argv[]) {
 			}
 			continue;
 		}
-		
-		if ([darg caseInsensitiveCompare:@"-use"] == NSOrderedSame) 
+
+		if ([darg caseInsensitiveCompare:@"-use"] == NSOrderedSame)
 		{
 			NSString *use = [[NSUserDefaults standardUserDefaults] objectForKey:@"use"];
-			if (!use) 
+			if (!use)
 			{
 				printf("Error: supply a device name with -use\n");
 				continue;
 			}
-			
+
 			NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:deviceFile()];
 			if (!dict)
 			{
 				printf("Error: token not found for device %s.\n", [use UTF8String]);
 				continue;
 			}
-		
+
 			NSString *usetoken = [dict objectForKey:[use uppercaseString]];
 			if (!usetoken)
 			{
 				printf("Error: token not found for device %s.\n", [use UTF8String]);
 				continue;
 			}
-			
+
 			[[NSUserDefaults standardUserDefaults] setObject:usetoken forKey:@"defaultToken"];
 			[[NSUserDefaults standardUserDefaults] synchronize];
 			printf("Default token set for device %s\n", [use UTF8String]);
@@ -246,13 +246,13 @@ int main (int argc, const char * argv[]) {
 			continue;
 		}
 	}
-	
+
 	if ((token && !deviceName) || (deviceName && !token))
 	{
 		printf("Error: Supply both a device name with -add and a device token with -token\n");
 		exit(-1);
 	}
-	
+
 	if (token && deviceName)
 	{
 		if (!workingDir())
@@ -260,14 +260,14 @@ int main (int argc, const char * argv[]) {
 			printf("Error: You must set up a working directory before adding devices\n");
 			exit(-1);
 		}
-		
+
 		if ([token length] != 71)
 		{
 			printf("Error: Supply the token using the following format\n");
 			printf("-token \"xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx xxxxxxxx\"\n");
 			exit(-1);
 		}
-		
+
 		NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:deviceFile()];
 		[dict setObject:token forKey:[deviceName uppercaseString]];
 		[dict writeToFile:deviceFile() atomically:YES];
@@ -277,11 +277,11 @@ int main (int argc, const char * argv[]) {
 	// Scan for actions
 	for (NSString *darg in dashedArgs)
 	{
-		if ([darg caseInsensitiveCompare:@"-cwd"] == NSOrderedSame) 
+		if ([darg caseInsensitiveCompare:@"-cwd"] == NSOrderedSame)
 		{
 			char wd[256];
 			getwd(wd);
-			
+
 			NSString *cwd = [NSString stringWithCString:wd encoding:NSUTF8StringEncoding];
 			[[NSUserDefaults standardUserDefaults] setObject:cwd forKey:@"cwd"];
 			[[NSUserDefaults standardUserDefaults] synchronize];
@@ -289,18 +289,18 @@ int main (int argc, const char * argv[]) {
 			checkCert();
 			continue;
 		}
-		
-		if ([darg caseInsensitiveCompare:@"-pwd"] == NSOrderedSame) 
+
+		if ([darg caseInsensitiveCompare:@"-pwd"] == NSOrderedSame)
 		{
 			NSString *cwd = workingDir();
-			if (!cwd) 
+			if (!cwd)
 				printf("The working directory has not yet been set. Use -cwd to set it here.\n");
 			else
 				printf("Working directory: %s\n", [cwd UTF8String]);
 			checkCert();
 			continue;
 		}
-		
+
 		if ([darg caseInsensitiveCompare:@"-clearwd"] == NSOrderedSame)  // undocumented
 		{
 			[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"cwd"];
@@ -308,7 +308,7 @@ int main (int argc, const char * argv[]) {
 			printf("Cleared working directory\n");
 			continue;
 		}
-		
+
 		if ([darg caseInsensitiveCompare:@"-cleartoken"] == NSOrderedSame)  // undocumented
 		{
 			[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"defaultToken"];
@@ -316,22 +316,22 @@ int main (int argc, const char * argv[]) {
 			printf("Cleared default token\n");
 			continue;
 		}
-	
-		if ([darg caseInsensitiveCompare:@"-devices"] == NSOrderedSame) 
+
+		if ([darg caseInsensitiveCompare:@"-devices"] == NSOrderedSame)
 		{
 			if (!workingDir())
 			{
 				printf("You must set up a working directory before checking for devices\n");
 				continue;
 			}
-			
+
 			NSString *dfile = deviceFile();
 			if (!dfile)
 			{
 				printf("No devices have been set up yet\n");
 				continue;
 			}
-			
+
 			NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:dfile];
 			if (!dict)
 				printf("No devices have been set up yet\n");
@@ -341,14 +341,14 @@ int main (int argc, const char * argv[]) {
 				for (NSString *key in [dict allKeys])
 					printf("    %s\n", [key UTF8String]);
 			}
-			
+
 			NSString *dtok = [[NSUserDefaults standardUserDefaults] objectForKey:@"defaultToken"];
 			if (!dtok) continue;
 			NSArray *keys = [dict allKeysForObject:dtok];
 			if (keys && ([keys count] > 0)) printf("Default device is %s\n", [[keys lastObject] UTF8String]);
 			continue;
 		}
-		
+
 		if ([darg caseInsensitiveCompare:@"-remove"] == NSOrderedSame)
 		{
 			NSString *key = [[NSUserDefaults standardUserDefaults] objectForKey:@"remove"];
@@ -357,26 +357,26 @@ int main (int argc, const char * argv[]) {
 				printf("Error: Supply a device name to -remove. Use -devices to list.\n");
 				continue;
 			}
-			
+
 			NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithContentsOfFile:deviceFile()];
 			if (!dict)
 			{
 				printf("Error: device not found\n");
 				continue;
 			}
-			
+
 			if (![dict objectForKey:key])
 			{
 				printf("Error: device not found\n");
 				continue;
 			}
-			
+
 			[dict removeObjectForKey:key];
 			[dict writeToFile:deviceFile() atomically:YES];
 			printf("Device %s removed from list.\n", [key UTF8String]);
 			continue;
 		}
-		
+
 		if ([darg caseInsensitiveCompare:@"-kvpairs"] == NSOrderedSame)  // undocumented
 		{
 			NSString *kvstring = [[NSUserDefaults standardUserDefaults] objectForKey:@"kvpairs"];
@@ -387,12 +387,12 @@ int main (int argc, const char * argv[]) {
 				if ([pair count] != 2) continue;
 				[mainDict setObject:[pair lastObject] forKey:[pair objectAtIndex:0]];
 			}
-			
+
 			printf("Custom key value pairs added to dictionary\n");
 			continue;
 		}
-		
-		if ([darg caseInsensitiveCompare:@"-feedback"] == NSOrderedSame) 
+
+		if ([darg caseInsensitiveCompare:@"-feedback"] == NSOrderedSame)
 		{
 			NSString *dToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"defaultToken"];
 			if (!dToken)
@@ -400,25 +400,25 @@ int main (int argc, const char * argv[]) {
 				printf("Error: Device token has not been set.\n");
 				exit(-1);
 			}
-			
+
 			NSData *dCert = apnsCert();
 			if (!dCert)
 			{
 				printf("Error retrieving apns certificate\n");
 				exit(-1);
 			}
-			
+
 			[APNSHelper sharedInstance].deviceTokenID = dToken;
 			[APNSHelper sharedInstance].certificateData = dCert;
 			NSArray *resultsArray = [[APNSHelper sharedInstance] fetchFeedback];
-			
+
 			if	(resultsArray.count == 0)
 			{
 				printf("No feedback results at this time.\n");
 			}
 			else
 			{
-			
+
 				NSString *path = [workingDir() stringByAppendingPathComponent:@"feedback.txt"];
 				FILE *fp;
 				if ((fp = fopen([path UTF8String], "a")) == NULL)
@@ -426,11 +426,11 @@ int main (int argc, const char * argv[]) {
 					printf("Cannot open feedback.txt for output\n");
 					exit(-1);
 				}
-				
+
 				printf("APNS has encountered the following delivery failures:\n\n");
 				NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
 				formatter.dateFormat = @"MM/dd/YY h:mm:ss a";
-				
+
 				for (NSDictionary *dict in resultsArray)
 				{
 					NSString *deviceid = [[dict allKeys] lastObject];
@@ -440,14 +440,14 @@ int main (int argc, const char * argv[]) {
 					printf("TIMESTAMP: %s\n", [timestamp UTF8String]);
 					printf("DEVICE ID: %s\n\n", [deviceid UTF8String]);
 				}
-				
+
 				fclose(fp);
 				printf("Wrote %d events to feedback.txt\n", resultsArray.count);
 			}
-			
+
 			exit(1); // successful exit
 		}
-	
+
 		if ([darg caseInsensitiveCompare:@"-undoc"] == NSOrderedSame)  // undocumented
 		{
 			printf("-undoc			print this message\n");
@@ -462,9 +462,9 @@ int main (int argc, const char * argv[]) {
 			continue;
 		}
 	}
-	
+
 	// Determine whether to continue with sending alert
-	
+
 	BOOL goOn = ([payloadDict objectForKey:@"sound"] || [payloadDict objectForKey:@"badge"]);
 	goOn = goOn || [alertDict objectForKey:@"body"];
 	goOn = goOn || ([[mainDict allKeys] count] > 1);
@@ -476,30 +476,30 @@ int main (int argc, const char * argv[]) {
 
 	// Preview JSON
 	CFShow([JSONHelper jsonWithDict:mainDict]);
-	
+
 	NSString *dToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"defaultToken"];
 	if (!dToken)
 	{
 		printf("Error: Device token has not been set.\n");
 		exit(-1);
 	}
-	
+
 	NSData *dCert = apnsCert();
 	if (!dCert)
 	{
 		printf("Error retrieving apns certificate\n");
 		exit(-1);
 	}
-	
+
 	printf("Preparing to send message\n");
-	
+
 	[APNSHelper sharedInstance].deviceTokenID = dToken;
 	[APNSHelper sharedInstance].certificateData = dCert;
 	BOOL success = [[APNSHelper sharedInstance] push:[JSONHelper jsonWithDict:mainDict]];
-	
+
 	if (success) printf("Done.\n");
 	else printf("Errors encountered during send.\n");
-	
+
     [pool drain];
     return 0;
 }

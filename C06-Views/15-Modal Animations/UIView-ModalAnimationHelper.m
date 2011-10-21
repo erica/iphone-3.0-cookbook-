@@ -3,7 +3,7 @@
  iPhone Developer's Cookbook, 3.0 Edition
  BSD License, Use at your own risk
 
- Runloop credit to Kenny TM. Mistakes are mine. 
+ Runloop credit to Kenny TM. Mistakes are mine.
  */
 
 #import "UIView-ModalAnimationHelper.h"
@@ -15,7 +15,7 @@
 @end
 
 @implementation UIViewDelegate
--(id) initWithRunLoop: (CFRunLoopRef)runLoop 
+-(id) initWithRunLoop: (CFRunLoopRef)runLoop
 {
 	if (self = [super init]) currentLoop = runLoop;
 	return self;
@@ -31,7 +31,7 @@
 + (void) commitModalAnimations
 {
 	CFRunLoopRef currentLoop = CFRunLoopGetCurrent();
-	
+
 	UIViewDelegate *uivdelegate = [[UIViewDelegate alloc] initWithRunLoop:currentLoop];
 	[UIView setAnimationDelegate:uivdelegate];
 	[UIView setAnimationDidStopSelector:@selector(animationFinished:)];

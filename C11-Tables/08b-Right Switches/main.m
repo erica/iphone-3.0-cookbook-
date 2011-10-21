@@ -21,12 +21,12 @@
 @implementation TableListViewController
 @synthesize switchStates;
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return 26;
 }
@@ -34,9 +34,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	CustomCell *cell = (CustomCell *)[tView dequeueReusableCellWithIdentifier:@"BaseCell"];
-	if (!cell) 
+	if (!cell)
 		cell = [[[NSBundle mainBundle] loadNibNamed:@"BaseCell" owner:self options:nil] lastObject];
-	
+
 	NSString *key = [ALPHA objectAtIndex:indexPath.row];
 	cell.customLabel.text = key;
 	cell.tableViewController = self;
@@ -61,7 +61,7 @@
 		[self.switchStates setObject:[NSNumber numberWithBool:aSwitch.on] forKey: anItem];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 }
 
@@ -81,13 +81,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

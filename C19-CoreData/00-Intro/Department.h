@@ -9,7 +9,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface Department :  NSManagedObject  
+@interface Department :  NSManagedObject
 {
 }
 

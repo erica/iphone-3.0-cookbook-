@@ -26,7 +26,7 @@
 	CFShow(editedVideoPath);
 
 	// can do save here. the data has *not* yet been saved to the photo album
-	
+
 	[self dismissModalViewControllerAnimated:YES];
 	[editor release];
 }
@@ -41,7 +41,7 @@
 {
 	[self dismissModalViewControllerAnimated:YES];
 	[editor release];
-	
+
 	NSLog(@"Fail! %@", [error localizedDescription]);
 }
 
@@ -53,12 +53,12 @@
 		printf("Cannot edit vid at path\n");
 		return;
 	}
-	
-	// Can edit 
+
+	// Can edit
 	UIVideoEditorController *vec = [[UIVideoEditorController alloc] init];
 	vec.videoPath = self.vpath;
 	vec.delegate = self;
-	[self presentModalViewController:vec animated:YES];	
+	[self presentModalViewController:vec animated:YES];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -67,8 +67,8 @@
 	NSURL *url = [info objectForKey:UIImagePickerControllerMediaURL];
 	[self dismissModalViewControllerAnimated:YES];
 	[picker release];
-	
-	CFShow([url path]);	
+
+	CFShow([url path]);
 	self.vpath = [url path];
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Edit", @selector(doEdit));
 }
@@ -82,7 +82,7 @@
 	ipc.videoQuality = UIImagePickerControllerQualityTypeMedium;
 	ipc.videoMaximumDuration = 30.0f; // 30 seconds
 	ipc.mediaTypes = [NSArray arrayWithObject:@"public.movie"];
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 }
 
 - (BOOL) videoRecordingAvailable
@@ -102,7 +102,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

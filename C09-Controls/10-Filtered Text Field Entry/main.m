@@ -18,7 +18,7 @@
 @interface TestBedViewController : UIViewController <UITextFieldDelegate>
 @end
 
-@implementation TestBedViewController 
+@implementation TestBedViewController
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -28,7 +28,7 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
 	NSCharacterSet *cs;
-	
+
 	switch (SEGMENT)
 	{
 		case 0:
@@ -51,9 +51,9 @@
 
 	NSString *filtered = [[string componentsSeparatedByCharactersInSet:cs] componentsJoinedByString:@""];
 	BOOL basicTest = [string isEqualToString:filtered];
-	
+
 	// Add any predicate testing here
-	
+
 	return basicTest;
 }
 
@@ -66,7 +66,7 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.title = @"Keyboard Dismissal";
-	
+
 	// Text field defined in interface builder
 	[(UITextField *)[self.view viewWithTag:101] setDelegate:self];
 
@@ -84,7 +84,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -25,7 +25,7 @@ NSArray *allSubviews(UIView *aView)
 	self.view.frame = [[UIScreen mainScreen] applicationFrame];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation 
+- (BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
 }
@@ -33,7 +33,7 @@ NSArray *allSubviews(UIView *aView)
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 	UIView *template = nil;
-	
+
     switch ([[UIDevice currentDevice] orientation])
     {
         case UIInterfaceOrientationLandscapeLeft:
@@ -51,9 +51,9 @@ NSArray *allSubviews(UIView *aView)
         default:
 			break;
 	}
-	
+
 	if (!template) return;
-	
+
 	for (UIView *eachView in allSubviews(template))
 	{
 		int tag = eachView.tag;

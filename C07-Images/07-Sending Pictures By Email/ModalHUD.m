@@ -15,13 +15,13 @@
 + (BOOL) dismiss
 {
 	UIAlertView *av;
-	
+
 	if (av = (UIAlertView *)[[[UIApplication sharedApplication] keyWindow] viewWithTag:MODAL_HUD_UNIQUE_ID])
 	{
 		[av dismissWithClickedButtonIndex:0 animated:YES];
 		return YES;
 	}
-	
+
 	return NO;
 }
 
@@ -38,17 +38,17 @@
 		va_start(arglist, formatstring);
 		outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 		va_end(arglist);
-		
+
 		outstring = [outstring stringByAppendingString:@"\n\n"];
 	}
-	
+
 	UIAlertView *av = [[[UIAlertView alloc] initWithTitle:aTitle message:outstring delegate:nil cancelButtonTitle:nil otherButtonTitles:nil] autorelease];
 	av.tag = MODAL_HUD_UNIQUE_ID;
 	[av show];
-	
+
 	UIActivityIndicatorView *aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 	aiv.tag = 99;
-	
+
 	// Wait for av to finish displaying
 	while (CGRectEqualToRect(av.bounds, CGRectZero));
 
@@ -57,7 +57,7 @@
 	CGRect bounds = av.bounds;
 	aiv.center = CGPointMake(bounds.size.width / 2.0f, bounds.size.height - dy);
 	[aiv startAnimating];
-	[av addSubview:aiv];	
+	[av addSubview:aiv];
 	[aiv release];
 }
 

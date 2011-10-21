@@ -11,7 +11,7 @@
 - (void) doneTweeting: (NSString *) status;
 @end
 
-@interface TwitPicOperation : NSOperation 
+@interface TwitPicOperation : NSOperation
 {
 	KeychainItemWrapper *wrapper;
 	UIImage *theImage;

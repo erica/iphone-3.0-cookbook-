@@ -36,11 +36,11 @@
 
 - (void) toggle: (id) sender
 {
-	BOOL isIt = [UIDevice currentDevice].proximityMonitoringEnabled;	
+	BOOL isIt = [UIDevice currentDevice].proximityMonitoringEnabled;
 	NSString *title = isIt ? @"Enable" : @"Disable";
 	self.navigationItem.rightBarButtonItem = BARBUTTON(title, @selector(toggle:));
 	[UIDevice currentDevice].proximityMonitoringEnabled = !isIt;
-	
+
 	self.log = [NSMutableString string];
 	[self doLog:@"You have %@ the Proximity sensor.", isIt ? @"disabled" : @"enabled"];
 	if (!isIt) [self doLog:@"View state changes on the debugger consoler as the screen is not readable when blanked."];
@@ -55,7 +55,7 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Enable", @selector(toggle:));
-	
+
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateChange:) name:@"UIDeviceProximityStateDidChangeNotification" object:nil];
 }
 @end
@@ -64,7 +64,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

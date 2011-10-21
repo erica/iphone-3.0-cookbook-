@@ -17,7 +17,7 @@
 @implementation TestBedViewController
 - (void) action: (id) sender
 {
-	
+
 	Car *myCar = [[Car alloc] init];
 	myCar.year = 2001;
 	myCar.make = @"Ford";
@@ -25,11 +25,11 @@
 	NSLog(myCar.carInfo);
 	myCar.colors = [NSArray arrayWithObjects:@"Gray", @"Silver", @"Black", nil];
 	[myCar release];
-	
+
 	/*
 	 LOGGING SAMPLES. Uncomment these to see how the various log functions display data
 	 */
-	
+
 	/*
 	 NSArray *myArray = [NSArray arrayWithObjects:@"One", @"Two", @"Three", nil];
 	 NSLog(@"%@", myArray);
@@ -49,7 +49,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

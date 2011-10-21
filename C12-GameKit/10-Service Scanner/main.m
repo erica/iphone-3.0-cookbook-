@@ -69,7 +69,7 @@
 		const struct sockaddr_in* sin = (struct sockaddr_in*) address;
 		return [NSString stringWithFormat:@"%@:%d", [NSString stringWithUTF8String:inet_ntoa(sin->sin_addr)], ntohs(sin->sin_port)];
 	}
-	
+
 	return nil;
 }
 
@@ -94,7 +94,7 @@
 {
 	NSMutableDictionary *md = [self dictionaryForService:netService];
 	if (!md) return;
-	
+
 	NSArray* addresses = [netService addresses];
 	if ([addresses count] > 0)
 	{
@@ -106,10 +106,10 @@
 			if (!addressString) continue;
 			[naddresses addObject:addressString];
 		}
-		
+
 		[md setObject:naddresses forKey:@"addresses"];
 	}
-	
+
 	[netService release];
 }
 
@@ -122,7 +122,7 @@
 	[md setObject:[dict description] forKey:@"other"];
 }
 
-- (void) netServiceBrowser:(NSNetServiceBrowser *) netServiceBrowser didFindService:(NSNetService *) netService 
+- (void) netServiceBrowser:(NSNetServiceBrowser *) netServiceBrowser didFindService:(NSNetService *) netService
 				moreComing:(BOOL) moreServicesComing
 {
 	if (![netService hostName] && [[netService name] hasPrefix:@"_"])
@@ -139,12 +139,12 @@
 		[self.results addObject:md];
 		[self.tableView reloadData];
 	}
-	
+
 	if (!moreServicesComing)
 	{
 		[self.browser stop];
 		self.title = @"Services";
-		
+
 		if ([self.services count] > 0)
 		{
 			NSString *type = [self.services objectAtIndex:0];
@@ -173,12 +173,12 @@
 	[self.browser searchForServicesOfType:@"_services._dns-sd._udp." inDomain:@""];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return self.results.count;
 }
@@ -187,7 +187,7 @@
 {
 	UITableViewCellStyle style =  UITableViewCellStyleSubtitle;
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:@"BaseCell"];
-	if (!cell) 
+	if (!cell)
 		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
 	NSDictionary *dict = [self.results objectAtIndex:indexPath.row];
 	cell.textLabel.text = [dict objectForKey:@"type"];
@@ -208,7 +208,7 @@
 	return riz;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSDictionary *dict = [self.results objectAtIndex:indexPath.row];
 	NSString *description = [self describeDict:dict];
@@ -228,7 +228,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

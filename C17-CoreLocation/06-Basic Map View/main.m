@@ -39,7 +39,7 @@
 	// Keep track of the best location found
 	if (!self.bestLocation) self.bestLocation = newLocation;
 	else if (newLocation.horizontalAccuracy <  bestLocation.horizontalAccuracy) self.bestLocation = newLocation;
-	
+
 	mapView.region = MKCoordinateRegionMake(self.bestLocation.coordinate, MKCoordinateSpanMake(0.1f, 0.1f));
 	mapView.showsUserLocation = YES;
 	mapView.zoomEnabled = NO;
@@ -52,15 +52,15 @@
 	{
 		// Invalidate the timer
 		[timer invalidate];
-		
+
 		// Stop the location task
 		[self.locManager stopUpdatingLocation];
 		self.locManager.delegate = nil;
-		
+
 		// Restore the find me button
 		self.navigationItem.rightBarButtonItem = BARBUTTON(@"Find Me", @selector(findme));
-		
-		if (!self.bestLocation) 
+
+		if (!self.bestLocation)
 		{
 			// no location found
 			self.title = @"";
@@ -69,7 +69,7 @@
 
 		// Note the accuracy in the title bar
 		self.title = [NSString stringWithFormat:@"%0.1f meters", self.bestLocation.horizontalAccuracy];
-		
+
 		// Update the map and allow user interaction
 		// [mapView setRegion:MKCoordinateRegionMake(self.bestLocation.coordinate, MKCoordinateSpanMake(0.005f, 0.005f)) animated:YES];
 		[mapView setRegion:MKCoordinateRegionMakeWithDistance(self.bestLocation.coordinate, 500.0f, 500.0f) animated:YES];
@@ -86,7 +86,7 @@
 {
 	// disable right button
 	self.navigationItem.rightBarButtonItem = nil;
-	
+
 	// Search for the best location
 	timespent = 0;
 	self.bestLocation = nil;
@@ -105,7 +105,7 @@
 		NSLog(@"User has opted out of location services");
 		return;
 	}
-	else 
+	else
 	{
 		// User generally allows location calls
 		self.locManager.desiredAccuracy = kCLLocationAccuracyBest;
@@ -118,7 +118,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

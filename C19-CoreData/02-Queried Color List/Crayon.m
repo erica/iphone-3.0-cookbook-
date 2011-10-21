@@ -1,4 +1,4 @@
-// 
+//
 //  Crayon.m
 //  HelloWorld
 //
@@ -9,7 +9,7 @@
 #import "Crayon.h"
 
 
-@implementation Crayon 
+@implementation Crayon
 
 @dynamic name;
 @dynamic section;

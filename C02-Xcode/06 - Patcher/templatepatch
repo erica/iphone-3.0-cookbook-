@@ -6,7 +6,7 @@
 #
 
 # Require a replacement id from the user
-if (!(@ARGV)) { die "Please supply a replacement for com.yourcompany\n"; } 
+if (!(@ARGV)) { die "Please supply a replacement for com.yourcompany\n"; }
 print "About to replace com.yourcompany with $ARGV[0]\n";
 
 # Copy original templates folder to desktop

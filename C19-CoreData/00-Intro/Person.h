@@ -10,7 +10,7 @@
 
 @class Department;
 
-@interface Person :  NSManagedObject  
+@interface Person :  NSManagedObject
 {
 }
 

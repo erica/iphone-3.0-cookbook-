@@ -9,10 +9,10 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
     void *          bitmapData;
     int             bitmapByteCount;
     int             bitmapBytesPerRow;
-	
+
     bitmapBytesPerRow   = (pixelsWide * 4);
     bitmapByteCount     = (bitmapBytesPerRow * pixelsHigh);
-	
+
     colorSpace = CGColorSpaceCreateDeviceRGB();
     bitmapData = malloc( bitmapByteCount );
     if (bitmapData == NULL)
@@ -34,7 +34,7 @@ CGContextRef MyCreateBitmapContext (int pixelsWide,
         return NULL;
     }
     CGColorSpaceRelease( colorSpace );
-	
+
     return context;
 }
 
@@ -74,7 +74,7 @@ UIImage *buildImage(int imgsize)
 - (UIImage *) retrieveObjectNamed: (NSString *) someKey
 {
 	UIImage *object = [self.myCache objectForKey:someKey];
-	if (!object) 
+	if (!object)
 	{
 		object = [self loadObjectNamed:someKey];
 		[self.myCache setObject:object forKey:someKey];

@@ -16,11 +16,11 @@
 {
 	self = [super init];
 	if (!self) return nil;
-	
+
 	self.make = nil;
 	self.model = nil;
 	self.year = 1901;
-	
+
 	return self;
 }
 

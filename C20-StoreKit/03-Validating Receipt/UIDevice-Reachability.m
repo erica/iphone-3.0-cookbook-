@@ -18,7 +18,7 @@
 SCNetworkConnectionFlags connectionFlags;
 SCNetworkReachabilityRef reachability;
 
-#pragma mark Class IP and Host Utilities 
+#pragma mark Class IP and Host Utilities
 // This IP Utilities are mostly inspired by or derived from Apple code. Thank you Apple.
 
 + (NSString *) stringFromAddress: (const struct sockaddr *) address
@@ -27,7 +27,7 @@ SCNetworkReachabilityRef reachability;
 		const struct sockaddr_in* sin = (struct sockaddr_in*) address;
 		return [NSString stringWithFormat:@"%@:%d", [NSString stringWithUTF8String:inet_ntoa(sin->sin_addr)], ntohs(sin->sin_port)];
 	}
-	
+
 	return nil;
 }
 
@@ -36,17 +36,17 @@ SCNetworkReachabilityRef reachability;
 	if (!IPAddress || ![IPAddress length]) {
 		return NO;
 	}
-	
+
 	memset((char *) address, sizeof(struct sockaddr_in), 0);
 	address->sin_family = AF_INET;
 	address->sin_len = sizeof(struct sockaddr_in);
-	
+
 	int conversionResult = inet_aton([IPAddress UTF8String], &address->sin_addr);
 	if (conversionResult == 0) {
 		NSAssert1(conversionResult != 1, @"Failed to convert the IP address string into a sockaddr_in: %@", IPAddress);
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -56,7 +56,7 @@ SCNetworkReachabilityRef reachability;
 	int success = gethostname(baseHostName, 255);
 	if (success != 0) return nil;
 	baseHostName[255] = '\0';
-	
+
 #if !TARGET_IPHONE_SIMULATOR
 	return [NSString stringWithFormat:@"%s.local", baseHostName];
 #else
@@ -89,13 +89,13 @@ SCNetworkReachabilityRef reachability;
 	BOOL success;
 	struct ifaddrs * addrs;
 	const struct ifaddrs * cursor;
-	
+
 	success = getifaddrs(&addrs) == 0;
 	if (success) {
 		cursor = addrs;
 		while (cursor != NULL) {
 			// the second test keeps from picking up the loopback address
-			if (cursor->ifa_addr->sa_family == AF_INET && (cursor->ifa_flags & IFF_LOOPBACK) == 0) 
+			if (cursor->ifa_addr->sa_family == AF_INET && (cursor->ifa_flags & IFF_LOOPBACK) == 0)
 			{
 				NSString *name = [NSString stringWithUTF8String:cursor->ifa_name];
 				if ([name isEqualToString:@"en0"])  // Wi-Fi adapter
@@ -118,35 +118,35 @@ SCNetworkReachabilityRef reachability;
 
 + (BOOL) hostAvailable: (NSString *) theHost
 {
-	
+
     NSString *addressString = [self getIPAddressForHost:theHost];
     if (!addressString)
     {
         printf("Error recovering IP address from host name\n");
         return NO;
     }
-	
+
     struct sockaddr_in address;
     BOOL gotAddress = [self addressFromString:addressString address:&address];
-	
+
     if (!gotAddress)
     {
 		printf("Error recovering sockaddr address from %s\n", [addressString UTF8String]);
         return NO;
     }
-	
+
 	SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&address);
     SCNetworkReachabilityFlags flags;
-	
+
 	BOOL didRetrieveFlags =SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
     CFRelease(defaultRouteReachability);
-	
+
     if (!didRetrieveFlags)
     {
         printf("Error. Could not recover network reachability flags\n");
         return NO;
     }
-	
+
     BOOL isReachable = flags & kSCNetworkFlagsReachable;
     return isReachable ? YES : NO;;
 }
@@ -169,11 +169,11 @@ SCNetworkReachabilityRef reachability;
 		 bzero(&zeroAddress, sizeof(zeroAddress));
 		 zeroAddress.sin_len = sizeof(zeroAddress);
 		 zeroAddress.sin_family = AF_INET; */
-		
+
 		reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (struct sockaddr *)&ipAddress);
 		CFRetain(reachability);
 	}
-	
+
 	// Recover reachability flags
 	BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(reachability, &connectionFlags);
 	if (!didRetrieveFlags) printf("Error. Could not recover network reachability flags\n");
@@ -207,7 +207,7 @@ SCNetworkReachabilityRef reachability;
 	va_start(arglist, formatstring);
 	id outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 	va_end(arglist);
-	
+
     UIAlertView *av = [[[UIAlertView alloc] initWithTitle:outstring message:nil delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil] autorelease];
 	[av show];
 }
@@ -232,30 +232,30 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConne
 
 + (BOOL) scheduleReachabilityWatcher: (id) watcher
 {
-	if (![watcher conformsToProtocol:@protocol(ReachabilityWatcher)]) 
+	if (![watcher conformsToProtocol:@protocol(ReachabilityWatcher)])
 	{
 		NSLog(@"Watcher must conform to ReachabilityWatcher protocol. Cannot continue.");
 		return NO;
 	}
-	
+
 	[self pingReachabilityInternal];
 
 	SCNetworkReachabilityContext context = {0, watcher, NULL, NULL, NULL};
-	if(SCNetworkReachabilitySetCallback(reachability, ReachabilityCallback, &context)) 
+	if(SCNetworkReachabilitySetCallback(reachability, ReachabilityCallback, &context))
 	{
-		if(!SCNetworkReachabilityScheduleWithRunLoop(reachability, CFRunLoopGetCurrent(), kCFRunLoopCommonModes)) 
+		if(!SCNetworkReachabilityScheduleWithRunLoop(reachability, CFRunLoopGetCurrent(), kCFRunLoopCommonModes))
 		{
 			NSLog(@"Error: Could not schedule reachability");
 			SCNetworkReachabilitySetCallback(reachability, NULL, NULL);
 			return NO;
 		}
-	} 
-	else 
+	}
+	else
 	{
 		NSLog(@"Error: Could not set reachability callback");
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -266,7 +266,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConne
 		NSLog(@"Unscheduled reachability");
 	else
 		NSLog(@"Error: Could not unschedule reachability");
-	
+
 	CFRelease(reachability);
 	reachability = nil;
 }

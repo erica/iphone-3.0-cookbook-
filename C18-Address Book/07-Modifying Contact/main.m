@@ -23,14 +23,14 @@
 {
 	if (person)
 	{
-		// save the edited contact 
+		// save the edited contact
 		ABContact *contact = [ABContact contactWithRecord:person];
 		self.title = [NSString stringWithFormat:@"Updated %@", contact.compositeName];
 		[ABContactsHelper addContact:contact withError:nil];
 	}
 	else
 		self.title = @"Cancelled";
-	
+
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -40,7 +40,7 @@
 	[self dismissModalViewControllerAnimated:YES];
 	[peoplePicker release];
 	ABContact *contact = [ABContact contactWithRecord:person];
-	
+
 	if (doModify)
 	{
 		// handle the modification request by pre-filling the new person view controller
@@ -50,7 +50,7 @@
 		[self.navigationController pushViewController:npvc animated:YES];
 		return NO;
 	}
-	
+
 	// Otherwise assume this is a delete request
 	if ([ModalAlert ask:@"Really delete %@?", contact.compositeName])
 	{
@@ -104,7 +104,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

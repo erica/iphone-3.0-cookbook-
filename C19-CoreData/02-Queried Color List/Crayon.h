@@ -9,7 +9,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface Crayon :  NSManagedObject  
+@interface Crayon :  NSManagedObject
 {
 }
 

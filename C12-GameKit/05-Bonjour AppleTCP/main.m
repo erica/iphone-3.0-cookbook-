@@ -54,7 +54,7 @@
 	ipc.sourceType = [type isEqualToString:@"Camera"] ? UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary;
 	ipc.delegate = self;
 	ipc.allowsImageEditing = NO;
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 }
 
 - (void) pickImage: (id) sender
@@ -106,7 +106,7 @@
 		[ModalAlert performSelector:@selector(say:) withObject:@"This application requires WiFi. Please enable WiFi in Settings and run this application again." afterDelay:0.5f];
 		return;
 	}
-	
+
 	self.server = [[[TCPServer alloc] initWithPort:0] autorelease];
 	[self.server setDelegate:self];
 	[self.server startUsingRunLoop:[NSRunLoop currentRunLoop]];
@@ -122,7 +122,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

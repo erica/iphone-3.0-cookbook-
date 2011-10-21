@@ -16,21 +16,21 @@
 
 @implementation TableListViewController
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
-	return 999999; // lots 
+	return 999999; // lots
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UITableViewCellStyle style =  UITableViewCellStyleDefault;
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:@"BaseCell"];
-	if (!cell) 
+	if (!cell)
 	{
 		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
 		cell.textLabel.text = [NSString stringWithFormat:@"Cell %d", ++count];
@@ -43,13 +43,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

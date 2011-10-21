@@ -102,14 +102,14 @@
 	meter2.hidden = YES;
 	self.navigationItem.leftBarButtonItem = nil;
 	self.navigationItem.rightBarButtonItem = nil;
-	
+
 	[ModalAlert say:@"File saved to %@", [[self.recorder.url path] lastPathComponent]];
 	self.title = @"Playing back recording...";
-	
+
 	// Start playback
 	AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:self.recorder.url error:nil];
 	player.delegate = self;
-	
+
 	// Change audio session for playback
 	NSError *error;
 	if (![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error])
@@ -146,7 +146,7 @@
 - (BOOL) record
 {
 	NSError *error;
-	
+
 	// Recording settings
 	NSMutableDictionary *settings = [NSMutableDictionary dictionary];
 	[settings setValue: [NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
@@ -155,10 +155,10 @@
 	[settings setValue: [NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
 	[settings setValue: [NSNumber numberWithBool:NO] forKey:AVLinearPCMIsBigEndianKey];
 	[settings setValue: [NSNumber numberWithBool:NO] forKey:AVLinearPCMIsFloatKey];
-	
+
 	// File URL
 	NSURL *url = [NSURL fileURLWithPath:FILEPATH];
-	
+
 	// Create recorder
 	self.recorder = [[AVAudioRecorder alloc] initWithURL:url settings:settings error:&error];
 	if (!self.recorder)
@@ -166,31 +166,31 @@
 		NSLog(@"Error: %@", [error localizedDescription]);
 		return NO;
 	}
-	
+
 	// Initialize degate, metering, etc.
 	self.recorder.delegate = self;
 	self.recorder.meteringEnabled = YES;
 	meter1.progress = 0.0f;
 	meter2.progress = 0.0f;
 	self.title = @"0:00";
-	
+
 	if (![self.recorder prepareToRecord])
 	{
 		NSLog(@"Error: Prepare to record failed");
 		[ModalAlert say:@"Error while preparing recording"];
 		return NO;
 	}
-	
+
 	if (![self.recorder record])
 	{
 		NSLog(@"Error: Record failed");
 		[ModalAlert say:@"Error while attempting to record audio"];
 		return NO;
 	}
-	
+
 	// Set a timer to monitor levels, current time
 	timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(updateMeters) userInfo:nil repeats:YES];
-	
+
 	// Update the navigation bar
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Done", @selector(stopRecording));
 	self.navigationItem.leftBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemPause, self, @selector(pauseRecording));
@@ -203,19 +203,19 @@
 	// Prepare the audio session
 	NSError *error;
 	self.session = [AVAudioSession sharedInstance];
-	
+
 	if (![self.session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error])
 	{
 		NSLog(@"Error: %@", [error localizedDescription]);
 		return NO;
 	}
-	
+
 	if (![self.session setActive:YES error:&error])
 	{
 		NSLog(@"Error: %@", [error localizedDescription]);
 		return NO;
 	}
-	
+
 	return self.session.inputIsAvailable;
 }
 
@@ -223,7 +223,7 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.title = @"Audio Recorder";
-	
+
 	if ([self startAudioSession])
 		self.navigationItem.rightBarButtonItem = BARBUTTON(@"Record", @selector(record));
 	else
@@ -235,7 +235,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

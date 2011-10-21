@@ -12,7 +12,7 @@ NSString *jsonescape(NSString *string)
 	aString = [aString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
 	aString = [aString stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
 	aString = [aString stringByReplacingOccurrencesOfString:@"/" withString:@"\\/"];
-	
+
 	aString = [aString stringByReplacingOccurrencesOfString:@"\b" withString:@""];
 	aString = [aString stringByReplacingOccurrencesOfString:@"\f" withString:@""];
 	aString = [aString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
@@ -27,7 +27,7 @@ NSString *jsonescape(NSString *string)
 + (NSString *) jsonWithArray: (NSArray *) array
 {
 	NSString *results = @"[";
-	
+
 	int i = 1;
 	for (id obj in array)
 	{
@@ -51,11 +51,11 @@ NSString *jsonescape(NSString *string)
 		{
 			results = [results stringByAppendingString:[JSONHelper jsonWithDict:obj]];
 		}
-		
+
 		if (i < [array count]) results = [results stringByAppendingString:@","];
 		i++;
 	}
-	
+
 	results = [results stringByAppendingString:@"]"];
 	return results;
 }
@@ -63,17 +63,17 @@ NSString *jsonescape(NSString *string)
 + (NSString *) jsonWithDict: (NSDictionary *) aDictionary
 {
 	if (!aDictionary) return nil;
-	
+
 	NSString *results = @"{";
-	
+
 	NSArray *keys = [aDictionary allKeys];
 	int i = 1;
-	
+
 	for (NSString *key in keys)
 	{
 		results = [results stringByAppendingFormat:@"\"%@\":", key];
 		id obj = [aDictionary objectForKey:key];
-		
+
 		if ([obj isKindOfClass:[NSString class]])
 		{
 			results = [results stringByAppendingFormat:@"\"%@\"", obj];
@@ -94,11 +94,11 @@ NSString *jsonescape(NSString *string)
 		{
 			results = [results stringByAppendingString:[JSONHelper jsonWithDict:obj]];
 		}
-			
+
 		if (i < [keys count]) results = [results stringByAppendingString:@","];
 		i++;
 	}
-	
+
 	results = [results stringByAppendingString:@"}"];
 	return results;
 }

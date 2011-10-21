@@ -18,7 +18,7 @@ void show(id formatstring,...)
 	va_start(arglist, formatstring);
 	id outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 	va_end(arglist);
-	
+
 	UIAlertView *av = [[[UIAlertView alloc] initWithTitle:@"CACHE DEMO" message:outstring delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
 	[av show];
 }
@@ -40,7 +40,7 @@ void show(id formatstring,...)
 
 - (void) loadImage
 {
-	// This causes a new image to be loaded as each time is unique. When you 
+	// This causes a new image to be loaded as each time is unique. When you
 	// click twice within the same second, the retrieved object will not
 	// be generated the second time because the date is the same.
 	[self.ic retrieveObjectNamed:[[NSDate date] description]];
@@ -75,7 +75,7 @@ void show(id formatstring,...)
 	show(@"Application Did Receive Memory Warning");
 }
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

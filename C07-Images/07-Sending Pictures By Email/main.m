@@ -59,7 +59,7 @@
 	ipc.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
 	ipc.delegate = self;
 	ipc.allowsImageEditing = NO;
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 }
 
 - (void) viewDidLoad
@@ -74,7 +74,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

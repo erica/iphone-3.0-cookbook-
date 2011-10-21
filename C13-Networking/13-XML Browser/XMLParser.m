@@ -16,7 +16,7 @@
 static XMLParser *sharedInstance = nil;
 
 // Use just one parser instance at any time
-+(XMLParser *) sharedInstance 
++(XMLParser *) sharedInstance
 {
     if(!sharedInstance) {
 		sharedInstance = [[self alloc] init];
@@ -28,14 +28,14 @@ static XMLParser *sharedInstance = nil;
 - (TreeNode *) parse: (NSXMLParser *) parser
 {
 	stack = [NSMutableArray array];
-	
+
 	TreeNode *root = [TreeNode treeNode];
 	root.parent = nil;
 	root.leafvalue = nil;
 	root.children = [NSMutableArray array];
-	
+
 	[stack addObject:root];
-	
+
 	[parser setDelegate:self];
 	[parser parse];
     [parser release];
@@ -46,14 +46,14 @@ static XMLParser *sharedInstance = nil;
 	root.parent = nil;
 	root.leafvalue = nil;
 	root.key = nil;
-	
+
 	realroot.parent = nil;
 	return realroot;
 }
 
 
 - (TreeNode *)parseXMLFromURL: (NSURL *) url
-{	
+{
 	TreeNode *results;
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
     NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:url];
@@ -63,7 +63,7 @@ static XMLParser *sharedInstance = nil;
 }
 
 - (TreeNode *)parseXMLFromData: (NSData *) data
-{	
+{
 	TreeNode *results;
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
     NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
@@ -78,15 +78,15 @@ static XMLParser *sharedInstance = nil;
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {
     if (qName) elementName = qName;
-	
+
 	TreeNode *leaf = [TreeNode treeNode];
 	leaf.parent = [stack lastObject];
 	[(NSMutableArray *)[[stack lastObject] children] addObject:leaf];
-	
+
 	leaf.key = [NSString stringWithString:elementName];
 	leaf.leafvalue = nil;
 	leaf.children = [NSMutableArray array];
-	
+
 	[stack addObject:leaf];
 }
 

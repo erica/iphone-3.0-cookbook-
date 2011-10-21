@@ -69,10 +69,10 @@
 {
 	self.view.backgroundColor = [UIColor blackColor];
 	self.navigationController.navigationBar.tintColor = BASE_TINT;
-	
+
 	// Retrieve (or create) the drawing surface
 	[self unarchiveInterface];
-	
+
 	// Set up the color picking segmented controller
 	NSMutableArray *items = [NSMutableArray array];
 	for (UIColor *color in COLOR_ARRAY) [items addObject:[self swatchWithColor:color]];
@@ -84,13 +84,13 @@
 	seg.selectedSegmentIndex = 0;
 	[seg addTarget:self action:@selector(colorChange:) forControlEvents:UIControlEventValueChanged];
 	[self.view addSubview:seg];
-	
-	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Clear", @selector(doClear));	
-	
+
+	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Clear", @selector(doClear));
+
 	[GameKitHelper sharedInstance].dataDelegate = self.view;
 	[GameKitHelper sharedInstance].sessionID = @"Drawing Together";
 	[GameKitHelper assignViewController:self];
-}	
+}
 @end
 
 @interface TestBedAppDelegate : NSObject <UIApplicationDelegate>
@@ -102,7 +102,7 @@
 
 @implementation TestBedAppDelegate
 @synthesize tbvc;
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.tbvc = [[[TestBedViewController alloc] init] autorelease];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.tbvc];

@@ -47,7 +47,7 @@ float dotproduct (CGPoint v1, CGPoint v2)
 	float a = ABS(sqrt(v1.x * v1.x + v1.y * v1.y));
 	float b = ABS(sqrt(v2.x * v2.x + v2.y * v2.y));
 	dot /= (a * b);
-	
+
 	return dot;
 }
 
@@ -58,18 +58,18 @@ float dotproduct (CGPoint v1, CGPoint v2)
 {
 	if (!self.points) return;
 	if (self.points.count < 3) return;
-	
+
 	// Create the filtered array
 	NSMutableArray *newpoints = [NSMutableArray array];
 	[newpoints addObject:[self.points objectAtIndex:0]];
 	CGPoint p1 = POINT(0);
-	
+
 	// Add only those points that are inflections
 	for (int i = 1; i < (self.points.count - 1); i++)
 	{
 		CGPoint p2 = POINT(i);
 		CGPoint p3 = POINT(i+1);
-		
+
 		// Cast vectors around p2 origin
 		CGPoint v1 = CGPointMake(p1.x - p2.x, p1.y - p2.y);
 		CGPoint v2 = CGPointMake(p3.x - p2.x, p3.y - p2.y);
@@ -80,13 +80,13 @@ float dotproduct (CGPoint v1, CGPoint v2)
 		p1 = p2;
 		[newpoints addObject:[self.points objectAtIndex:i]];
 	}
-	
+
 	// Add final point
 	if ([newpoints lastObject] != [self.points lastObject]) [newpoints addObject:[self.points lastObject]];
-	
+
 	// Report initial and final point counts
 	NSLog(@"%@", [NSString stringWithFormat:@"%d points to %d points", self.points.count, newpoints.count]);
-	
+
 	// Update with the filtered points and draw
 	self.points = newpoints;
 	[self setNeedsDisplay];
@@ -97,7 +97,7 @@ float dotproduct (CGPoint v1, CGPoint v2)
 {
 	if (!self.points) return;
 	if (self.points.count < 2) return;
-	
+
 	CGContextRef context = UIGraphicsGetCurrentContext();
 
 	[current set];
@@ -122,7 +122,7 @@ float dotproduct (CGPoint v1, CGPoint v2)
 {
 	switch ([seg selectedSegmentIndex])
 	{
-		case 0: 
+		case 0:
 			current = [UIColor whiteColor];
 			break;
 		case 1:
@@ -148,13 +148,13 @@ float dotproduct (CGPoint v1, CGPoint v2)
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.view.userInteractionEnabled = YES;
 	self.title = @"Linear Drawing";
-	
+
 	TouchView *tv = [[TouchView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 240.0f, 240.0f)];
 	tv.backgroundColor = [UIColor blackColor];
 	tv.center = CGPointMake(160.0f, 140.0f);
 	[self.view addSubview:tv];
 	[tv release];
-	
+
 	UISegmentedControl *seg = [[UISegmentedControl alloc] initWithItems:[@"White Red Green Orange Yellow" componentsSeparatedByString:@" "]];
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
 	seg.selectedSegmentIndex = 0;
@@ -169,7 +169,7 @@ float dotproduct (CGPoint v1, CGPoint v2)
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

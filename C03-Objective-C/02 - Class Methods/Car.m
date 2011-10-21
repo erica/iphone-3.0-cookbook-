@@ -11,11 +11,11 @@
 {
 	self = [super init];
 	if (!self) return nil;
-	
+
 	make = nil;
 	model = nil;
 	year = 1901;
-	
+
 	return self;
 }
 
@@ -30,7 +30,7 @@
 {
 	if (!make) return;
 	if (!model) return;
-	
+
 	printf("Car Info\n");
 	printf("Make: %s\n", [make UTF8String]);
 	printf("Model: %s\n", [model UTF8String]);

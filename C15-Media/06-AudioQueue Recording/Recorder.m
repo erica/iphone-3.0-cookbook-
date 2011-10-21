@@ -12,13 +12,13 @@
 void DeriveBufferSize (AudioQueueRef audioQueue, AudioStreamBasicDescription ASBDescription, Float64 seconds, UInt32 *outBufferSize)
 {
     static const int maxBufferSize = 0x50000; // punting with 50k
-    int maxPacketSize = ASBDescription.mBytesPerPacket; 
-    if (maxPacketSize == 0) 
-	{                           
+    int maxPacketSize = ASBDescription.mBytesPerPacket;
+    if (maxPacketSize == 0)
+	{
         UInt32 maxVBRPacketSize = sizeof(maxPacketSize);
         AudioQueueGetProperty(audioQueue, kAudioConverterPropertyMaximumOutputPacketSize, &maxPacketSize, &maxVBRPacketSize);
     }
-    
+
     Float64 numBytesForTime = ASBDescription.mSampleRate * maxPacketSize * seconds;
     *outBufferSize =  (UInt32)((numBytesForTime < maxBufferSize) ? numBytesForTime : maxBufferSize);
 }
@@ -28,13 +28,13 @@ static void HandleInputBuffer (void *aqData, AudioQueueRef inAQ, AudioQueueBuffe
 							   UInt32 inNumPackets, const AudioStreamPacketDescription *inPacketDesc)
 {
     RecordState *pAqData = (RecordState *) aqData;
-    
+
     if (inNumPackets == 0 && pAqData->dataFormat.mBytesPerPacket != 0)
         inNumPackets = inBuffer->mAudioDataByteSize / pAqData->dataFormat.mBytesPerPacket;
-    
-    if (AudioFileWritePackets(pAqData->audioFile, NO, inBuffer->mAudioDataByteSize, inPacketDesc, pAqData->currentPacket, &inNumPackets, inBuffer->mAudioData) == noErr) 
+
+    if (AudioFileWritePackets(pAqData->audioFile, NO, inBuffer->mAudioDataByteSize, inPacketDesc, pAqData->currentPacket, &inNumPackets, inBuffer->mAudioData) == noErr)
     {
-        pAqData->currentPacket += inNumPackets;   
+        pAqData->currentPacket += inNumPackets;
         if (pAqData->recording == 0) return;
         AudioQueueEnqueueBuffer (pAqData->queue, inBuffer, 0, NULL);
     }
@@ -45,7 +45,7 @@ static void HandleInputBuffer (void *aqData, AudioQueueRef inAQ, AudioQueueBuffe
 // Initialize the recorder
 - (id) init
 {
-    if (self = [super init]) recordState.recording = NO;    
+    if (self = [super init]) recordState.recording = NO;
     return self;
 }
 
@@ -54,13 +54,13 @@ static void HandleInputBuffer (void *aqData, AudioQueueRef inAQ, AudioQueueBuffe
 {
     format->mSampleRate = SAMPLES_PER_SECOND;
     format->mFormatID = kAudioFormatLinearPCM;
-    format->mFormatFlags = kLinearPCMFormatFlagIsBigEndian |  kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked; 
+    format->mFormatFlags = kLinearPCMFormatFlagIsBigEndian |  kLinearPCMFormatFlagIsSignedInteger | kLinearPCMFormatFlagIsPacked;
     format->mChannelsPerFrame = 1; // mono
-    format->mBitsPerChannel = 16; 
+    format->mBitsPerChannel = 16;
     format->mFramesPerPacket = 1;
-    format->mBytesPerPacket = 2; 
+    format->mBytesPerPacket = 2;
     format->mBytesPerFrame = 2;
-    format->mReserved = 0; 
+    format->mReserved = 0;
 }
 
 // Begin recording
@@ -70,20 +70,20 @@ static void HandleInputBuffer (void *aqData, AudioQueueRef inAQ, AudioQueueBuffe
     [self setupAudioFormat:&recordState.dataFormat];
     CFURLRef fileURL =  CFURLCreateFromFileSystemRepresentation(NULL, (const UInt8 *) [filePath UTF8String], [filePath length], NO);
     // recordState.currentPacket = 0;
-    
+
 	// new input queue
     OSStatus status;
     status = AudioQueueNewInput(&recordState.dataFormat, HandleInputBuffer, &recordState, CFRunLoopGetCurrent(),kCFRunLoopCommonModes, 0, &recordState.queue);
     if (status) {CFRelease(fileURL); printf("Could not establish new queue\n"); return NO;}
-  
+
 	// create new audio file
     status = AudioFileCreateWithURL(fileURL, kAudioFileAIFFType, &recordState.dataFormat, kAudioFileFlags_EraseFile, &recordState.audioFile);
 	CFRelease(fileURL); // thanks august joki
     if (status) {printf("Could not create file to record audio\n"); return NO;}
-    
+
 	// figure out the buffer size
     DeriveBufferSize(recordState.queue, recordState.dataFormat, 0.5, &recordState.bufferByteSize);
-	
+
 	// allocate those buffers and enqueue them
     for(int i = 0; i < NUM_BUFFERS; i++)
     {
@@ -93,12 +93,12 @@ static void HandleInputBuffer (void *aqData, AudioQueueRef inAQ, AudioQueueBuffe
         status = AudioQueueEnqueueBuffer(recordState.queue, recordState.buffers[i], 0, NULL);
         if (status) {printf("Error enqueuing buffer %d\n", i); return NO;}
     }
-	
+
 	// enable metering
     UInt32 enableMetering = YES;
     status = AudioQueueSetProperty(recordState.queue, kAudioQueueProperty_EnableLevelMetering, &enableMetering,sizeof(enableMetering));
     if (status) {printf("Could not enable metering\n"); return NO;}
-    
+
 	// start recording
     status = AudioQueueStart(recordState.queue, NULL);
     if (status) {printf("Could not start Audio Queue\n"); return NO;}
@@ -133,10 +133,10 @@ static void HandleInputBuffer (void *aqData, AudioQueueRef inAQ, AudioQueueBuffe
     AudioQueueFlush(recordState.queue);
     AudioQueueStop(recordState.queue, NO);
     recordState.recording = NO;
-    
+
     for(int i = 0; i < NUM_BUFFERS; i++)
 		AudioQueueFreeBuffer(recordState.queue, recordState.buffers[i]);
- 
+
     AudioQueueDispose(recordState.queue, YES);
     AudioFileClose(recordState.audioFile);
 }

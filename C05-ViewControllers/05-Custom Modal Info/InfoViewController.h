@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface InfoViewController : UIViewController 
+@interface InfoViewController : UIViewController
 - (IBAction) doneReading;
 @end

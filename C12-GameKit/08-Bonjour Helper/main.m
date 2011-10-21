@@ -43,10 +43,10 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Clear", @selector(clear));
 	self.title = @"Let's chat";
-	[sendView becomeFirstResponder];		
+	[sendView becomeFirstResponder];
 
 	if (![BonjourHelper performWiFiCheck]) return;
-	
+
 	[BonjourHelper sharedInstance].sessionID = @"TypingTogether";
 	[BonjourHelper sharedInstance].dataDelegate = self;
 	[BonjourHelper assignViewController:self];
@@ -57,7 +57,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -13,7 +13,7 @@
 	// Move in by the inset amount and then by size of the subview
 	CGRect innerRect = UIEdgeInsetsInsetRect([aView bounds], insets);
 	CGRect subRect = CGRectInset(innerRect, self.frame.size.width / 2.0f, self.frame.size.height / 2.0f);
-	
+
 	// Return a random point
 	float rx = (float)(random() % (int)floor(subRect.size.width));
 	float ry = (float)(random() % (int)floor(subRect.size.height));

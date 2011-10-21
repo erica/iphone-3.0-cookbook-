@@ -29,11 +29,11 @@
 {
 	// hide the button
 	self.navigationItem.rightBarButtonItem = nil;
-	
+
 	[UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:1.0];
-	
+
 	UIView *whiteBackdrop = [self.view viewWithTag:100];
 
 	// Choose left or right flip
@@ -54,14 +54,14 @@
 - (void) updateButterfly: (NSTimer *) timer
 {
 	UIView *butterfly = [self.view viewWithTag:300];
-	
+
 	[UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.5f];
-	
+
 	butterfly.center = [butterfly randomCenterInView:self.view withInset:10.0f];
-	
-	[UIView commitAnimations];	
+
+	[UIView commitAnimations];
 }
 
 - (void) viewDidLoad
@@ -74,14 +74,14 @@
 	seg.selectedSegmentIndex = 0;
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
 	self.navigationItem.titleView = seg;
-	
+
 	srandom(time(0));
-	
+
 	// Load butterfly images
 	NSMutableArray *bflies = [NSMutableArray array];
 	for (int i = 1; i <= 17; i++)
 		[bflies addObject:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"bf_%d", i] ofType:@"png"]]];
-	
+
 	UIImageView *butterflyView = [[UIImageView alloc] initWithFrame:CGRectMake(40.0f, 300.0f, 60.0f, 60.0f)];
 	butterflyView.tag = 300;
 	butterflyView.animationImages = bflies;
@@ -89,7 +89,7 @@
 	[self.view addSubview:butterflyView];
 	[butterflyView startAnimating];
 	[butterflyView release];
-	
+
 	// start timer
 	[NSTimer scheduledTimerWithTimeInterval:3.0f target:self selector:@selector(updateButterfly:) userInfo:nil repeats:YES];
 
@@ -100,7 +100,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

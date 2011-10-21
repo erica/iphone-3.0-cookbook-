@@ -29,19 +29,19 @@
 
 // Does the point hit the view?
 // Detect whether the touch "hits" the view
-- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event 
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
 	CGPoint pt;
 	float HALFSIDE = SIDELENGTH / 2.0f;
-	
+
 	// normalize with centered origin
 	pt.x = (point.x - HALFSIDE) / HALFSIDE;
 	pt.y = (point.y - HALFSIDE) / HALFSIDE;
-	
+
 	// x^2 + y^2 = radius
 	float xsquared = pt.x * pt.x;
 	float ysquared = pt.y * pt.y;
-	
+
 	// If the radius < 1, the point is within the clipped circle
 	if ((xsquared + ysquared) < 1.0) return YES;
 	return NO;
@@ -82,7 +82,7 @@
 @end
 
 @implementation TestBedViewController
-CGPoint randomPoint() 
+CGPoint randomPoint()
 {
 	int half = 32; // half of flower size
 	int freesize = 240 - 2 * half; // inner area
@@ -95,20 +95,20 @@ CGPoint randomPoint()
 
 	UIGraphicsBeginImageContext(CGSizeMake(SIDELENGTH, SIDELENGTH));
 	CGContextRef context = UIGraphicsGetCurrentContext();
-	
+
 	// Create a filled ellipse
 	[color setFill];
 	CGRect rect = CGRectMake(0.0f, 0.0f, SIDELENGTH, SIDELENGTH);
 	CGContextAddEllipseInRect(context, rect);
 	CGContextFillPath(context);
-	
+
 	// Outline the circle a couple of times
 	CGContextSetStrokeColorWithColor(context, [[UIColor whiteColor] CGColor]);
 	CGContextAddEllipseInRect(context, CGRectInset(rect, INSET_AMT, INSET_AMT));
 	CGContextStrokePath(context);
 	CGContextAddEllipseInRect(context, CGRectInset(rect, 2*INSET_AMT, 2*INSET_AMT));
 	CGContextStrokePath(context);
-	
+
 	UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	return theImage;
@@ -118,13 +118,13 @@ CGPoint randomPoint()
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	srandom(time(0));
-	
+
 	// Add backdrop which will bound the movement for the flowers
 	UIView *backdrop = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 282.0f)];
 	backdrop.backgroundColor = [UIColor blackColor];
 	backdrop.center = CGPointMake(160.0f, 140.0f);
-	
-	// Add the flowers to random points on the screen	
+
+	// Add the flowers to random points on the screen
 	for (int i = 0; i < MAXOBJECTS; i++)
 	{
 		DragView *dragger = [[DragView alloc] initWithImage:[self createImage]];
@@ -133,7 +133,7 @@ CGPoint randomPoint()
 
 		// Uncomment to see the actual view bounds
 		// dragger.backgroundColor = [UIColor lightGrayColor];
-		
+
 		[backdrop addSubview:dragger];
 		[dragger release];
 	}
@@ -147,7 +147,7 @@ CGPoint randomPoint()
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

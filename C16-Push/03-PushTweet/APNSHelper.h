@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface APNSHelper : NSObject 
+@interface APNSHelper : NSObject
 {
 	NSString *deviceTokenID;
 	NSData *certificateData;

@@ -59,7 +59,7 @@
 @implementation TestBedViewController
 #define MAXFLOWERS 12
 
-CGPoint randomPoint() 
+CGPoint randomPoint()
 {
 	int half = 32; // half of flower size
 	int freesize = 240 - 2 * half; // inner area
@@ -70,13 +70,13 @@ CGPoint randomPoint()
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	srandom(time(0));
-	
+
 	// Add backdrop which will bound the movement for the flowers
 	UIView *backdrop = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 282.0f)];
 	backdrop.backgroundColor = [UIColor blackColor];
 	backdrop.center = CGPointMake(160.0f, 140.0f);
-	
-	// Add the flowers to random points on the screen	
+
+	// Add the flowers to random points on the screen
 	for (int i = 0; i < MAXFLOWERS; i++)
 	{
 		NSString *whichFlower = [[NSArray arrayWithObjects:@"blueFlower.png", @"pinkFlower.png", @"orangeFlower.png", nil] objectAtIndex:(random() % 3)];
@@ -96,7 +96,7 @@ CGPoint randomPoint()
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

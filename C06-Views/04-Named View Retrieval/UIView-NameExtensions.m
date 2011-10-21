@@ -73,13 +73,13 @@ static ViewIndexer *sharedInstance = nil;
 - (BOOL) unregisterName: (NSString *) aName forView: (UIView *) aView
 {
 	NSNumber *tag = [self.tagdict objectForKey:aName];
-	
+
 	// tag not found
 	if (!tag) return NO;
-	
+
 	// tag does not match registered name
 	if (aView.tag != [tag intValue]) return NO;
-	
+
 	aView.tag = 0;
 	[self.tagdict removeObjectForKey:aName];
 	return YES;
@@ -91,11 +91,11 @@ static ViewIndexer *sharedInstance = nil;
 {
 	// You cannot re-register an existing name
 	if ([[ViewIndexer sharedInstance] nameExists:aName]) return 0;
-	
+
 	// Check to see if the view is named already. If so, unregister.
 	NSString *currentName = [self nameForTag:aView.tag];
 	if (currentName) [self unregisterName:currentName forView:aView];
-	
+
 	// Register the existing tag or pull a new tag if aView.tag is 0
 	if (!aView.tag) aView.tag = [[ViewIndexer sharedInstance] pullNumber];
 	[self.tagdict setObject:[NSNumber numberWithInt:aView.tag] forKey:aName];

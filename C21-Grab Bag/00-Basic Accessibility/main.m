@@ -24,7 +24,7 @@
 	NSString *uname = textField.text;
 	if (uname && uname.length > 1)
 		callbutton.accessibilityHint = [NSString stringWithFormat:@"Places a call to %@", uname];
-	else 
+	else
 		callbutton.accessibilityHint = @"Places a call to the person named in the text field.";
 	return YES;
 }
@@ -44,7 +44,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

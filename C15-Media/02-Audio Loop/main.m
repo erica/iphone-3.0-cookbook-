@@ -23,11 +23,11 @@
 
 - (BOOL) prepAudio
 {
-	// Check for the file. "Drumskul" was released as a public domain audio loop on archive.org as part of "loops2try2". 
+	// Check for the file. "Drumskul" was released as a public domain audio loop on archive.org as part of "loops2try2".
 	NSError *error;
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"loop" ofType:@"mp3"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:path]) return NO;
-	
+
 	// Initialize the player
 	self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
 	if (!self.player)
@@ -35,7 +35,7 @@
 		NSLog(@"Error: %@", [error localizedDescription]);
 		return NO;
 	}
-	
+
 	// Prepare the player and set the loops to, basically, unlimited
 	[self.player prepareToPlay];
 	[self.player setNumberOfLoops:999999];
@@ -48,14 +48,14 @@
 	// Start playing at no-volume
 	self.player.volume = 0.0f;
 	[self.player play];
-	
+
 	// fade in the audio over a second
 	for (int i = 1; i <= 10; i++)
 	{
 		self.player.volume = i / 10.0f;
 		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
 	}
-	
+
 	// Add the push button
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Push", @selector(push));
 }
@@ -68,7 +68,7 @@
 		self.player.volume = i / 10.0f;
 		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1f]];
 	}
-	
+
 	[self.player pause];
 }
 
@@ -78,7 +78,7 @@
 	UIViewController *vc = [[UIViewController alloc] init];
 	vc.view.backgroundColor = [UIColor whiteColor];
 	vc.title = @"No Sounds";
-	
+
 	// Disable the now-pressed right-button
 	self.navigationItem.rightBarButtonItem = nil;
 
@@ -100,7 +100,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

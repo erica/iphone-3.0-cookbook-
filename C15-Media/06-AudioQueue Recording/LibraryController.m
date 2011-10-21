@@ -21,7 +21,7 @@
 - (id) init
 {
 	if (!(self = [super init])) return nil;
-	
+
 	self.title = @"Library";
 	[self loadFileList];
 	return self;
@@ -30,7 +30,7 @@
 - (void) viewWillDisappear:(BOOL) animated
 {
 	// Pause playback before leaving this view
-	if (player) 
+	if (player)
 	{
 		[player stop];
 		player = nil;
@@ -42,13 +42,13 @@
 {
 	// Update the table to display any new items
 	[self.tableView reloadData];
-	if ([self.tableView indexPathForSelectedRow]) 
+	if ([self.tableView indexPathForSelectedRow])
 		[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 // utility
 - (void) deselect
-{	
+{
 	[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
@@ -59,17 +59,17 @@
 }
 
 // Respond to user selection by playing the audio
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)newIndexPath // fromIndexPath:(NSIndexPath *)oldIndexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)newIndexPath // fromIndexPath:(NSIndexPath *)oldIndexPath
 {
 	NSString *path = [DOCUMENTS_FOLDER stringByAppendingPathComponent:[self.fileList objectAtIndex:[newIndexPath row]]];
-	
+
 	// Finish any previous playback
-	if (player) 
+	if (player)
 	{
 		[player pause];
 		[player release];
 	}
-	
+
 	player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:nil];
 	player.delegate = self;
 	[player play];
@@ -91,7 +91,7 @@
 }
 
 // Delete the selected file
-- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSString *path = [DOCUMENTS_FOLDER stringByAppendingPathComponent:[self.fileList objectAtIndex:[indexPath row]]];
 	[[NSFileManager defaultManager] removeItemAtPath:path error:nil];
@@ -100,12 +100,12 @@
 }
 
 // Data Source Methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	return self.fileList.count;
 }

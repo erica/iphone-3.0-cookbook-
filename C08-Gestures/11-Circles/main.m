@@ -30,7 +30,7 @@ float dotproduct (CGPoint v1, CGPoint v2)
 	float a = ABS(sqrt(v1.x * v1.x + v1.y * v1.y));
 	float b = ABS(sqrt(v2.x * v2.x + v2.y * v2.y));
 	dot /= (a * b);
-	
+
 	return dot;
 }
 
@@ -39,7 +39,7 @@ float distance (CGPoint p1, CGPoint p2)
 {
 	float dx = p2.x - p1.x;
 	float dy = p2.y - p1.y;
-	
+
 	return sqrt(dx*dx + dy*dy);
 }
 
@@ -53,16 +53,16 @@ float distance (CGPoint p1, CGPoint p2)
 		x += [pt CGPointValue].x;
 		y += [pt CGPointValue].y;
 	}
-	
+
 	// Calculate weighted center
 	x /= self.points.count;
 	y /= self.points.count;
-	
+
 	float minx = 9999.0f;
 	float maxx = -9999.0f;
 	float miny = 9999.0f;
 	float maxy = -9999.0f;
-	
+
 	for (NSValue *pt in self.points)
 	{
 		minx = MIN(minx, [pt CGPointValue].x);
@@ -70,7 +70,7 @@ float distance (CGPoint p1, CGPoint p2)
 		maxx = MAX(maxx, [pt CGPointValue].x);
 		maxy = MAX(maxy, [pt CGPointValue].y);
 	}
-	
+
 	return CGRectMake(minx, miny, (maxx - minx), (maxy - miny));
 }
 
@@ -113,7 +113,7 @@ CGPoint centerPoint(CGPoint pt, CGPoint origin)
 	for (int i = 1; i < (self.points.count - 1); i++)
 		distance += ABS(acos(dotproduct(centerPoint(POINT(i), center), centerPoint(POINT(i+1), center))));
 	if ((ABS(distance - 2 * M_PI) < (M_PI / 4.0f))) circle = tcircle;
-	
+
 	[self setNeedsDisplay];
 }
 
@@ -126,7 +126,7 @@ CGPoint centerPoint(CGPoint pt, CGPoint origin)
 	[[UIColor redColor] set];
 	CGContextAddEllipseInRect(context, circle);
 	CGContextStrokePath(context);
-	
+
 	// draw center
 	CGPoint center = CGPointMake(CGRectGetMidX(circle), CGRectGetMidY(circle));
 	CGRect crect = CGRectMake(center.x - 2.0f, center.y - 2.0f, 4.0f, 4.0f);
@@ -173,7 +173,7 @@ CGPoint centerPoint(CGPoint pt, CGPoint origin)
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

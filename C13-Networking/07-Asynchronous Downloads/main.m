@@ -61,7 +61,7 @@
 {
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Get Data", @selector(action:));
 	if ([[NSFileManager defaultManager] fileExistsAtPath:DEST_PATH])
-		self.navigationItem.leftBarButtonItem = BARBUTTON(@"Play", @selector(startPlayback:));	
+		self.navigationItem.leftBarButtonItem = BARBUTTON(@"Play", @selector(startPlayback:));
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	[(UISegmentedControl *)self.navigationItem.titleView setEnabled:YES];
 	[progress setHidden:YES];
@@ -98,7 +98,7 @@
 {
 	self.log = [NSMutableString string];
 	[self doLog:@"Starting Download..."];
-	
+
 	// Retrieve the URL string
 	int which = [(UISegmentedControl *)self.navigationItem.titleView selectedSegmentIndex];
 	NSArray *urlArray = [NSArray arrayWithObjects: SMALL_URL, BIG_URL, FAKE_URL, nil];
@@ -119,12 +119,12 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Get Data", @selector(action:));
-	
+
 	// Allow user to pick short or long data
 	UISegmentedControl *seg = [[[UISegmentedControl alloc] initWithItems:[@"Short Long Wrong" componentsSeparatedByString:@" "]] autorelease];
 	seg.selectedSegmentIndex = 0;
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
-	self.navigationItem.titleView = seg;	
+	self.navigationItem.titleView = seg;
 }
 @end
 
@@ -132,7 +132,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

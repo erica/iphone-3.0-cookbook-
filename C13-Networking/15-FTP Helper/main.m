@@ -78,7 +78,7 @@
 {
 	textView.font = [UIFont systemFontOfSize:16.0f];
 	self.log = [NSMutableString string];
-	
+
 	// There are probably better ways to get the file size
 	NSData *data = [NSData dataWithContentsOfFile:[FTPHelper sharedInstance].filePath];
 	[self doLog:@"Downloaded %d bytes\n", data.length];
@@ -115,10 +115,10 @@
 
 	// Listing
 	[FTPHelper list:BASE_URL];
-	
+
 	// Download
 	// [FTPHelper download: FILE_TO_MOVE];
-	
+
 	// Upload
 	// [FTPHelper upload:FILE_TO_MOVE];
 }
@@ -134,7 +134,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

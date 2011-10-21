@@ -17,7 +17,7 @@
 - (NSString *) createindex
 {
 	NSMutableString *outdata = [NSMutableString string];
-	
+
 	[outdata appendString:@"<html>"];
 	[outdata appendFormat:@"<head><title>%@</title>\n", cwd];
 	[outdata appendString:@"<meta name=\"viewport\" content=\"width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;\"/>"];
@@ -26,17 +26,17 @@
 	[outdata appendString:@"window.onload = function() { setTimeout(function() {window.scrollTo(0,1);), 100); }"];
 	[outdata appendString:@"</script>"];
 	[outdata appendString:@"</head><body>"];
-	
+
 	[outdata appendFormat:@"<div class=\"toolbar\">	<h1 id=\"pageTitle\">%@</h1>	<a id=\"backButton\" class=\"button\" href=\"#\"></a>    </div>", [cwd lastPathComponent]];
 	[outdata appendString:@"<ul id=\"home\" title=\"Files\" selected=\"true\">"];
-	
+
 	if (![self.cwd isEqualToString:@"/"])
 	{
 		NSString *nwd = [self.cwd stringByDeletingLastPathComponent];
 		if (![nwd isEqualToString:@"/"])
 			[outdata appendFormat:@"<li><a href=\"%@/\">Parent Directory/</a></li>\n", nwd];
 	}
-	
+
 	// Read in the files
 	NSString *wd = self.cwd;
 	for (NSString *fname in [[NSFileManager defaultManager] directoryContentsAtPath:wd])
@@ -44,7 +44,7 @@
 		BOOL isDir;
 		NSString *cpath = [wd stringByAppendingPathComponent:fname];
 		[[NSFileManager defaultManager] fileExistsAtPath:cpath isDirectory:&isDir];
-		[outdata appendFormat:@"<li><a href=\"%@%@\">%@%@</a></li>\n", 
+		[outdata appendFormat:@"<li><a href=\"%@%@\">%@%@</a></li>\n",
 		 cpath, isDir ? @"/" : @"", fname, isDir ? @"/" : @""];
 	}
 	[outdata appendString:@"</ul>"];
@@ -56,7 +56,7 @@
 {
 	NSString *outcontent = [NSString stringWithFormat:@"HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n"];
 	write (fd, [outcontent UTF8String], [outcontent length]);
-	
+
 	NSMutableString *outdata = [NSMutableString string];
 	[outdata appendString:@"<html>"];
 	[outdata appendString:@"<head><title>Error</title>\n"];
@@ -74,10 +74,10 @@
 {
 	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
 	static char buffer[BUFSIZE+1];
-	
-	int len = read(fd, buffer, BUFSIZE); 	
+
+	int len = read(fd, buffer, BUFSIZE);
 	buffer[len] = '\0';
-	
+
 	NSString *request = [NSString stringWithCString:buffer encoding:NSUTF8StringEncoding];
 	NSArray *reqs = [request componentsSeparatedByString:@"\n"];
 	NSString *getreq = [[reqs objectAtIndex:0] substringFromIndex:4];
@@ -88,44 +88,44 @@
 		close(fd);
 		return;
 	}
-	
+
 	NSString *filereq = [[getreq substringToIndex:range.location] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-	
-	if ([filereq isEqualToString:@"/"]) 
+
+	if ([filereq isEqualToString:@"/"])
 	{
 		self.cwd = filereq;
 		NSString *outcontent = [NSString stringWithFormat:@"HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n"];
 		write(fd, [outcontent UTF8String], [outcontent length]);
-		
+
 		NSString *outdata = [self createindex];
 		write(fd, [outdata UTF8String], [outdata length]);
 		close(fd);
 		return;
 	}
-	
+
 	filereq = [filereq stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	
+
 	// Primary index.html
-	if ([filereq hasSuffix:@"/"]) 
+	if ([filereq hasSuffix:@"/"])
 	{
 		self.cwd = filereq;
-		
+
 		if (![[NSFileManager defaultManager] fileExistsAtPath:filereq])
 		{
 			printf("Error: folder not found.\n");
 			[self produceError:@"Requested folder was not found." forFD:fd];
 			return;
 		}
-		
+
 		NSString *outcontent = [NSString stringWithFormat:@"HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n"];
 		write(fd, [outcontent UTF8String], [outcontent length]);
-		
+
 		NSString *outdata = [self createindex];
 		write(fd, [outdata UTF8String], [outdata length]);
 		close(fd);
 		return;
 	}
-	
+
 	NSString *mime = [MIMEHelper mimeForExt:[filereq pathExtension]];
 	if (!mime)
 	{
@@ -133,7 +133,7 @@
 		[self produceError:@"Sorry. This file type is not supported." forFD:fd];
 		return;
 	}
-	
+
 	// Output the file
 	NSString *outcontent = [NSString stringWithFormat:@"HTTP/1.0 200 OK\r\nContent-Type: %@\r\n\r\n", mime];
 	write (fd, [outcontent UTF8String], [outcontent length]);
@@ -147,7 +147,7 @@
 	printf("Writing %d bytes from file\n", [data length]);
 	write(fd, [data bytes], [data length]);
 	close(fd);
-	
+
 	[pool release];
-}	
+}
 @end

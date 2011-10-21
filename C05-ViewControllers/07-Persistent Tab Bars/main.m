@@ -21,7 +21,7 @@
 	CGFloat gray[4] = {tint, tint, tint, 1.0f};
 	CGContextSetFillColor(context, gray);
 	CGContextFillPath(context);
-	
+
 	CGImageRef myRef = CGBitmapContextCreateImage (context);
 	free(CGBitmapContextGetData(context));
 	CGContextRelease(context);
@@ -67,10 +67,10 @@
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	NSMutableArray *controllers = [NSMutableArray array];
 	NSArray *titles = [[NSUserDefaults standardUserDefaults] objectForKey:@"tabOrder"];
-	
+
 	if (titles)
 	{
 		// titles retrieved from user defaults
@@ -80,33 +80,33 @@
 			UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:bControl];
 			nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 			[bControl release];
-			
+
 			[controllers addObject:nav];
 			[nav release];
 		}
 	} else {
 		// generate all new controllers
-		for (int i = 0; i <= 10; i++) 
+		for (int i = 0; i <= 10; i++)
 		{
 			BrightnessController *bControl = [[BrightnessController alloc] initWithBrightness:i];
 			UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:bControl];
 			nav.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 			[bControl release];
-			
+
 			[controllers addObject:nav];
 			[nav release];
 		}
-	}		
+	}
 	// Create the toolbar and add the view controllers
 	UITabBarController *tbarController = [[UITabBarController alloc] init];
 	tbarController.viewControllers = controllers;
 	tbarController.customizableViewControllers = controllers;
 	tbarController.delegate = self;
-	
+
 	NSNumber *tabNumber = [[NSUserDefaults standardUserDefaults] objectForKey:@"selectedTab"];
 	if (tabNumber)
 		tbarController.selectedIndex = [tabNumber intValue];
-	
+
 	// Set up the window
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:tbarController.view];

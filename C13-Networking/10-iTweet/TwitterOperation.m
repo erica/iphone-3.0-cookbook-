@@ -40,19 +40,19 @@
 	NSString *unpw = ENCODE(unpwraw);
 	NSString *theTweet = ENCODE(theText);
 	NSString *body = [NSString stringWithFormat:@"source=iTweet&status=%@", theTweet];
-	
+
 	// Establish the Twitter API request
 	NSString *baseurl = [NSString stringWithFormat:@"http://%@@twitter.com/statuses/update.xml", unpw];
 	NSURL *url = [NSURL URLWithString:baseurl];
 	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
-	
+
 	if (!urlRequest) NOTIFY_AND_LEAVE(@"Error creating the URL Request");
 
 	[urlRequest setHTTPMethod: @"POST"];
 	[urlRequest setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
 	[urlRequest setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
 	[urlRequest setValue:@"iTweet" forHTTPHeaderField:@"X-Twitter-Client"];
-	
+
 	NSLog(@"Contacting Twitter. This can take a minute or so...");
 
 	NSError *error;
@@ -60,7 +60,7 @@
 	NSData *tw_result = [NSURLConnection sendSynchronousRequest:urlRequest returningResponse:&response error:&error];
 	NSString *tw_output = [NSString stringWithFormat:@"Submission error: %@", [error localizedDescription]];
 	if (!tw_result) NOTIFY_AND_LEAVE(tw_output);
-	
+
 	[self cleanup:[[[NSString alloc] initWithData:tw_result encoding:NSUTF8StringEncoding] autorelease]];
 }
 @end

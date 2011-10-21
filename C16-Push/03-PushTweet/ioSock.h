@@ -1,16 +1,16 @@
 /*
  File:    ioSock.h
- 
+
  Contains:  SecureTransport sample I/O module, X sockets version
- 
+
  Copyright:   © Copyright 2002 Apple Computer, Inc. All rights reserved.
- 
+
  Disclaimer:  IMPORTANT:  This Apple software is supplied to you by Apple Computer, Inc.
  ("Apple") in consideration of your agreement to the following terms, and your
  use, installation, modification or redistribution of this Apple software
  constitutes acceptance of these terms.  If you do not agree with these terms,
  please do not use, install, modify or redistribute this Apple software.
- 
+
  In consideration of your agreement to abide by the following terms, and subject
  to these terms, Apple grants you a personal, non-exclusive license, under Apple's
  copyrights in this original Apple software (the "Apple Software"), to use,
@@ -25,13 +25,13 @@
  are granted by Apple herein, including but not limited to any patent rights that
  may be infringed by your derivative works or by other works in which the Apple
  Software may be incorporated.
- 
+
  The Apple Software is provided by Apple on an "AS IS" basis.  APPLE MAKES NO
  WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION THE IMPLIED
  WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
  PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND OPERATION ALONE OR IN
  COMBINATION WITH YOUR PRODUCTS.
- 
+
  IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL OR
  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
@@ -39,10 +39,10 @@
  OF THE APPLE SOFTWARE, HOWEVER CAUSED AND WHETHER UNDER THEORY OF CONTRACT, TORT
  (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN
  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- 
+
  Change History (most recent first):
  11/4/02    1.0d1
- 
+
  */
 
 #ifndef	_IO_SOCK_H_
@@ -55,73 +55,73 @@
 #ifdef	__cplusplus
 extern "C" {
 #endif
-	
+
 	/*
 	 * Opaque reference to an Open Transport connection.
 	 */
 	typedef void *otSocket;
-	
+
 	/*
-	 * info about a peer returned from MakeServerConnection() and 
+	 * info about a peer returned from MakeServerConnection() and
 	 * AcceptClientConnection().
 	 */
 	typedef struct
 		{   UInt32      ipAddr;
 			int         port;
 		} PeerSpec;
-	
+
 	/*
 	 * Ont-time only init.
 	 */
 	void initSslOt();
-	
+
 	/*
-	 * Connect to server. 
+	 * Connect to server.
 	 */
 	extern OSStatus MakeServerConnection(
-										 const char *hostName, 
-										 int port, 
+										 const char *hostName,
+										 int port,
 										 otSocket *socketNo, 	// RETURNED
 										 PeerSpec *peer);		// RETURNED
-	
+
 	/*
 	 * Set up an otSocket to listen for client connections. Call once, then
-	 * use multiple AcceptClientConnection calls. 
+	 * use multiple AcceptClientConnection calls.
 	 */
 	OSStatus ListenForClients(
-							  int port, 
+							  int port,
 							  otSocket *socketNo); 	// RETURNED
-	
+
 	/*
 	 * Accept a client connection. Call endpointShutdown() for each successful;
-	 * return from this function. 
+	 * return from this function.
 	 */
 	OSStatus AcceptClientConnection(
 									otSocket listenSock, 		// obtained from ListenForClients
 									otSocket *acceptSock, 		// RETURNED
 									PeerSpec *peer);			// RETURNED
-	
+
 	/*
 	 * Shut down a connection.
 	 */
 	void endpointShutdown(
 						  otSocket socket);
-	
+
 	/*
 	 * R/W. Called out from SSL.
 	 */
 	OSStatus SocketRead(
 						SSLConnectionRef 	connection,
-						void 				*data, 			/* owned by 
+						void 				*data, 			/* owned by
 	 * caller, data
 	 * RETURNED */
-						size_t 				*dataLength);	/* IN/OUT */ 
-	
+						size_t 				*dataLength);	/* IN/OUT */
+
 	OSStatus SocketWrite(
 						 SSLConnectionRef 	connection,
-						 const void	 		*data, 
-						 size_t 				*dataLength);	/* IN/OUT */ 
-	
+						 const void	 		*data,
+						 size_t 				*dataLength);	/* IN/OUT */
+
 #ifdef	__cplusplus
 }
 #endif

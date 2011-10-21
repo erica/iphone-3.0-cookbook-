@@ -14,7 +14,7 @@
  Peer Tracker helps ignored already-identified peers, skipping them while trying to
  establish a connection. Apple's Peer Picker doesn't do this, hence the ghost
  connections that appear on the gk stack.
- 
+
  */
 @interface PeerTracker : NSObject
 + (BOOL) vetPeerID: (NSString *) anID;
@@ -25,10 +25,10 @@
 {
 	NSDictionary *storedPeers = [[NSUserDefaults standardUserDefaults] objectForKey:@"Peer Dictionary"];
 	NSMutableDictionary *knownPeers = storedPeers ? [NSMutableDictionary dictionaryWithDictionary:storedPeers] : [NSMutableDictionary dictionary];
-	
+
 	// Is the peer found? Will vet if not found
 	BOOL result = [knownPeers objectForKey:anID] != nil;
-	
+
 	// Clean up the dictionary
 	for (NSString *key in [knownPeers allKeys])
 	{
@@ -36,13 +36,13 @@
 		if (ABS([[NSDate date] timeIntervalSinceDate:date]) > 60 * 60) // over 1 hour
 			[knownPeers removeObjectForKey:key];
 	}
-	
+
 	// Register the peer
 	[knownPeers setObject:[NSDate date] forKey:anID];
-	
+
 	[[NSUserDefaults standardUserDefaults] setObject:knownPeers forKey:@"Peer Dictionary"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
-	
+
 	return result;
 }
 @end
@@ -67,7 +67,7 @@
 	[mySession setAvailable:NO];
 	connectStage = 0;
 	self.mySession = nil;
-	
+
 	// Update the GUI
 	viewController.navigationItem.rightBarButtonItem = BARBUTTON(@"Connect", @selector(connect));
 }
@@ -75,7 +75,7 @@
 - (void) connect
 {
 	if (mySession) return; // already trying to connect
-	
+
 	// Update the GUI
 	viewController.navigationItem.rightBarButtonItem = BARBUTTON(@"Cancel...", @selector(disconnect));
 
@@ -83,11 +83,11 @@
 	if (!self.sessionID) self.sessionID = @"Sample Session";
 	self.mySession = [[GKSession alloc] initWithSessionID:self.sessionID displayName:nil sessionMode:GKSessionModePeer];
 
-	// Allow session to become available 
+	// Allow session to become available
 	[mySession release];
 	mySession.delegate = self;
 	[mySession setAvailable:YES];
-	connectStage = 0;	
+	connectStage = 0;
 }
 
 - (void)session:(GKSession *)session didFailWithError:(NSError *)error
@@ -118,20 +118,20 @@
 	// Peer is trying to connect. Accept that connection.
 	NSLog(@"Received connection request from peer %@\n", [session displayNameForPeer:peerID]);
 	NSLog(@"Attempting to connect...");
-	
+
 	NSError *error;
 	BOOL yorn = [session acceptConnectionFromPeer:peerID error:&error];
 	if (!yorn)
 		NSLog(@"Attempt %d: Error accepting connection from %@: %@", [session displayNameForPeer:peerID], [error localizedDescription]);
-	else 
+	else
 	{
 		NSLog(@"Accepted connection from %@", [session displayNameForPeer:peerID]);
 		[mySession setDataReceiveHandler:self withContext:nil];
 		connectStage = 2;
 		DO_DATA_CALLBACK(connectionEstablished, nil);
-				
+
 		if (session != mySession) self.mySession = session;
-		
+
 		// Update the GUI
 		viewController.navigationItem.rightBarButtonItem = BARBUTTON(@"Disconnect", @selector(disconnect));
 	}
@@ -141,14 +141,14 @@
 {
 	switch (state)
 	{
-		case GKPeerStateAvailable: 
+		case GKPeerStateAvailable:
 		{
 			if ([PeerTracker vetPeerID:peerID])
 			{
 				NSLog(@"Recognized available peer (%@). Ignoring it.", [session displayNameForPeer:peerID]);
 				return;
 			}
-			
+
 			if (connectStage == 0)
 			{
 				NSLog(@"Peer %@ is available. Attempting to connect.", [session displayNameForPeer:peerID]);
@@ -165,7 +165,7 @@
 			NSLog(@"Peer %@ has connected", [session displayNameForPeer:peerID]);
 			if (session != mySession)
 				self.mySession = session;
-			
+
 			[mySession setDataReceiveHandler:self withContext:nil];
 			connectStage = 2;
 			DO_DATA_CALLBACK(connectionEstablished, nil);
@@ -178,7 +178,7 @@
 		{
 			DO_DATA_CALLBACK(connectionLost, nil);
 			NSLog(@"Peer %@ is disconnected", [session displayNameForPeer:peerID]);
-			
+
 			if (connectStage == 2)
 			{
 				// Update the GUI

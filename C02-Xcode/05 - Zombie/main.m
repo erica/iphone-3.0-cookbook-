@@ -28,17 +28,17 @@
 	contentView.image = [UIImage imageWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"HelloWorld.app/cover320x416.png"]];
 	self.view = contentView;
     [contentView release];
-	
+
 	// Add action button
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Access Array", @selector(accessArray));
 
 	// Cookbook style
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	// Create and then release array
 	array = [[NSArray alloc] init];
 	[array release];
-	
+
 }
 @end
 

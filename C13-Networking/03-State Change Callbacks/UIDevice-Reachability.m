@@ -26,11 +26,11 @@ SCNetworkReachabilityRef reachability;
 		ipAddress.sin_len = sizeof(ipAddress);
 		ipAddress.sin_family = AF_INET;
 		ipAddress.sin_addr.s_addr = htonl(ignoresAdHocWiFi ? INADDR_ANY : IN_LINKLOCALNETNUM);
-		
+
 		reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (struct sockaddr *)&ipAddress);
 		CFRetain(reachability);
 	}
-	
+
 	// Recover reachability flags
 	BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(reachability, &connectionFlags);
 	if (!didRetrieveFlags) printf("Error. Could not recover network reachability flags\n");
@@ -46,30 +46,30 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConne
 
 + (BOOL) scheduleReachabilityWatcher: (id) watcher
 {
-	if (![watcher conformsToProtocol:@protocol(ReachabilityWatcher)]) 
+	if (![watcher conformsToProtocol:@protocol(ReachabilityWatcher)])
 	{
 		NSLog(@"Watcher must conform to ReachabilityWatcher protocol. Cannot continue.");
 		return NO;
 	}
-	
+
 	[self pingReachabilityInternal];
 
 	SCNetworkReachabilityContext context = {0, watcher, NULL, NULL, NULL};
-	if(SCNetworkReachabilitySetCallback(reachability, ReachabilityCallback, &context)) 
+	if(SCNetworkReachabilitySetCallback(reachability, ReachabilityCallback, &context))
 	{
-		if(!SCNetworkReachabilityScheduleWithRunLoop(reachability, CFRunLoopGetCurrent(), kCFRunLoopCommonModes)) 
+		if(!SCNetworkReachabilityScheduleWithRunLoop(reachability, CFRunLoopGetCurrent(), kCFRunLoopCommonModes))
 		{
 			NSLog(@"Error: Could not schedule reachability");
 			SCNetworkReachabilitySetCallback(reachability, NULL, NULL);
 			return NO;
 		}
-	} 
-	else 
+	}
+	else
 	{
 		NSLog(@"Error: Could not set reachability callback");
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -80,7 +80,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConne
 		NSLog(@"Unscheduled reachability");
 	else
 		NSLog(@"Error: Could not unschedule reachability");
-	
+
 	CFRelease(reachability);
 	reachability = nil;
 }
@@ -96,9 +96,9 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkConne
 	mach_port_t *thePort;
 	void *uikit = dlopen(UIKITPATH, RTLD_LAZY);
 	int (*SBSSpringBoardServerPort)() = dlsym(uikit, "SBSSpringBoardServerPort");
-	thePort = (mach_port_t *)SBSSpringBoardServerPort(); 
+	thePort = (mach_port_t *)SBSSpringBoardServerPort();
 	dlclose(uikit);
-	
+
 	// Link to SBSetAirplaneModeEnabled
 	void *sbserv = dlopen(SBSERVPATH, RTLD_LAZY);
 	int (*setAPMode)(mach_port_t* port, BOOL yorn) = dlsym(sbserv, "SBSetAirplaneModeEnabled");

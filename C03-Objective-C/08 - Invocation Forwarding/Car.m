@@ -17,22 +17,22 @@
 {
 	self = [super init];
 	if (!self) return nil;
-	
+
 	self.make = nil;
 	self.model = nil;
 	self.year = 1901;
 	self.colors = nil;
 	self.forSale = YES;
 	salesman = nil;
-	
+
 	return self;
 }
 
 // Easy Approach
 /*
-- (id)forwardingTargetForSelector:(SEL)sel 
-{ 
-	if ([self.carInfo respondsToSelector:sel]) return self.carInfo; 
+- (id)forwardingTargetForSelector:(SEL)sel
+{
+	if ([self.carInfo respondsToSelector:sel]) return self.carInfo;
 	return nil;
 }
 */
@@ -43,18 +43,18 @@
 {
 	// Check if car can handle the message
 	NSMethodSignature* signature = [super methodSignatureForSelector:selector];
-	
+
 	// If not, can the car info string handle the message?
 	if (!signature)
 		signature = [self.carInfo methodSignatureForSelector:selector];
-	
+
 	return signature;
 }
 
 - (void)forwardInvocation:(NSInvocation *)invocation
 {
 	SEL selector = [invocation selector];
-	
+
 	if ([self.carInfo respondsToSelector:selector])
 	{
 		printf("[forwarding from %s to %s] ", [[[self class] description] UTF8String], [[NSString description] UTF8String]);
@@ -63,9 +63,9 @@
 }
 
 /*
- 
+
  LAGNIAPPE: A couple of bonus routines to round out things
- 
+
  */
 
 // Extend selector compliance
@@ -74,11 +74,11 @@
 	// Car class can handle the message
 	if ( [super respondsToSelector:aSelector] )
 		return YES;
-	
+
 	// CarInfo string can handle the message
 	if ([self.carInfo respondsToSelector:aSelector])
 		return YES;
-	
+
 	// Otherwise...
 	return NO;
 }
@@ -89,10 +89,10 @@
 	// Check for Car
 	if (aClass == [Car class]) return YES;
 	if ([super isKindOfClass:aClass]) return YES;
-	
+
 	// Check for NSString
 	if ([self.carInfo isKindOfClass:aClass]) return YES;
-	
+
 	return NO;
 }
 

@@ -18,7 +18,7 @@ typedef struct
 		AudioStreamBasicDescription dataFormat;
 		AudioQueueRef               queue;
 		AudioQueueBufferRef         buffers[NUM_BUFFERS];
-		UInt32                      bufferByteSize; 
+		UInt32                      bufferByteSize;
 		SInt64                      currentPacket;
 		BOOL                        recording;
 	} RecordState;

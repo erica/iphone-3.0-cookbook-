@@ -57,12 +57,12 @@ NSArray *pathToView(UIView *aView)
 	// and the single label that shows the selected number
 	printf("Subviews of the main view:\n");
 	CFShow(allSubviews(self.view));
-	
+
 	printf("Path to each main subview:\n");
 	for (UIView *eachView in allSubviews(self.view))
 		CFShow(pathToView(eachView));
-	
-	// More views than you could dream of! 
+
+	// More views than you could dream of!
 	printf("\nAll window subviews:\n");
 	CFShow(allApplicationViews());
 }
@@ -78,16 +78,16 @@ NSArray *pathToView(UIView *aView)
 {
 	self.view = [[[NSBundle mainBundle] loadNibNamed:@"mainview" owner:self options:nil] lastObject];
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	// Create the segmented control. Choose one of the three styles
 	NSArray *buttonNames = [NSArray arrayWithObjects:@"One", @"Two", @"Three", @"Four", @"Five", @"Six", nil];
 	UISegmentedControl* segmentedControl = [[UISegmentedControl alloc] initWithItems:buttonNames];
-	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar; 
+	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	[segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
 	segmentedControl.momentary = YES;
 	self.navigationItem.titleView = segmentedControl;
 	[segmentedControl release];
-	
+
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Test", @selector(collectViews:));
 }
 @end
@@ -96,7 +96,7 @@ NSArray *pathToView(UIView *aView)
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

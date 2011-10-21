@@ -93,18 +93,18 @@ typedef struct {
 static void _ReadClientCallBack(CFReadStreamRef stream, CFStreamEventType type, void* clientCallBackInfo)
 {
 	NSAutoreleasePool*		localPool = [NSAutoreleasePool new];
-	
+
 	[(TCPConnection*)clientCallBackInfo _handleStreamEvent:type forStream:stream];
-	
+
 	[localPool release];
 }
 
 static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type, void* clientCallBackInfo)
 {
 	NSAutoreleasePool*		localPool = [NSAutoreleasePool new];
-	
+
 	[(TCPConnection*)clientCallBackInfo _handleStreamEvent:type forStream:stream];
-	
+
 	[localPool release];
 }
 
@@ -118,7 +118,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 {
 	CFReadStreamRef			readStream = NULL;
 	CFWriteStreamRef		writeStream = NULL;
-	
+
 	CFStreamCreatePairWithSocket(kCFAllocatorDefault, socket, &readStream, &writeStream);
 	if(!readStream || !writeStream) {
 		close(socket);
@@ -129,13 +129,13 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 		[self release];
 		return nil;
 	}
-	
+
 	CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
 	CFWriteStreamSetProperty(writeStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
 	self = [self _initWithRunLoop:[NSRunLoop currentRunLoop] readStream:readStream writeStream:writeStream];
 	CFRelease(readStream);
 	CFRelease(writeStream);
-	
+
 	return self;
 }
 
@@ -145,13 +145,13 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 	CFWriteStreamRef		writeStream = NULL;
 	CFSocketSignature		signature;
 	CFDataRef				data;
-	
+
 	data = (address ? CFDataCreate(kCFAllocatorDefault, (const UInt8*)address, address->sa_len) : NULL);
 	if(data == NULL) {
 		[self release];
 		return nil;
 	}
-	
+
 	signature.protocolFamily = PF_INET;
 	signature.socketType = SOCK_STREAM;
 	signature.protocol = IPPROTO_TCP;
@@ -166,54 +166,54 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 		[self release];
 		return nil;
 	}
-	
+
 	self = [self _initWithRunLoop:[NSRunLoop currentRunLoop] readStream:readStream writeStream:writeStream];
 	CFRelease(readStream);
 	CFRelease(writeStream);
-	
+
 	return self;
 }
 
 - (id) _initWithRunLoop:(NSRunLoop*)runLoop readStream:(CFReadStreamRef)input writeStream:(CFWriteStreamRef)output
 {
 	CFStreamClientContext	context = {0, self, NULL, NULL, NULL};
-	
+
 	if((self = [super init])) {
 		_inputStream = (CFReadStreamRef)CFRetain(input);
 		_outputStream = (CFWriteStreamRef)CFRetain(output);
 		_runLoop = runLoop;
 		[_runLoop retain];
-		
+
 		CFReadStreamSetClient(_inputStream, kCFStreamEventOpenCompleted | kCFStreamEventHasBytesAvailable | kCFStreamEventErrorOccurred | kCFStreamEventEndEncountered, _ReadClientCallBack, &context);
 		CFReadStreamScheduleWithRunLoop(_inputStream, [_runLoop getCFRunLoop], kCFRunLoopCommonModes);
 		CFWriteStreamSetClient(_outputStream, kCFStreamEventOpenCompleted | kCFStreamEventCanAcceptBytes | kCFStreamEventErrorOccurred | kCFStreamEventEndEncountered, _WriteClientCallBack, &context);
 		CFWriteStreamScheduleWithRunLoop(_outputStream, [_runLoop getCFRunLoop], kCFRunLoopCommonModes);
-		
+
 		if(!CFReadStreamOpen(_inputStream) || !CFWriteStreamOpen(_outputStream)) {
 			[self release];
 			return nil;
 		}
 	}
-	
+
 	return self;
 }
 
 - (void) dealloc
-{	
+{
 	[self invalidate];
-	
+
 	if(_localAddress)
 	free(_localAddress);
 	if(_remoteAddress)
 	free(_remoteAddress);
-	
+
 	[super dealloc];
 }
 
 - (void) setDelegate:(id<TCPConnectionDelegate>)delegate
 {
 	_delegate = delegate;
-	
+
 	SET_DELEGATE_METHOD_BIT(0, connectionDidFailOpening:);
 	SET_DELEGATE_METHOD_BIT(1, connectionDidOpen:);
 	SET_DELEGATE_METHOD_BIT(2, connectionDidClose:);
@@ -233,19 +233,19 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 		CFRelease(_inputStream);
 		_inputStream = NULL;
 	}
-	
+
 	if(_outputStream) {
 		CFWriteStreamSetClient(_outputStream, kCFStreamEventNone, NULL, NULL);
 		CFWriteStreamClose(_outputStream);
 		CFRelease(_outputStream);
 		_outputStream = NULL;
 	}
-	
+
 	if(_runLoop) {
 		[_runLoop release];
 		_runLoop = nil;
 	}
-	
+
 	if(_opened >= kOpenedMax) {
 		if(TEST_DELEGATE_METHOD_BIT(2))
 		[_delegate connectionDidClose:self];
@@ -259,7 +259,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 {
 	if(_invalidating == NO) {
 		_invalidating = YES;
-		
+
 		[self _invalidate];
 	}
 }
@@ -269,7 +269,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 	CFIndex					length = [data length],
 							result;
 	Header					header;
-	
+
 	header.magic = NSSwapHostIntToBig(kMagic);
 	header.length = NSSwapHostIntToBig(length);
 	result = CFWriteStreamWrite(_outputStream, (const UInt8*)&header, sizeof(Header));
@@ -277,7 +277,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 		REPORT_ERROR(@"Wrote only %i bytes out of %i bytes in header", (int)result, (int)sizeof(Header));
 		return NO;
 	}
-	
+
 	while(length > 0) {
 		result = CFWriteStreamWrite(_outputStream, (UInt8*)[data bytes] + [data length] - length, length);
 		if(result <= 0) {
@@ -286,7 +286,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 		}
 		length -= result;
 	}
-	
+
 	return YES;
 }
 
@@ -296,7 +296,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 	CFIndex					result,
 							length;
 	Header					header;
-	
+
 	result = CFReadStreamRead(_inputStream, (UInt8*)&header, sizeof(Header));
 	if(result == 0)
 	return (id)kCFNull;
@@ -308,11 +308,11 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 		REPORT_ERROR(@"Invalid header", NULL);
 		return nil;
 	}
-	
+
 	length = NSSwapBigIntToHost(header.length);
 	data = [NSMutableData dataWithCapacity:length];
 	[data setLength:length];
-	
+
 	while(length > 0) {
 		result = CFReadStreamRead(_inputStream, (UInt8*)[data mutableBytes] + [data length] - length, length);
 		if(result <= 0) {
@@ -321,7 +321,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 		}
 		length -= result;
 	}
-	
+
 	return data;
 }
 
@@ -331,7 +331,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 	CFDataRef				data;
 	CFSocketNativeHandle	socket;
 	socklen_t				length;
-	
+
 	if((data = (CFGetTypeID(stream) == CFWriteStreamGetTypeID() ? CFWriteStreamCopyProperty((CFWriteStreamRef)stream, kCFStreamPropertySocketNativeHandle) : CFReadStreamCopyProperty((CFReadStreamRef)stream, kCFStreamPropertySocketNativeHandle)))) {
 		CFDataGetBytes(data, CFRangeMake(0, sizeof(CFSocketNativeHandle)), (UInt8*)&socket);
 		value = 1;
@@ -340,7 +340,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 		setsockopt(socket, SOL_SOCKET, SO_SNDLOWAT, &value, sizeof(value));
 		setsockopt(socket, SOL_SOCKET, SO_SNDLOWAT, &value, sizeof(value));
 		CFRelease(data);
-		
+
 		length = SOCK_MAXADDRLEN;
 		_localAddress = malloc(length);
 		if(getsockname(socket, _localAddress, &length) < 0) {
@@ -355,7 +355,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 			_remoteAddress = NULL;
 			REPORT_ERROR(@"Unable to retrieve remote address (%i)", errno);
 		}
-		
+
 		if(TEST_DELEGATE_METHOD_BIT(1))
 		[_delegate connectionDidOpen:self]; //NOTE: Connection may have been invalidated after this call!
 	}
@@ -371,10 +371,10 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 {
 	NSData*				data;
 	CFStreamError		error;
-	
-	
+
+
 	switch(type) {
-		
+
 		case kCFStreamEventOpenCompleted:
 		if(_opened < kOpenedMax) {
 			_opened += 1;
@@ -382,7 +382,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 			[self _initializeConnection:stream];
 		}
 		break;
-		
+
 		case kCFStreamEventHasBytesAvailable: //NOTE: kCFStreamEventHasBytesAvailable will be sent for 0 bytes available to read when stream reaches end
 		if(_opened >= kOpenedMax) {
 			do {
@@ -400,7 +400,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 			} while(!_invalidating && CFReadStreamHasBytesAvailable(_inputStream));
 		}
 		break;
-		
+
 		case kCFStreamEventCanAcceptBytes:
 		if(_opened < kOpenedMax) {
 			_opened += 1;
@@ -408,14 +408,14 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 			[self _initializeConnection:stream];
 		}
 		break;
-		
+
 		case kCFStreamEventErrorOccurred:
 		error = (CFGetTypeID(stream) == CFWriteStreamGetTypeID() ? CFWriteStreamGetError((CFWriteStreamRef)stream) : CFReadStreamGetError((CFReadStreamRef)stream));
 		REPORT_ERROR(@"Error (%i) occured in CF stream", (int)error.error);
 		case kCFStreamEventEndEncountered:
 		[self invalidate];
 		break;
-				
+
 	}
 }
 
@@ -423,23 +423,23 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 {
 	if(![self isValid])
 	return NO;
-	
+
 	return CFReadStreamHasBytesAvailable(_inputStream);
 }
 
 - (NSData*) receiveData
 {
 	NSData*				data;
-	
+
 	if(![self isValid])
 	return nil;
-	
+
 	data = [self _readData];
 	if(data == nil)
 	[self invalidate];
 	else if(data == (id)kCFNull)
 	data = nil;
-	
+
 	return data;
 }
 
@@ -447,12 +447,12 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 {
 	if(![self isValid] || !data)
 	return NO;
-	
+
 	if(![self _writeData:data]) {
 		[self invalidate];
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -463,7 +463,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 		case AF_INET: return ntohs(((struct sockaddr_in*)_localAddress)->sin_port);
 		case AF_INET6: return ntohs(((struct sockaddr_in6*)_localAddress)->sin6_port);
 	}
-	
+
 	return 0;
 }
 
@@ -478,7 +478,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 	switch(_remoteAddress->sa_family) {
 		case AF_INET: return ntohs(((struct sockaddr_in*)_remoteAddress)->sin_port);
 	}
-	
+
 	return 0;
 }
 
@@ -500,7 +500,7 @@ static void _WriteClientCallBack(CFWriteStreamRef stream, CFStreamEventType type
 + (NSString*) bonjourTypeFromIdentifier:(NSString*)identifier {
 	if (![identifier length])
     return nil;
-    
+
     return [NSString stringWithFormat:@"_%@._tcp.", identifier];
 }
 @end

@@ -7,7 +7,7 @@
 //
 
 @interface HelloWorldAppDelegate : NSObject <UIApplicationDelegate> {
-    
+
     UIWindow *window;
     UINavigationController *navigationController;
 }

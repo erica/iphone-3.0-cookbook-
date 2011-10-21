@@ -26,7 +26,7 @@
 {
 	[self.view.window addSubview:overlay];
 	[(UIActivityIndicatorView *)[overlay viewWithTag:202] startAnimating];
-	
+
 	[self performSelector:@selector(finish) withObject:nil afterDelay:3.0f];
 }
 
@@ -41,7 +41,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

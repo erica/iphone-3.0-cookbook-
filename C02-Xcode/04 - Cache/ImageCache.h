@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface ImageCache : NSObject 
+@interface ImageCache : NSObject
 {
 	NSMutableDictionary *myCache;
 }

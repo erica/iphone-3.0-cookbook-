@@ -25,7 +25,7 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.title = @"Toolbars";
-	
+
 	UIToolbar *tb = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 44.0f)];
 	tb.center = CGPointMake(160.0f, 200.0f);
 	NSMutableArray *tbitems = [NSMutableArray array];
@@ -36,12 +36,12 @@
 	[tbitems addObject:CUSTOMBARBUTTON([[[UISwitch alloc] init] autorelease])];
 	[tbitems addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil)];
 	[tbitems addObject:IMGBARBUTTON([UIImage imageNamed:@"TBPuzzle.png"], @selector(action))];
-	
+
 	// Add fixed 20 pixel width
 	UIBarButtonItem *bbi = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil] autorelease];
 	bbi.width = 20.0f;
 	[tbitems addObject:bbi];
-	
+
 	tb.items = tbitems;
 	[self.view addSubview:tb];
 	[tb release];
@@ -52,7 +52,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

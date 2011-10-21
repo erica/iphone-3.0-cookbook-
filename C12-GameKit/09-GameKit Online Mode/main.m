@@ -25,7 +25,7 @@
 	NSString *text = sendView.text;
 	if (!text || (text.length == 0)) text = @"xyzzyclear";
 	NSData *textData = [text dataUsingEncoding:NSUTF8StringEncoding];
-	
+
 	if ([GameKitHelper sharedInstance].isConnected) [GameKitHelper sendData:textData];
 	if ([BonjourHelper sharedInstance].isConnected) [BonjourHelper sendData:textData];
 }
@@ -50,7 +50,7 @@
 	[GameKitHelper sharedInstance].dataDelegate = self;
 	[GameKitHelper assignViewController:self];
 
-	[sendView becomeFirstResponder];		
+	[sendView becomeFirstResponder];
 }
 @end
 
@@ -58,7 +58,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

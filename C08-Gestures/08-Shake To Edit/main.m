@@ -55,7 +55,7 @@
 - (void) touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
 {
 	[self setPosition:self.center];
-	
+
 	// Calculate and store offset, and pop view into front if needed
 	CGPoint pt = [[touches anyObject] locationInView:self];
 	startLocation = pt;
@@ -115,7 +115,7 @@
 	NSArray *flowers = [NSKeyedUnarchiver unarchiveObjectWithFile:DATAPATH];
 	if (!flowers) return NO;
 
-	for (UIView *aView in flowers)	
+	for (UIView *aView in flowers)
 	{
 		[backdrop addSubview:aView];
 		[(DragView *)aView setUndoManager:self.undoManager];
@@ -123,7 +123,7 @@
 	return YES;
 }
 
-CGPoint randomPoint() 
+CGPoint randomPoint()
 {
 	int half = 32; // half of flower size
 	int freesize = 240 - 2 * half; // inner area
@@ -165,10 +165,10 @@ CGPoint randomPoint()
 	self.undoManager = [[NSUndoManager alloc] init];
 	[self.undoManager setLevelsOfUndo:999];
 	[self.undoManager release];
-	
+
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	srandom(time(0));
-	
+
 	// Add backdrop which will bound the movement for the flowers
 	UIView *backdrop = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 282.0f)];
 	backdrop.backgroundColor = [UIColor blackColor];
@@ -198,9 +198,9 @@ CGPoint randomPoint()
 @implementation TestBedAppDelegate
 @synthesize tbvc;
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	application.applicationSupportsShakeToEdit = YES;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.tbvc = [[[TestBedViewController alloc] init] autorelease];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.tbvc];

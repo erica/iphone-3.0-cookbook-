@@ -38,13 +38,13 @@
 {
 	if (!self.points) return;
 	if (self.points.count < 2) return;
-	
+
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextSetLineWidth(context, 4.0f);
 	[[UIColor redColor] set];
 
 	CGPoint pt1;
-	
+
 	// Draw circles at each point
 	for (int i = 0; i < self.points.count; i++)
 	{
@@ -52,12 +52,12 @@
 		CGRect rect = CGRectMake(pt1.x - 20.0f, pt1.y - 20.0f, 40.0f, 40.0f);
 		CGContextFillEllipseInRect(context, rect);
 	}
-	
+
 	// Draw lines between each point
 	CGContextMoveToPoint(context, pt1.x, pt1.y);
-	
+
 	pt1 = POINT(0);
-	
+
 	for (int i = 1; i < self.points.count; i++)
 	{
 		pt1 = POINT(i % self.points.count);
@@ -78,7 +78,7 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.view.userInteractionEnabled = YES;
 	self.title = @"Multitouch";
-	
+
 	TouchView *tv = [[TouchView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 280.0f)];
 	tv.backgroundColor = [UIColor blackColor];
 	tv.center = CGPointMake(160.0f, 140.0f);
@@ -91,7 +91,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

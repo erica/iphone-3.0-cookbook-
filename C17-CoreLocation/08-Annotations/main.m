@@ -49,7 +49,7 @@
 	CLLocationManager *locManager;
 	CLLocation *current;
 	IBOutlet MKMapView *mapView;
-	
+
 }
 @property (retain) CLLocationManager *locManager;
 @property (nonatomic, retain) CLLocation *current;
@@ -71,7 +71,7 @@
 	MapAnnotation *annotation;
 	NSMutableArray *annotations = [NSMutableArray array];
 	self.title = @"Searching...";
-	
+
 	// Add a current location annotation
 	if (self.current)
 	{
@@ -79,10 +79,10 @@
 		annotation.title = CURRENT_STRING;
 		[annotations addObject:annotation];
 	}
-	
+
 	// Clean up the map
 	[mapView removeAnnotations:mapView.annotations];
-	
+
 	// fetch all the new locations from outside.in, while showing the network indicator
 	// delayed selector allows title to update in a timely manner during the network operation
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -93,7 +93,7 @@
 
 	// Check to see if we got valid data
 	NSString *xml = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-	if ([xml rangeOfString:@"places"].location == NSNotFound) 
+	if ([xml rangeOfString:@"places"].location == NSNotFound)
 	{
 		// clean up and return
 		[self performSelector:@selector(setTitle:) withObject:@"No locations found" afterDelay:0.1f];
@@ -116,19 +116,19 @@
 		CLLocationCoordinate2D coord;
 		coord.latitude = [[coords objectAtIndex:0] floatValue];
 		coord.longitude = [[coords objectAtIndex:1] floatValue];
-		
+
 		// Create the annotation
 		annotation = [[[MapAnnotation alloc] initWithCoordinate:coord] autorelease];
 		annotation.title = [node leafForKey:@"name"];
 		annotation.subtitle = [node leafForKey:@"url"];
-		
+
 		// Add it
 		[annotations addObject:annotation];
 	}
-	
+
 	// clean up the root
 	[root teardown];
-	
+
 	// Stop showing the network indicator and add the annotations
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	[mapView addAnnotations:annotations];
@@ -142,11 +142,11 @@
 
 	// Set the current location
 	self.current = newLocation;
-	
+
 	// Set the map to that location and allow user interaction
 	mapView.region = MKCoordinateRegionMake(newLocation.coordinate, MKCoordinateSpanMake(0.02f, 0.02f));
 	mapView.zoomEnabled = YES;
-	
+
 	// restore find me button
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Find Me", @selector(findme));
 }
@@ -157,7 +157,7 @@
 	// disable right button
 	self.navigationItem.rightBarButtonItem = nil;
 	self.title = @"Searching for location...";
-	
+
 	// Search for location
 	self.locManager.delegate = self;
 	[self.locManager startUpdatingLocation];
@@ -175,13 +175,13 @@
 	for (MKPinAnnotationView *mkaview in views)
 	{
 		// The current location does not get a button
-		if ([mkaview.annotation.title isEqualToString:CURRENT_STRING]) 
+		if ([mkaview.annotation.title isEqualToString:CURRENT_STRING])
 		{
 			mkaview.pinColor = MKPinAnnotationColorPurple;
 			mkaview.rightCalloutAccessoryView = nil;
 			continue;
 		}
-		
+
 		// All other locations are red with a button
 		mkaview.pinColor = MKPinAnnotationColorRed;
 		UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -212,7 +212,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

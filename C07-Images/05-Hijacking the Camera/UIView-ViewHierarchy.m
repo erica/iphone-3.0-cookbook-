@@ -43,7 +43,7 @@ NSArray *pathToView(UIView *aView)
         [array insertObject:view atIndex:0];
     }
     return array;
-}	
+}
 
 @implementation UIView (ViewHierarchy)
 
@@ -53,7 +53,7 @@ NSArray *pathToView(UIView *aView)
     for (int i = 0; i < indent; i++) [outstring appendString:@"--"];
 	NSString *tag = (aView.tag == 0) ? @"" : [NSString stringWithFormat:@" (%d)", aView.tag];
     [outstring appendFormat:@"[%2d] %@%@\n", indent, [[aView class] description], tag];
-    for (UIView *view in [aView subviews]) 
+    for (UIView *view in [aView subviews])
         [self dumpView:view atIndent:indent + 1 into:outstring];
 }
 

@@ -10,15 +10,15 @@ CGPoint centeredPoint(CGPoint pt, CGPoint origin)
 // Return the angle of a point with respect to a given origin
 float getangle (CGPoint p1, CGPoint c1)
 {
-	// SOH CAH TOA 
+	// SOH CAH TOA
 	CGPoint p = centeredPoint(p1, c1);
 	float h = ABS(sqrt(p.x * p.x + p.y * p.y));
 	float a = p.x;
 	float baseAngle = acos(a/h) * 180.0f / M_PI;
-	
+
 	// Above 180
 	if (p1.y > c1.y) baseAngle = 360.0f - baseAngle;
-	
+
 	return baseAngle;
 }
 
@@ -43,15 +43,15 @@ BOOL pointInsideRadius(CGPoint p1, float r, CGPoint c1)
 	if (self = [super initWithFrame:aFrame])
 	{
 		// This control uses a fixed 200x200 sized frame
-		self.frame = CGRectMake(0.0f, 0.0f, 200.0f, 200.0f); 
+		self.frame = CGRectMake(0.0f, 0.0f, 200.0f, 200.0f);
 		self.center = CGPointMake(CGRectGetMidX(aFrame), CGRectGetMidY(aFrame));
-		
+
 		// Add the touchwheel art
 		UIImageView *iv = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"wheel.png"]];
 		[self  addSubview:iv];
 		[iv release];
 	}
-	
+
 	return self;
 }
 
@@ -84,13 +84,13 @@ BOOL pointInsideRadius(CGPoint p1, float r, CGPoint c1)
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event
 {
-	
+
 	CGPoint p = [touch locationInView:self];
 	CGPoint cp = CGPointMake(self.bounds.size.width / 2.0f, self.bounds.size.height / 2.0f);
 
 	// falls outside too far, with boundary of 50 pixels. Inside strokes treated as touched
 	if (!pointInsideRadius(p, cp.x + 50.0f, cp)) return NO;
-	
+
 	float newtheta = getangle([touch locationInView:self], cp);
 	float dtheta = newtheta - self.theta;
 

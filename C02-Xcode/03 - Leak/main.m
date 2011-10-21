@@ -17,7 +17,7 @@ void show(id formatstring,...)
 	va_start(arglist, formatstring);
 	id outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 	va_end(arglist);
-	
+
 	UIAlertView *av = [[[UIAlertView alloc] initWithTitle:@"LEAK DEMO" message:outstring delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] autorelease];
 	[av show];
 }
@@ -28,24 +28,24 @@ void show(id formatstring,...)
 @implementation TestBedViewController
 
 /*
- 
+
  The NULL/nil assignments at the end of the two leak functions are not needed to create a leak. I've added them
  because they produce a faster leak response in Instruments.
- 
+
  To see the array leak count, add printf("%d\n", [leakarray retainCount]);
- 
+
  */
 
 - (void) leakString
 {
 	char *leakystring = malloc(sizeof(char)*128);
-	leakystring = NULL; 
+	leakystring = NULL;
 }
 
 - (void) leakArray
 {
 	NSArray *leakyarray = [[NSMutableArray alloc] init];
-	leakyarray = nil; 
+	leakyarray = nil;
 }
 
 - (void) intro

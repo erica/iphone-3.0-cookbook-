@@ -68,14 +68,14 @@
 
 	self.log = [NSMutableString string];
 	[self doLog:@"Starting location manager"];
-	
+
 	self.locManager = [[[CLLocationManager alloc] init] autorelease];
 	if (!self.locManager.locationServicesEnabled)
 	{
 		[self doLog:@"User has opted out of location services"];
 		return;
 	}
-	
+
 	self.locManager.delegate = self;
 	self.locManager.desiredAccuracy = kCLLocationAccuracyBest;
 
@@ -88,7 +88,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

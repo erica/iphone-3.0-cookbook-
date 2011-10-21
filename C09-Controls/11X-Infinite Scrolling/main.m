@@ -32,7 +32,7 @@
 	CGRect newframe = CGRectMake(offset.x, 0.0f, 320.0f, BASEHEIGHT);
 	if (!CGRectEqualToRect(newframe, v.frame)) v.frame = newframe;
 	// printf("Center: %d\n", cpage);
-	
+
 	// Pages to the left
 	int half = (NPAGES / 2);
 	float dx = -320.0f * half;
@@ -45,7 +45,7 @@
 		if (!CGRectEqualToRect(newframe, v.frame)) v.frame = newframe;
 		dx += 320.0f;
 	}
-	
+
 	// Pages to the right
 	int nleft = NPAGES - half;
 	dx = 320.0f;
@@ -79,7 +79,7 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.title = @"Image Scroller";
-	
+
 	// Create the scroll view and set its content size and delegate
 	sv = [[[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, BASEHEIGHT)] autorelease];
 	sv.contentSize = CGSizeMake(BIGNUM * 2 * NPAGES * 320.0f, sv.frame.size.height);
@@ -87,7 +87,7 @@
 	sv.pagingEnabled = YES;
 	sv.showsHorizontalScrollIndicator = NO;
 	sv.delegate = self;
-	
+
 	// Load in all the pages
 	for (int i = 0; i < NPAGES; i++)
 	{
@@ -96,7 +96,7 @@
 		iv.frame = CGRectMake(0.0f, 0.0f, 320.0f, BASEHEIGHT);
 		iv.tag = 900 + i;
 		[sv addSubview:iv];
-		
+
 		UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
 		label.text = [NSString stringWithFormat:@"Slide %d\n", i + 1];
 		label.backgroundColor = [UIColor blackColor];
@@ -105,13 +105,13 @@
 		label.center = iv.center;
 		[iv addSubview:label];
 		[label release];
-		
+
 		[iv release];
 	}
-	
+
 	cpage = 0;
 	[self updatePagePlacement];
-	
+
 	[self.view addSubview:sv];
 
 	pageControl.numberOfPages = NPAGES;
@@ -124,7 +124,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

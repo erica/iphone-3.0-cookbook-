@@ -35,13 +35,13 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	NSString *valueString = [NSString stringWithFormat:@"%d", depth];
 	NSString *nextString = [NSString stringWithFormat:@"Push %d", depth + 1];
-	
+
 	// set the title
 	self.title = [@"Level " stringByAppendingString:valueString];
-	
+
 	// Set the main label
 	((UILabel *)[self.view viewWithTag:101]).text = valueString;
-	
+
 	// Add the "next" bar button item. Max depth is 6
 	if (depth < 6) self.navigationItem.rightBarButtonItem = BARBUTTON(nextString, @selector(push));
 }
@@ -51,7 +51,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] initWithDepth:1]];
 	[window addSubview:nav.view];

@@ -20,12 +20,12 @@
 @implementation TableListViewController
 @synthesize stateDictionary;
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return 26;
 }
@@ -36,11 +36,11 @@
 	UITableViewCellStyle style =  UITableViewCellStyleDefault;
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:@"BaseCell"];
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
-	
+
 	// Set cell label
 	NSString *key = [@"Row " stringByAppendingString:[ALPHA objectAtIndex:indexPath.row]];
 	cell.textLabel.text = key;
-	
+
 	// Set cell checkmark
 	NSNumber *checked = [self.stateDictionary objectForKey:key];
 	if (!checked) [self.stateDictionary setObject:(checked = [NSNumber numberWithBool:NO]) forKey:key];
@@ -48,17 +48,17 @@
 	return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// Recover the cell and key
 	UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
 	NSString *key = cell.textLabel.text;
-	
+
 	// Created an inverted value and store it
 	BOOL isChecked = !([[self.stateDictionary objectForKey:key] boolValue]);
 	NSNumber *checked = [NSNumber numberWithBool:isChecked];
 	[self.stateDictionary setObject:checked forKey:key];
-	
+
 	// Update the cell accessory checkmark
 	cell.accessoryType = isChecked ? UITableViewCellAccessoryCheckmark :  UITableViewCellAccessoryNone;
 }
@@ -79,13 +79,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

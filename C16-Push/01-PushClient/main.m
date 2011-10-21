@@ -67,7 +67,7 @@ NSString *pushStatus ()
 		[self updateSwitches];
 		return;
 	}
-		
+
 	NSString *status = [NSString stringWithFormat:@"%@\nAttempting registration", pushStatus()];
 	tv.text = status;
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:[self switchSettings]];
@@ -79,7 +79,7 @@ NSString *pushStatus ()
 	UITextView *tv = (UITextView *)[self.view viewWithTag:TEXTVIEWTAG];
 	NSString *status = [NSString stringWithFormat:@"%@\nUnregistering.", pushStatus()];
 	tv.text = status;
-	
+
 	[[UIApplication sharedApplication] unregisterForRemoteNotifications];
 	[self updateSwitches];
 }
@@ -91,16 +91,16 @@ NSString *pushStatus ()
 	self.view = [[[NSBundle mainBundle] loadNibNamed:@"view" owner:self options:NULL] objectAtIndex:0];
 	self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.20392f green:0.19607f blue:0.61176f alpha:1.0f];
 	self.title = @"Push Client";
-	
+
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Register", @selector(doOn));
-	
+
 	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Unregister", @selector(doOff));
 	[self updateSwitches];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(confirmationWasHidden:) name:@"UIApplicationDidBecomeActiveNotification" object:nil];
 }
 @end
 
-@interface SampleAppDelegate : NSObject <UIApplicationDelegate> 
+@interface SampleAppDelegate : NSObject <UIApplicationDelegate>
 @end
 
 @implementation SampleAppDelegate
@@ -116,22 +116,22 @@ NSString *pushStatus ()
 {
 	NSUInteger rntypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
 	NSString *results = [NSString stringWithFormat:@"Badge: %@, Alert:%@, Sound: %@",
-						 (rntypes & UIRemoteNotificationTypeBadge) ? @"Yes" : @"No", 
+						 (rntypes & UIRemoteNotificationTypeBadge) ? @"Yes" : @"No",
 						 (rntypes & UIRemoteNotificationTypeAlert) ? @"Yes" : @"No",
 						 (rntypes & UIRemoteNotificationTypeSound) ? @"Yes" : @"No"];
-	
+
 	NSString *status = [NSString stringWithFormat:@"%@\nRegistration succeeded.\n\nDevice Token: %@\n%@", pushStatus(), deviceToken, results];
 	[self showString:status];
-	NSLog(@"deviceToken: %@", deviceToken); 
-} 
+	NSLog(@"deviceToken: %@", deviceToken);
+}
 
 // Provide a user explanation for when the registration fails
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error 
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
 	NSString *status = [NSString stringWithFormat:@"%@\nRegistration failed.\n\nError: %@", pushStatus(), [error localizedDescription]];
 	[self showString:status];
-    NSLog(@"Error in registration. Error: %@", error); 
-} 
+    NSLog(@"Error in registration. Error: %@", error);
+}
 
 // Handle an actual notification
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -157,12 +157,12 @@ NSString *pushStatus ()
 }
  */
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedController alloc] init]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];
-	
+
 	// Listen for remote notification launches
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchNotification:) name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
 }

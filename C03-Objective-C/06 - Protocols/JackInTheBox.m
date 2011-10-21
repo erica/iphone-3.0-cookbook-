@@ -21,14 +21,14 @@
 {
 	// You need a client to respond to the crank
 	if (!self.client) return;
-	
-	// Randomly generate an action in response to the crank turn	
+
+	// Randomly generate an action in response to the crank turn
 	int action = random() % 10;
 	if (action < 1)
 		[self.client jackDidAppear];
 	else if (action < 8)
 		[self.client musicDidPlay];
-	else 
+	else
 	{
 		// optional client method
 		if ([self.client  respondsToSelector:@selector(nothingDidHappen)])

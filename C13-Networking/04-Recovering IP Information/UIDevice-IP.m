@@ -20,7 +20,7 @@
 		const struct sockaddr_in* sin = (struct sockaddr_in*) address;
 		return [NSString stringWithFormat:@"%@:%d", [NSString stringWithUTF8String:inet_ntoa(sin->sin_addr)], ntohs(sin->sin_port)];
 	}
-	
+
 	return nil;
 }
 
@@ -30,17 +30,17 @@
 	if (!IPAddress || ![IPAddress length]) {
 		return NO;
 	}
-	
+
 	memset((char *) address, sizeof(struct sockaddr_in), 0);
 	address->sin_family = AF_INET;
 	address->sin_len = sizeof(struct sockaddr_in);
-	
+
 	int conversionResult = inet_aton([IPAddress UTF8String], &address->sin_addr);
 	if (conversionResult == 0) {
 		NSAssert1(conversionResult != 1, @"Failed to convert the IP address string into a sockaddr_in: %@", IPAddress);
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -50,7 +50,7 @@
 	int success = gethostname(baseHostName, 255);
 	if (success != 0) return nil;
 	baseHostName[255] = '\0';
-	
+
     #if !TARGET_IPHONE_SIMULATOR
 	return [NSString stringWithFormat:@"%s.local", baseHostName];
     #else
@@ -84,13 +84,13 @@
 	BOOL success;
 	struct ifaddrs * addrs;
 	const struct ifaddrs * cursor;
-	
+
 	success = getifaddrs(&addrs) == 0;
 	if (success) {
 		cursor = addrs;
 		while (cursor != NULL) {
 			// the second test keeps from picking up the loopback address
-			if (cursor->ifa_addr->sa_family == AF_INET && (cursor->ifa_flags & IFF_LOOPBACK) == 0) 
+			if (cursor->ifa_addr->sa_family == AF_INET && (cursor->ifa_flags & IFF_LOOPBACK) == 0)
 			{
 				NSString *name = [NSString stringWithUTF8String:cursor->ifa_name];
 				if ([name isEqualToString:@"en0"])  // Wi-Fi adapter

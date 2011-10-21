@@ -53,11 +53,11 @@
 - (void) report: (NSString *) aString
 {
 	// Only allow this method to run every five seconds
-	if (!self.lockout) 
+	if (!self.lockout)
 		self.lockout = [NSDate dateWithTimeIntervalSinceNow:5.0f];
 	else if ([[NSDate date] timeIntervalSinceDate:self.lockout] < 0.0f) return;
 	self.lockout = [NSDate dateWithTimeIntervalSinceNow:5.0f];
-	
+
 	// DO NOT USE THIS IN APP STORE APPLICATIONS
 	[vs performSelector:@selector(startSpeakingString:) withObject:aString];
 }
@@ -71,7 +71,7 @@
 			NSTimeInterval dTime = [newLocation.timestamp timeIntervalSinceDate:self.lastAccurateLocation.timestamp];
 			float distance = [newLocation getDistanceFrom:lastAccurateLocation];
 			if (distance < 1.0f) return;
-			
+
 			aggregateDistance += distance;
 			NSString *reportString = [NSString stringWithFormat:@"Speed: %0.1f miles per hour. Distance: %0.1f meters.", 2.23693629 * distance / dTime, aggregateDistance];
 			[self report: reportString];
@@ -88,24 +88,24 @@
 
 	self.log = [NSMutableString string];
 	[self doLog:@"Starting location manager"];
-	
+
 	self.locManager = [[[CLLocationManager alloc] init] autorelease];
 	if (!self.locManager.locationServicesEnabled)
 	{
 		[self doLog:@"User has opted out of location services"];
 		return;
 	}
-	
+
 	self.locManager.delegate = self;
 	self.locManager.desiredAccuracy = kCLLocationAccuracyBest;
 	[self.locManager startUpdatingLocation];
-	
+
 	// DO NOT USE THIS IN YOUR APPLICATIONS!
 	vs = [[NSClassFromString(@"VSSpeechSynthesizer") alloc] init];
 	[self performSelector:@selector(report:) withObject:@"Ready to go" afterDelay:1.0f];
-	
+
 	aggregateDistance = 0.0f;
-					  
+
 }
 @end
 
@@ -113,7 +113,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -39,7 +39,7 @@
 - (void) viewDidLoad
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	self.title = @"Toggle Button";	
+	self.title = @"Toggle Button";
 	[self.view viewWithTag:CLEARVIEW].backgroundColor = [UIColor clearColor];
 	[self.view viewWithTag:BUTTON2].alpha = 0.0f;
 }
@@ -49,7 +49,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -24,7 +24,7 @@ static DownloadHelper *sharedInstance = nil;
 - (void) start
 {
 	self.isDownloading = NO;
-	
+
 	NSURL *url = [NSURL URLWithString:self.urlString];
 	if (!url)
 	{
@@ -32,7 +32,7 @@ static DownloadHelper *sharedInstance = nil;
 		DELEGATE_CALLBACK(dataDownloadFailed:, reason);
 		return;
 	}
-	
+
 	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:url];
 	if (!theRequest)
 	{
@@ -40,7 +40,7 @@ static DownloadHelper *sharedInstance = nil;
 		DELEGATE_CALLBACK(dataDownloadFailed:, reason);
 		return;
 	}
-	
+
 	self.urlconnection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
 	if (!self.urlconnection)
 	{
@@ -48,13 +48,13 @@ static DownloadHelper *sharedInstance = nil;
 		DELEGATE_CALLBACK(dataDownloadFailed:, reason);
 		return;
 	}
-	
+
 	self.isDownloading = YES;
-	
+
 	// Create the new data object
 	self.data = [NSMutableData data];
 	self.response = nil;
-	
+
 	[self.urlconnection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
 }
 
@@ -70,7 +70,7 @@ static DownloadHelper *sharedInstance = nil;
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
 	// Thanks to KickingVegas
-	if (!username || !password) 
+	if (!username || !password)
 	{
 		[[challenge sender] useCredential:nil forAuthenticationChallenge:challenge];
 		return;
@@ -88,7 +88,7 @@ static DownloadHelper *sharedInstance = nil;
 {
 	// store the response information
 	self.response = aResponse;
-	
+
 	// Check for bad connection
 	if ([aResponse expectedContentLength] < 0)
 	{
@@ -98,7 +98,7 @@ static DownloadHelper *sharedInstance = nil;
 		[self cleanup];
 		return;
 	}
-	
+
 	if ([aResponse suggestedFilename])
 		DELEGATE_CALLBACK(didReceiveFilename:, [aResponse suggestedFilename]);
 }
@@ -120,7 +120,7 @@ static DownloadHelper *sharedInstance = nil;
 {
 	// finished downloading the data, cleaning up
 	self.response = nil;
-	
+
 	// Delegate is responsible for releasing data
 	if (self.delegate)
 	{
@@ -153,7 +153,7 @@ static DownloadHelper *sharedInstance = nil;
 		DELEGATE_CALLBACK(dataDownloadFailed:, @"");
 		return;
 	}
-	
+
 	sharedInstance.urlString = aURLString;
 	[sharedInstance start];
 }

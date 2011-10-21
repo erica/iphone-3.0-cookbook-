@@ -65,7 +65,7 @@
 {
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Get Data", @selector(action:));
 	if ([[NSFileManager defaultManager] fileExistsAtPath:self.savePath])
-		self.navigationItem.leftBarButtonItem = BARBUTTON(@"Play", @selector(startPlayback:));	
+		self.navigationItem.leftBarButtonItem = BARBUTTON(@"Play", @selector(startPlayback:));
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 	[(UISegmentedControl *)self.navigationItem.titleView setEnabled:YES];
 }
@@ -76,7 +76,7 @@
 	self.log = [NSMutableString string];
 	[self doLog:@"Downloading data now...\n"];
 	NSDate *date = [NSDate date];
-	
+
 	NSArray *urlArray = [NSArray arrayWithObjects: SMALL_URL, BIG_URL, FAKE_URL, nil];
 	NSURL *url = [NSURL URLWithString: [urlArray objectAtIndex:[which intValue]]];
 	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:url];
@@ -87,7 +87,7 @@
 	[self doLog:@"Response suggested file name: %@", [response suggestedFilename]];
 	if ([response suggestedFilename])
 		self.savePath = [DEST_PATH stringByAppendingString:[response suggestedFilename]];
-	
+
 	if (!result)
 		[self doLog:@"Error downloading data: %@.", [error localizedDescription]];
 	else if ([response expectedContentLength] < 0)
@@ -100,7 +100,7 @@
 		[result writeToFile:self.savePath atomically:YES];
 		[self doLog:@"Data written to file: %@.", self.savePath];
 	}
-	
+
 	[self performSelectorOnMainThread:@selector(finishedGettingData) withObject:nil waitUntilDone:NO];
 	[pool release];
 }
@@ -123,7 +123,7 @@
 	UISegmentedControl *seg = [[[UISegmentedControl alloc] initWithItems:[@"Short Long Wrong" componentsSeparatedByString:@" "]] autorelease];
 	seg.selectedSegmentIndex = 0;
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
-	self.navigationItem.titleView = seg;	
+	self.navigationItem.titleView = seg;
 }
 @end
 
@@ -131,7 +131,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

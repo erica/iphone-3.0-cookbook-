@@ -27,7 +27,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	va_start(arglist, formatstring);
 	id outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 	va_end(arglist);
-	
+
     UIAlertView *av = [[[UIAlertView alloc] initWithTitle:outstring message:nil delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil] autorelease];
 	[av show];
 }
@@ -62,10 +62,10 @@ static GameKitHelper *sharedInstance = nil;
 	if (!self.isConnected)
 	{
 		GKPeerPickerController *picker = [[GKPeerPickerController alloc] init];
-		picker.delegate = self; 
+		picker.delegate = self;
 		picker.connectionTypesMask = GKPeerPickerConnectionTypeNearby | GKPeerPickerConnectionTypeOnline;
-		[picker show]; 
-		if (self.viewController) 
+		[picker show];
+		if (self.viewController)
 			self.viewController.navigationItem.rightBarButtonItem = nil;
 	}
 }
@@ -74,11 +74,11 @@ static GameKitHelper *sharedInstance = nil;
 - (void) peerPickerControllerDidCancel: (GKPeerPickerController *)picker
 {
 	[picker release];
-	if (self.viewController) 
+	if (self.viewController)
 		self.viewController.navigationItem.rightBarButtonItem = BARBUTTON(@"Connect", @selector(startConnection));
 }
 
-- (void)peerPickerController:(GKPeerPickerController *)picker didConnectPeer:(NSString *)peerID toSession: (GKSession *) session{ 
+- (void)peerPickerController:(GKPeerPickerController *)picker didConnectPeer:(NSString *)peerID toSession: (GKSession *) session{
 	[picker dismiss];
 	[picker release];
 	[self.session setDataReceiveHandler:self withContext:nil];
@@ -86,13 +86,13 @@ static GameKitHelper *sharedInstance = nil;
 	DO_DATA_CALLBACK(connectionEstablished, nil);
 }
 
-- (GKSession *)peerPickerController:(GKPeerPickerController *)picker sessionForConnectionType:(GKPeerPickerConnectionType)type 
-{ 
+- (GKSession *)peerPickerController:(GKPeerPickerController *)picker sessionForConnectionType:(GKPeerPickerConnectionType)type
+{
 	// The session ID is basically the name of the service, and is used to create the bonjour connection.
-    if (!self.session) { 
-        self.session = [[GKSession alloc] initWithSessionID:(self.sessionID ? self.sessionID : @"Sample Session") displayName:nil sessionMode:GKSessionModePeer]; 
-        self.session.delegate = self; 
-    } 
+    if (!self.session) {
+        self.session = [[GKSession alloc] initWithSessionID:(self.sessionID ? self.sessionID : @"Sample Session") displayName:nil sessionMode:GKSessionModePeer];
+        self.session.delegate = self;
+    }
 	return self.session;
 }
 
@@ -105,24 +105,24 @@ static GameKitHelper *sharedInstance = nil;
 
 - (void)session:(GKSession *)session peer:(NSString *)peerID didChangeState:(GKPeerConnectionState)state
 {
-	/* STATES: GKPeerStateAvailable, = 0,  GKPeerStateUnavailable, = 1,  GKPeerStateConnected, = 2, 
+	/* STATES: GKPeerStateAvailable, = 0,  GKPeerStateUnavailable, = 1,  GKPeerStateConnected, = 2,
 	   GKPeerStateDisconnected, = 3, GKPeerStateConnecting = 4 */
-	
+
 	NSArray *states = [NSArray arrayWithObjects:@"Available", @"Unavailable", @"Connected", @"Disconnected", @"Connecting", nil];
 	NSLog(@"Peer state is now %@", [states objectAtIndex:state]);
-	
+
 	 if (state == GKPeerStateConnected)
 	 {
-		 if (self.viewController) 
+		 if (self.viewController)
 			 self.viewController.navigationItem.rightBarButtonItem = BARBUTTON(@"Disconnect", @selector(disconnect));
 	 }
-	
+
 	 if (state == GKPeerStateDisconnected)
 	 {
 		 self.isConnected = NO;
 		 showAlert(@"Lost connection with peer. You are no longer connected to another device.");
 		 [self disconnect];
-		 if (self.viewController) 
+		 if (self.viewController)
 			 self.viewController.navigationItem.rightBarButtonItem = BARBUTTON(@"Connect", @selector(startConnection));
 		 DO_DATA_CALLBACK(connectionLost, nil);
 	 }
@@ -135,7 +135,7 @@ static GameKitHelper *sharedInstance = nil;
 }
 
 - (void)peerPickerController:(GKPeerPickerController *)picker didSelectConnectionType:(GKPeerPickerConnectionType)type {
-    if(type == GKPeerPickerConnectionTypeOnline) 
+    if(type == GKPeerPickerConnectionTypeOnline)
 	{
         [picker dismiss];
         [picker release];

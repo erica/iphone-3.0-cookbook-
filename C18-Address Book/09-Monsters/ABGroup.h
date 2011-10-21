@@ -8,7 +8,7 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import "ABContact.h"
 
-@interface ABGroup : NSObject 
+@interface ABGroup : NSObject
 {
 	ABRecordRef record;
 }
@@ -28,6 +28,6 @@
 - (BOOL) removeMember: (ABContact *) contact withError: (NSError **) error;
 
 @property (nonatomic, assign) NSString *name;
-@property (nonatomic, readonly) NSArray *members; 
+@property (nonatomic, readonly) NSArray *members;
 
 @end

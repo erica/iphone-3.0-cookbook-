@@ -17,14 +17,14 @@
 {
 	self = [super init];
 	if (!self) return nil;
-	
+
 	self.make = nil;
 	self.model = nil;
 	self.year = 1901;
 	self.colors = nil;
 	self.forSale = YES;
 	salesman = nil;
-	
+
 	return self;
 }
 

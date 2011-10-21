@@ -43,7 +43,7 @@
 	// Show the overlay
 	if (!overlay.superview) [self.view.window addSubview:overlay];
 	overlay.alpha = 1.0f;
-	
+
 	// Animate the message view into place
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:0.3f];
@@ -74,7 +74,7 @@
 		overlay.transform = CGAffineTransformMakeRotation(-M_PI / 2.0f);
 	else if (interfaceOrientation == UIInterfaceOrientationLandscapeRight)
 		overlay.transform = CGAffineTransformMakeRotation(M_PI / 2.0f);
-	else 
+	else
 		overlay.transform = CGAffineTransformIdentity;
 	return YES;
 }
@@ -90,7 +90,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

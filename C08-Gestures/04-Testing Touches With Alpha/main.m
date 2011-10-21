@@ -12,14 +12,14 @@ NSUInteger alphaOffset(NSUInteger x, NSUInteger y, NSUInteger w){return y * w * 
 
 unsigned char *getBitmapFromImage (UIImage *image)
 {
-	
+
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	if (colorSpace == NULL)
     {
         fprintf(stderr, "Error allocating color space\n");
         return NULL;
     }
-	
+
 	CGSize size = image.size;
 	// void *bitmapData = malloc(size.width * size.height * 4);
 	unsigned char *bitmapData = calloc(size.width * size.height * 4, 1); // Courtesy of Dirk. Thanks!
@@ -29,7 +29,7 @@ unsigned char *getBitmapFromImage (UIImage *image)
         CGColorSpaceRelease(colorSpace);
         return NULL;
     }
-	
+
     CGContextRef context = CGBitmapContextCreate (bitmapData, size.width, size.height, 8, size.width * 4, colorSpace, kCGImageAlphaPremultipliedFirst);
     CGColorSpaceRelease(colorSpace );
     if (context == NULL)
@@ -38,12 +38,12 @@ unsigned char *getBitmapFromImage (UIImage *image)
         free (bitmapData);
 		return NULL;
     }
-	
+
 	CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
 	CGContextDrawImage(context, rect, image.CGImage);
 	unsigned char *data = CGBitmapContextGetData(context);
 	CGContextRelease(context);
-	
+
     return data;
 }
 
@@ -72,7 +72,7 @@ unsigned char *getBitmapFromImage (UIImage *image)
 }
 
 // Does the point hit the view?
-- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event 
+- (BOOL) pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
 	if (!CGRectContainsPoint(self.bounds, point)) return NO;
 	return (bytes[alphaOffset(point.x, point.y, self.image.size.width)] > 85);
@@ -115,7 +115,7 @@ unsigned char *getBitmapFromImage (UIImage *image)
 @implementation TestBedViewController
 #define MAXFLOWERS 12
 
-CGPoint randomPoint() 
+CGPoint randomPoint()
 {
 	int half = 32; // half of flower size
 	int freesize = 240 - 2 * half; // inner area
@@ -126,13 +126,13 @@ CGPoint randomPoint()
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	srandom(time(0));
-	
+
 	// Add backdrop which will bound the movement for the flowers
 	UIView *backdrop = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 282.0f)];
 	backdrop.backgroundColor = [UIColor blackColor];
 	backdrop.center = CGPointMake(160.0f, 140.0f);
-	
-	// Add the flowers to random points on the screen	
+
+	// Add the flowers to random points on the screen
 	for (int i = 0; i < MAXFLOWERS; i++)
 	{
 		NSString *whichFlower = [[NSArray arrayWithObjects:@"blueFlower.png", @"pinkFlower.png", @"orangeFlower.png", nil] objectAtIndex:(random() % 3)];
@@ -152,7 +152,7 @@ CGPoint randomPoint()
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

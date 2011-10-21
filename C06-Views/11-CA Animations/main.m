@@ -29,8 +29,8 @@
 	animation.delegate = self;
 	animation.duration = 1.0f;
 	animation.timingFunction = UIViewAnimationCurveEaseInOut;
-	
-	switch ([(UISegmentedControl *)self.navigationItem.titleView selectedSegmentIndex]) 
+
+	switch ([(UISegmentedControl *)self.navigationItem.titleView selectedSegmentIndex])
 	{
 		case 0:
 			animation.type = kCATransitionFade;
@@ -57,14 +57,14 @@
 	NSInteger white = [[whitebg subviews] indexOfObject:[whitebg viewWithTag:100]];
 	[whitebg exchangeSubviewAtIndex:purple withSubviewAtIndex:white];
 	[[whitebg layer] addAnimation:animation forKey:@"animation"];
-	
+
 	// Allow or disallow user interaction (otherwise you can touch "through"
 	// the cover view to enable/disable the switch)
-	if (purple < white) 
+	if (purple < white)
 		[self.view viewWithTag:99].userInteractionEnabled = YES;
-	else 
+	else
 		[self.view viewWithTag:99].userInteractionEnabled = NO;
-	
+
 	isLeft = !isLeft;
 }
 
@@ -84,7 +84,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

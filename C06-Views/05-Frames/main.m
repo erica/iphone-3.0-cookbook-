@@ -19,7 +19,7 @@
 {
 	UIView *innerView = [self.view viewWithTag:999];
 	UIView *outerView = [self.view viewWithTag:998];
-	
+
 	switch ([sc selectedSegmentIndex])
 	{
 		case 0:
@@ -42,22 +42,22 @@
 - (void) viewDidLoad
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	NSArray *buttonNames = [@"Top Bottom Left Right" componentsSeparatedByString:@" "];
 	UISegmentedControl* segmentedControl = [[UISegmentedControl alloc] initWithItems:buttonNames];
-	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar; 
+	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	[segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
 	segmentedControl.selectedSegmentIndex = 1;
 	self.navigationItem.titleView = segmentedControl;
 	[segmentedControl release];
-	
+
 	UIView *outerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 240.0f, 240.0f)];
 	outerView.center = CGPointMake(160.0f, 140.0f);
 	outerView.backgroundColor = [UIColor lightGrayColor];
 	outerView.tag = 998;
 	[self.view addSubview:outerView];
 	[outerView release];
-	
+
 	UIView *innerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 80.0f)];
 	innerView.right = outerView.width;
 	innerView.bottom = outerView.height;
@@ -72,7 +72,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -23,7 +23,7 @@
 	// recover data, save it, and dismiss
 	NSString *uname = [username text];
 	NSString *pword = [password text];
-	
+
 	if (uname) [self.wrapper setObject:uname forKey:(id)kSecAttrAccount];
 	if (pword) [self.wrapper setObject:pword forKey:(id)kSecValueData];
 	[self.parentViewController dismissModalViewControllerAnimated:YES];
@@ -39,18 +39,18 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Back", @selector(dismissCancel:));
-	
+
 	self.wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"SharedTwitter" accessGroup:@"Y93A4XLA79.com.sadun.GenericKeychainSuite"];
 	[self.wrapper release];
-	
+
 	NSString *uname = [self.wrapper objectForKey:(id)kSecAttrAccount];
 	NSString *pword = [self.wrapper objectForKey:(id)kSecValueData];
-	
+
 	if (uname) username.text = uname;
 	if (pword) password.text = pword;
-	
+
 	username.delegate = self;
-	password.delegate = self;	
+	password.delegate = self;
 }
 
 - (void) dealloc

@@ -27,7 +27,7 @@
 {
     amountDone += 1.0f;
     [progressView setProgress: (amountDone / 20.0)];
-	if (amountDone > 20.0) 
+	if (amountDone > 20.0)
 	{
 		[self.actionSheet dismissWithClickedButtonIndex:0 animated:YES];
 		self.actionSheet = nil;
@@ -44,13 +44,13 @@
     [progressView setProgressViewStyle: UIProgressViewStyleDefault];
     [actionSheet addSubview:progressView];
     [progressView release];
-	
-	
+
+
     // Create the demonstration updates
     [progressView setProgress:(amountDone = 0.0f)];
 	[NSTimer scheduledTimerWithTimeInterval: 0.35 target: self selector:@selector(incrementBar:) userInfo: nil repeats: YES];
     [actionSheet showInView:self.view];
-	progressView.center = CGPointMake(actionSheet.center.x, progressView.center.y);	
+	progressView.center = CGPointMake(actionSheet.center.x, progressView.center.y);
 }
 
 - (void) viewDidLoad
@@ -69,7 +69,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

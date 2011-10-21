@@ -1,4 +1,4 @@
-// 
+//
 //  Person.m
 //  HelloWorld
 //
@@ -10,7 +10,7 @@
 
 #import "Department.h"
 
-@implementation Person 
+@implementation Person
 
 @dynamic birthday;
 @dynamic name;

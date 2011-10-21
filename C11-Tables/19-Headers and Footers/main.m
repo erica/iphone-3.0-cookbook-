@@ -38,15 +38,15 @@
 @synthesize searchBar;
 @synthesize searchDC;
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
 	if (aTableView == self.tableView) return 26;
-	return 1; 
+	return 1;
 }
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)section
 {
-	if (aTableView == self.tableView) 
+	if (aTableView == self.tableView)
 	{
 		if ([[self.sectionArray objectAtIndex:section] count] == 0) return nil;
 		return [NSString stringWithFormat:@"Crayon names starting with '%@'", [[ALPHA substringFromIndex:section] substringToIndex:1]];
@@ -57,14 +57,14 @@
 // Via Jack Lucky
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-	[self.searchBar setText:@""]; 
+	[self.searchBar setText:@""];
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	// Normal table
 	if (aTableView == self.tableView) return [[self.sectionArray objectAtIndex:section] count];
-	
+
 	// Search table
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@", self.searchBar.text];
 	self.filteredArray = [self.crayonColors.allKeys filteredArrayUsingPredicate:predicate];
@@ -77,14 +77,14 @@
 	unsigned int red, green, blue;
 	NSRange range;
 	range.length = 2;
-	
-	range.location = 0; 
+
+	range.location = 0;
 	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&red];
-	range.location = 2; 
+	range.location = 2;
 	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&green];
-	range.location = 4; 
-	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&blue];	
-	
+	range.location = 4;
+	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&blue];
+
 	return [UIColor colorWithRed:(float)(red/255.0f) green:(float)(green/255.0f) blue:(float)(blue/255.0f) alpha:1.0f];
 }
 
@@ -94,9 +94,9 @@
 	UITableViewCellStyle style =  UITableViewCellStyleDefault;
 	UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:@"BaseCell"];
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
-	
+
 	NSString *crayon;
-	
+
 	// Retrieve the crayon and its color
 	if (aTableView == self.tableView)
 		crayon = [[self.sectionArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
@@ -112,7 +112,7 @@
 }
 
 // Respond to user selections by updating tint colors
-- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSString *crayon;
 	if (aTableView == self.tableView)
@@ -140,13 +140,13 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
 	UIView *hView = [[[NSBundle mainBundle] loadNibNamed:@"HeaderView" owner:self options:nil] lastObject];
-	
+
 	UILabel *label = (UILabel *)[hView viewWithTag:101];
 	label.text = [self tableView:self.tableView titleForHeaderInSection:section];
-	
+
 	UIButton *button = (UIButton *)[hView viewWithTag:102];
 	[button addTarget:self action:@selector(flip:) forControlEvents:UIControlEventTouchUpInside];
-	
+
 	return hView;
 }
 
@@ -156,16 +156,16 @@
 	NSString *pathname = [[NSBundle mainBundle]  pathForResource:@"crayons" ofType:@"txt" inDirectory:@"/"];
 	NSArray *rawCrayons = [[NSString stringWithContentsOfFile:pathname encoding:NSUTF8StringEncoding error:nil] componentsSeparatedByString:@"\n"];
 	self.crayonColors = [NSMutableDictionary dictionary];
-	
+
 	self.sectionArray = [NSMutableArray array];
 	for (int i = 0; i < 26; i++) [self.sectionArray addObject:[NSMutableArray array]];
-	for (NSString *string in rawCrayons) 
+	for (NSString *string in rawCrayons)
 	{
 		[self.crayonColors setObject:CRAYON_COLOR(string) forKey:CRAYON_NAME(string)];
 		NSUInteger firstLetter = [ALPHA rangeOfString:[string substringToIndex:1]].location;
 		if (firstLetter != NSNotFound) [[self.sectionArray objectAtIndex:firstLetter] addObject:CRAYON_NAME(string)];
 	}
-	
+
 	// Create a search bar
 	self.searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 44.0f)] autorelease];
 	self.searchBar.tintColor = COOKBOOK_PURPLE_COLOR;
@@ -173,7 +173,7 @@
 	self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	self.searchBar.keyboardType = UIKeyboardTypeAlphabet;
 	self.tableView.tableHeaderView = self.searchBar;
-	
+
 	// Create the search display controller
 	self.searchDC = [[[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self] autorelease];
 	self.searchDC.searchResultsDataSource = self;
@@ -185,13 +185,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

@@ -73,18 +73,18 @@
 	[numberFormatter setLocale:product.priceLocale];
 	NSString *formattedString = [numberFormatter stringFromNumber:product.price];
 	[numberFormatter release];
-	
-	// Create a description that gives a heads up about 
+
+	// Create a description that gives a heads up about
 	// a non-consumable purchase
-	NSString *buyString = formattedString; 
+	NSString *buyString = formattedString;
 	NSString *describeString = [NSString stringWithFormat:@"%@\n\nIf you have already purchased this item, you will not be charged again.", product.localizedDescription];
 	NSArray *buttons = [NSArray arrayWithObject: buyString];
-	
+
 	// Offer the user a choice to buy or not buy
 	if ([ModalAlert ask:describeString withCancel:@"No Thanks" withButtons:buttons])
 	{
 		// Purchase the item
-		SKPayment *payment = [SKPayment paymentWithProductIdentifier:PRODUCT_ID]; 
+		SKPayment *payment = [SKPayment paymentWithProductIdentifier:PRODUCT_ID];
 		[[SKPaymentQueue defaultQueue] addPayment:payment];
 	}
 	else
@@ -102,7 +102,7 @@
 - (void) completedPurchaseTransaction: (SKPaymentTransaction *) transaction
 {
 	// PERFORM THE SUCCESS ACTION THAT UNLOCKS THE FEATURE HERE
-		
+
 	// Finish transaction
 	[[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 	[ModalAlert say:@"Thank you for your purchase."];
@@ -115,18 +115,18 @@
 	[[SKPaymentQueue defaultQueue] finishTransaction: transaction];
 }
 
-- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions 
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {
 	for (SKPaymentTransaction *transaction in transactions) {
 		switch (transaction.transactionState) {
-			case SKPaymentTransactionStatePurchased: 
-			case SKPaymentTransactionStateRestored: 
+			case SKPaymentTransactionStatePurchased:
+			case SKPaymentTransactionStateRestored:
 				[self completedPurchaseTransaction:transaction];
 				break;
-			case SKPaymentTransactionStateFailed: 
-				[self handleFailedTransaction:transaction]; 
+			case SKPaymentTransactionStateFailed:
+				[self handleFailedTransaction:transaction];
 				break;
-			default: 
+			default:
 				break;
 		}
 	}
@@ -137,7 +137,7 @@
 	// Init log
 	self.log = [NSMutableString string];
 	[self doLog:@"Submitting Request... Please wait."];
-	
+
 	// Create the product request and start it
 	SKProductsRequest *preq = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObject:PRODUCT_ID]];
 	preq.delegate = self;
@@ -148,9 +148,9 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Action", @selector(action:));
-	
+
 	self.log = [NSMutableString string];
-	if (![UIDevice networkAvailable]) 
+	if (![UIDevice networkAvailable])
 		[self doLog:@"You are not connected to the network! All StoreKit calls will fail!"];
 }
 @end
@@ -159,7 +159,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	TestBedViewController *tbvc = [[TestBedViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tbvc];

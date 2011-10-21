@@ -18,7 +18,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	va_start(arglist, formatstring);
 	id outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 	va_end(arglist);
-	
+
     UIAlertView *av = [[[UIAlertView alloc] initWithTitle:outstring message:nil delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil] autorelease];
 	[av show];
 }
@@ -40,7 +40,7 @@ static WebHelper *sharedInstance = nil;
 - (NSString *) getRequest: (int) fd
 {
 	static char buffer[BUFSIZE+1];
-	int len = read(fd, buffer, BUFSIZE); 	
+	int len = read(fd, buffer, BUFSIZE);
 	buffer[len] = '\0';
 	return [NSString stringWithCString:buffer encoding:NSUTF8StringEncoding];
 }
@@ -50,7 +50,7 @@ static WebHelper *sharedInstance = nil;
 {
 	// recover request
 	NSString *request = [self getRequest:fd];
-	
+
 	// Create a category and implement this meaningfully
 	NSMutableString *outcontent = [NSMutableString string];
 	[outcontent appendString:@"HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n"];
@@ -66,9 +66,9 @@ static WebHelper *sharedInstance = nil;
 - (void) listenForRequests
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	static struct	sockaddr_in cli_addr; 
+	static struct	sockaddr_in cli_addr;
 	socklen_t		length = sizeof(cli_addr);
-	
+
 	while (1 > 0) {
 		if (!self.isServing) return;
 
@@ -78,10 +78,10 @@ static WebHelper *sharedInstance = nil;
 			DO_CALLBACK(serviceWasLost, nil);
 			return;
 		}
-		
+
 		[self handleWebRequest:socketfd];
 	}
-	
+
 	[pool release];
 }
 
@@ -89,28 +89,28 @@ static WebHelper *sharedInstance = nil;
 - (void) startServer
 {
 	static struct	sockaddr_in serv_addr;
-	
+
 	// Set up socket
-	if((listenfd = socket(AF_INET, SOCK_STREAM,0)) < 0)	
+	if((listenfd = socket(AF_INET, SOCK_STREAM,0)) < 0)
 	{
 		self.isServing = NO;
 		DO_CALLBACK(serviceCouldNotBeEstablished, nil);
 		return;
 	}
-	
+
     // Serve to a random port
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	serv_addr.sin_port = 0;
-	
+
 	// Bind
-	if(bind(listenfd, (struct sockaddr *)&serv_addr,sizeof(serv_addr)) <0)	
+	if(bind(listenfd, (struct sockaddr *)&serv_addr,sizeof(serv_addr)) <0)
 	{
 		self.isServing = NO;
 		DO_CALLBACK(serviceCouldNotBeEstablished, nil);
 		return;
 	}
-	
+
 	// Find out what port number was chosen.
 	int namelen = sizeof(serv_addr);
 	if (getsockname(listenfd, (struct sockaddr *)&serv_addr, (void *) &namelen) < 0) {
@@ -119,17 +119,17 @@ static WebHelper *sharedInstance = nil;
 		DO_CALLBACK(serviceCouldNotBeEstablished, nil);
 		return;
 	}
-	
+
 	chosenPort = ntohs(serv_addr.sin_port);
-	
+
 	// Listen
-	if(listen(listenfd, 64) < 0)	
+	if(listen(listenfd, 64) < 0)
 	{
 		self.isServing = NO;
 		DO_CALLBACK(serviceCouldNotBeEstablished, nil);
 		return;
-	} 
-	
+	}
+
 	DO_CALLBACK(serviceWasEstablished, nil);
 	[NSThread detachNewThreadSelector:@selector(listenForRequests) toTarget:self withObject:NULL];
 }
@@ -144,5 +144,5 @@ static WebHelper *sharedInstance = nil;
 	}
 	[self startServer];
 	self.isServing = YES;
-}	
+}
 @end

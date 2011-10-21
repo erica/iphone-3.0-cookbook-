@@ -23,13 +23,13 @@ SCNetworkConnectionFlags connectionFlags;
 	BOOL success;
 	struct ifaddrs * addrs;
 	const struct ifaddrs * cursor;
-	
+
 	success = getifaddrs(&addrs) == 0;
 	if (success) {
 		cursor = addrs;
 		while (cursor != NULL) {
 			// the second test keeps from picking up the loopback address
-			if (cursor->ifa_addr->sa_family == AF_INET && (cursor->ifa_flags & IFF_LOOPBACK) == 0) 
+			if (cursor->ifa_addr->sa_family == AF_INET && (cursor->ifa_flags & IFF_LOOPBACK) == 0)
 			{
 				NSString *name = [NSString stringWithUTF8String:cursor->ifa_name];
 				if ([name isEqualToString:@"en0"])  // Wi-Fi adapter
@@ -52,12 +52,12 @@ SCNetworkConnectionFlags connectionFlags;
 	ipAddress.sin_len = sizeof(ipAddress);
 	ipAddress.sin_family = AF_INET;
 	ipAddress.sin_addr.s_addr = htonl(ignoresAdHocWiFi ? INADDR_ANY : IN_LINKLOCALNETNUM);
-    
+
     // Recover reachability flags
-    SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (struct sockaddr *)&ipAddress);    
+    SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (struct sockaddr *)&ipAddress);
     BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &connectionFlags);
     CFRelease(defaultRouteReachability);
-	if (!didRetrieveFlags) 
+	if (!didRetrieveFlags)
         printf("Error. Could not recover network reachability flags\n");
 }
 

@@ -45,7 +45,7 @@
 	ipc.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
 	ipc.delegate = self;
 	ipc.allowsImageEditing = NO;
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 }
 
 - (void) viewDidLoad
@@ -53,7 +53,7 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Pick", @selector(pickImage:));
 	self.title = @"Image Masker";
-	
+
 	UISegmentedControl *seg = [[UISegmentedControl alloc] initWithItems:[@"Heart Club Diamond Spade" componentsSeparatedByString:@" "]];
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
 	seg.selectedSegmentIndex = 0;
@@ -66,7 +66,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

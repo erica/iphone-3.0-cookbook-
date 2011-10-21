@@ -31,7 +31,7 @@
 
 @implementation TestBedAppDelegate
 @synthesize tbvc;
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.tbvc = [[[TestBedViewController alloc] init] autorelease];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.tbvc];

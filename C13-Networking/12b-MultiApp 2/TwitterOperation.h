@@ -11,7 +11,7 @@
 - (void) doneTweeting: (NSString *) status;
 @end
 
-@interface TwitterOperation : NSOperation 
+@interface TwitterOperation : NSOperation
 {
 	KeychainItemWrapper *wrapper;
 	NSString *theText;

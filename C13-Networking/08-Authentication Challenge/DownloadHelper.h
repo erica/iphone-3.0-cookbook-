@@ -15,7 +15,7 @@
 - (void) dataDownloadAtPercent: (NSNumber *) aPercent;
 @end
 
-@interface DownloadHelper : NSObject 
+@interface DownloadHelper : NSObject
 {
 	NSURLResponse *response;
 	NSMutableData *data;

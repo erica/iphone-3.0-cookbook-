@@ -17,9 +17,9 @@
 @implementation TestBedViewController
 - (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
 {
-	if (!error) 
+	if (!error)
 		self.title = @"Saved!";
-	else 
+	else
 		CFShow([error localizedDescription]);
 }
 
@@ -27,14 +27,14 @@
 {
 	// recover video URL
 	NSURL *url = [info objectForKey:UIImagePickerControllerMediaURL];
-	
+
 	// check if video is compatible with album
 	BOOL compatible = UIVideoAtPathIsCompatibleWithSavedPhotosAlbum([url path]);
-	
+
 	// save
 	if (compatible)
 		UISaveVideoAtPathToSavedPhotosAlbum([url path], self, @selector(video:didFinishSavingWithError:contextInfo:), NULL);
-	
+
 	[self dismissModalViewControllerAnimated:YES];
 	[picker release];
 }
@@ -55,7 +55,7 @@
 	ipc.videoMaximumDuration = 30.0f; // 30 seconds
 	ipc.mediaTypes = [NSArray arrayWithObject:@"public.movie"];
 	// ipc.mediaTypes = [NSArray arrayWithObjects:@"public.movie", @"public.image", nil];
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 }
 
 - (BOOL) videoRecordingAvailable
@@ -67,10 +67,10 @@
 - (void) viewDidLoad
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	if ([self videoRecordingAvailable])
 		self.navigationItem.rightBarButtonItem = BARBUTTON(@"Record", @selector(recordVideo:));
-	else 
+	else
 		self.title = @"No Video Recording";
 }
 @end
@@ -79,7 +79,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

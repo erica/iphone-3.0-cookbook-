@@ -36,12 +36,12 @@
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"ToDoItem" inManagedObjectContext:self.context];
 	[fetchRequest setEntity:entity];
 	[fetchRequest setFetchBatchSize:100]; // more than needed for this example
-	
+
 	// Apply an ascending sort for the items
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"action" ascending:YES selector:nil];
 	NSArray *descriptors = [NSArray arrayWithObject:sortDescriptor];
 	[fetchRequest setSortDescriptors:descriptors];
-		
+
 	// Init the fetched results controller
 	NSError *error;
 	self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.context sectionNameKeyPath:@"sectionName" cacheName:@"Root"];
@@ -54,7 +54,7 @@
 }
 
 #pragma mark Table Sections
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	return [[self.fetchedResultsController sections] count];
 }
@@ -68,7 +68,7 @@
 }
 
 #pragma mark Items in Sections
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	return [[[self.fetchedResultsController sections] objectAtIndex:section] numberOfObjects];
 }
@@ -78,20 +78,20 @@
     // Retrieve or create a cell
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"basic cell"];
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"basic cell"] autorelease];
-	
+
 	// Recover object from fetched results
 	NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.textLabel.text = [managedObject valueForKey:@"action"];
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	// some action here
 }
 
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath 
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return NO; 	// no reordering allowed
 }
@@ -101,7 +101,7 @@
 {
 	// left item is always add
 	self.navigationItem.leftBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemAdd, @selector(add));
-	
+
 	// right (edit/done) item depends on both edit mode and item count
 	int count = [[self.fetchedResultsController fetchedObjects] count];
 	if (self.tableView.isEditing)
@@ -125,19 +125,19 @@
 	[self setBarButtonItems];
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// delete request
-    if (editingStyle == UITableViewCellEditingStyleDelete) 
+    if (editingStyle == UITableViewCellEditingStyleDelete)
 	{
 		NSError *error = nil;
 		[self.context deleteObject:[fetchedResultsController objectAtIndexPath:indexPath]];
 		if (![self.context save:&error]) NSLog(@"Error: %@", [error localizedDescription]);
 	}
-	
+
 	// update buttons after delete action
 	[self setBarButtonItems];
-	
+
 	// update sections
 	[self performFetch];
 }
@@ -148,19 +148,19 @@
 	// request a string to use as the action item
 	NSString *todoAction = [ModalAlert ask:@"What Item?" withTextPrompt:@"To Do Item"];
 	if (!todoAction || todoAction.length == 0) return;
-	
+
 	// build a new item and set its action field
 	ToDoItem *item = (ToDoItem *)[NSEntityDescription insertNewObjectForEntityForName:@"ToDoItem" inManagedObjectContext:self.context];
 	item.action = todoAction;
 	item.sectionName = [[todoAction substringToIndex:1] uppercaseString];
-	
+
 	// save the new item
-	NSError *error; 
+	NSError *error;
 	if (![self.context save:&error]) NSLog(@"Error: %@", [error localizedDescription]);
-	
+
 	// update buttons after add
 	[self setBarButtonItems];
-	
+
 	// update sections
 	[self performFetch];
 }
@@ -191,15 +191,15 @@
 - (void) initCoreData
 {
 	NSError *error;
-	
-	// Path to sqlite file. 
+
+	// Path to sqlite file.
 	NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents/todo_04.sqlite"];
 	NSURL *url = [NSURL fileURLWithPath:path];
-	
+
 	// Init the model, coordinator, context
 	NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 	NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
-	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) 
+	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error])
 		NSLog(@"Error: %@", [error localizedDescription]);
 	else
 	{

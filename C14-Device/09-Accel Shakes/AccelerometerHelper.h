@@ -11,13 +11,13 @@
 	float	cx, cy, cz; // current
 	float	lx, ly, lz; // last
 	float	px, py, pz; // previous
-	
+
 	float	sensitivity;
-	
+
 	NSDate	*triggerTime;
 	NSTimeInterval lockout;
-	
-	id <AccelerometerHelperDelegate> delegate;	
+
+	id <AccelerometerHelperDelegate> delegate;
 }
 
 + (AccelerometerHelper *) sharedInstance;

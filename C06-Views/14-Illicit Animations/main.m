@@ -29,8 +29,8 @@
 	animation.delegate = self;
 	animation.duration = 1.0f;
 	animation.timingFunction = UIViewAnimationCurveEaseInOut;
-	
-	switch ([(UISegmentedControl *)self.navigationItem.titleView selectedSegmentIndex]) 
+
+	switch ([(UISegmentedControl *)self.navigationItem.titleView selectedSegmentIndex])
 	{
 		case 0:
 			animation.type = @"rippleEffect";
@@ -72,7 +72,7 @@
 	NSInteger white = [[whitebg subviews] indexOfObject:[whitebg viewWithTag:100]];
 	[whitebg exchangeSubviewAtIndex:purple withSubviewAtIndex:white];
 	[[whitebg layer] addAnimation:animation forKey:@"animation"];
-	
+
 	if (++direction > 3) direction -= 4;
 }
 
@@ -92,7 +92,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

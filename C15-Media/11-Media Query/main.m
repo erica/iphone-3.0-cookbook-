@@ -14,7 +14,7 @@
 @interface TestBedViewController : UITableViewController <MPMediaPickerControllerDelegate, UISearchBarDelegate>
 {
 	NSArray *songCollections;
-	NSMutableDictionary *titleCache; 
+	NSMutableDictionary *titleCache;
 }
 @property (retain) NSArray *songCollections;
 @property (retain) NSMutableDictionary *titleCache;
@@ -49,10 +49,10 @@
 	MPMediaQuery *query = [MPMediaQuery songsQuery];
 	MPMediaPropertyPredicate *mpp = [MPMediaPropertyPredicate predicateWithValue:@"road" forProperty:MPMediaItemPropertyTitle comparisonType:MPMediaPredicateComparisonContains];
 	[query addFilterPredicate:mpp];
-	
+
 	NSArray *collections = query.collections;
 	NSLog(@"You have %d matching tracks in your library\n", collections.count);
-	
+
 	for (MPMediaItemCollection *collection in collections)
 	{
 		for (MPMediaItem *item in [collection items])
@@ -69,7 +69,7 @@
 	MPMediaQuery *query = [MPMediaQuery artistsQuery];
 	MPMediaPropertyPredicate *mpp = [MPMediaPropertyPredicate predicateWithValue:@"Sa" forProperty:MPMediaItemPropertyArtist comparisonType:MPMediaPredicateComparisonContains];
 	[query addFilterPredicate:mpp];
-	
+
 	for (MPMediaItemCollection *collection in query.collections)
 	{
 		MPMediaItem *item = [[collection items] lastObject];
@@ -84,26 +84,26 @@
 {
 	// Hide keyboard
 	[searchBar resignFirstResponder];
-	
+
 	// Reset the title cache
 	self.titleCache = [NSMutableDictionary dictionary];
-	
+
 	// Create a new query
 	MPMediaQuery *query = [MPMediaQuery songsQuery];
 	MPMediaPropertyPredicate *mpp = [MPMediaPropertyPredicate predicateWithValue:searchBar.text forProperty:MPMediaItemPropertyTitle comparisonType:MPMediaPredicateComparisonContains];
-	[query addFilterPredicate:mpp];	
-	
+	[query addFilterPredicate:mpp];
+
 	// Retrieve the results and reload the table data
 	self.songCollections = query.collections;
 	[self.tableView reloadData];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return [self.songCollections count];
 }
@@ -112,19 +112,19 @@
 {
 	// To give a sense of the timing
 	printf("Retrieving cell %d\n", indexPath.row);
-	
+
 	UITableViewCellStyle style =  UITableViewCellStyleDefault;
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:@"BaseCell"];
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
-	
+
 	NSString *label = [titleCache objectForKey:NUMBER(indexPath.row)];
-	if (!label) 
+	if (!label)
 	{
 		MPMediaItem *item = [[[self.songCollections objectAtIndex:indexPath.row] items] lastObject];
 		label = [item valueForProperty:MPMediaItemPropertyTitle];
 		[titleCache setObject:label forKey:NUMBER(indexPath.row)];
 	}
-	
+
 	cell.textLabel.text = label;
 	return cell;
 }
@@ -141,7 +141,7 @@
 	sb.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.titleView = sb;
 	sb.delegate = self;
-	
+
 	self.titleCache = [NSMutableDictionary dictionary];
 }
 @end
@@ -150,7 +150,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

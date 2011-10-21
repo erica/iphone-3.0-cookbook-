@@ -41,20 +41,20 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Start", @selector(start:));
-	
+
 	UIView *outerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 240.0f, 240.0f)];
 	outerView.center = CGPointMake(160.0f, 140.0f);
 	outerView.backgroundColor = [UIColor lightGrayColor];
 	outerView.tag = 998;
 	[self.view addSubview:outerView];
 	[outerView release];
-	
+
 	UIView *innerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 80.0f, 80.0f)];
 	innerView.backgroundColor = COOKBOOK_PURPLE_COLOR;
 	innerView.tag = 999;
 	[outerView addSubview:innerView];
 	[innerView release];
-	
+
 	timer = nil;
 }
 @end
@@ -63,7 +63,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

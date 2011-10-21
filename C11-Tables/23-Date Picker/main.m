@@ -33,7 +33,7 @@
 		default:
 			break;
 	}
-	
+
 	NSString *timestamp = [formatter stringFromDate:datePicker.date];
 	[(UILabel *)[self.view viewWithTag:103] setText:timestamp];
 	[actionSheet release];
@@ -46,12 +46,12 @@
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:@"Set", nil];
 	[actionSheet showInView:self.view];
 
-	
+
 	UIDatePicker *datePicker = [[[UIDatePicker alloc] init] autorelease];
 	datePicker.tag = 101;
 	datePicker.datePickerMode = [(UISegmentedControl *)self.navigationItem.titleView selectedSegmentIndex];
 	[actionSheet addSubview:datePicker];
-	
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -63,7 +63,7 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Action", @selector(action:));
-	
+
 	UISegmentedControl *seg = [[[UISegmentedControl alloc] initWithItems:[@"Time Date DT Count" componentsSeparatedByString:@" "]] autorelease];
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
 	seg.selectedSegmentIndex = 0;
@@ -75,7 +75,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

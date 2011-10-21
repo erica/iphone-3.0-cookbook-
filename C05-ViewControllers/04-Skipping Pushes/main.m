@@ -26,20 +26,20 @@
 - (void) doPush: (id) nc
 {
 	// With the stack back at view 1, push on view #depth+1
-	[nc pushViewController:[[TestBedViewController alloc] initWithDepth:depth+1] animated:YES];	
+	[nc pushViewController:[[TestBedViewController alloc] initWithDepth:depth+1] animated:YES];
 }
 
 - (void) push
 {
-	if (depth < 2) 
+	if (depth < 2)
 	{
 		[self.navigationController pushViewController:[[TestBedViewController alloc] initWithDepth:depth+1] animated:YES];
 		return;
 	}
-	
+
 	// Push from current view to view #depth+1, showing the animation
 	[self.navigationController pushViewController:[[TestBedViewController alloc] initWithDepth:depth+1] animated:YES];
-	
+
 	// Get ready to push from view #1 to view #depth+1
     [self performSelector:@selector(doPush:) withObject:self.navigationController afterDelay:0.05f];
 
@@ -48,7 +48,7 @@
 	[self.navigationController popViewControllerAnimated:NO];
 	[[self.navigationController topViewController] autorelease];
 	[self.navigationController popViewControllerAnimated:NO];
-	
+
 }
 
 - (void) loadView
@@ -57,16 +57,16 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	NSString *valueString = [NSString stringWithFormat:@"%d", depth];
 	NSString *nextString = [NSString stringWithFormat:@"Push %d", depth + 1];
-	
+
 	// set the title
 	if (depth > 1)
 		self.title = [@"Level " stringByAppendingString:valueString];
 	else
 		self.title = @"Root Level";
-	
+
 	// Set the main label
 	((UILabel *)[self.view viewWithTag:101]).text = valueString;
-	
+
 	// Add the "next" bar button item
 	if (depth < 3) self.navigationItem.rightBarButtonItem = BARBUTTON(nextString, @selector(push));
 }
@@ -76,7 +76,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] initWithDepth:1]];
 	[window addSubview:nav.view];

@@ -55,11 +55,11 @@
 - (void) transmit
 {
 	if (![GameKitHelper sharedInstance].isConnected) return;
-	
+
 	// send points if available, otherwise clear
-	if (!self.points) 
+	if (!self.points)
 		[GameKitHelper sendData:[@"clear" dataUsingEncoding:NSUTF8StringEncoding]];
-	else 
+	else
 	{
 		NSString *errorString;
 		NSData *plistdata = [NSPropertyListSerialization dataFromPropertyList:self.points format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorString];
@@ -100,21 +100,21 @@
 	// Otherwise handle points
 	CFStringRef errorString;
 	CFPropertyListRef plist = CFPropertyListCreateFromXMLData(kCFAllocatorDefault, (CFDataRef)thedata, kCFPropertyListMutableContainers, &errorString);
-	if (!plist) 
+	if (!plist)
 	{
 		CFShow(errorString);
 		return;
 	}
-	
+
 	self.foreignPoints = (NSArray *)plist;
-	
+
 	// Handle the case of an improper clear
-	if (self.foreignPoints.count == 0)  
+	if (self.foreignPoints.count == 0)
 		self.points = [NSMutableArray array];
 	[self setNeedsDisplay];
 }
 
-- (BOOL) isMultipleTouchEnabled 
+- (BOOL) isMultipleTouchEnabled
 {
 	return NO;
 }
@@ -124,15 +124,15 @@
 {
 	if (!self.points) self.points = [NSMutableArray array];
 	if (!self.currentColor) self.currentColor = [UIColor whiteColor];
-	
+
 	NSMutableArray *newArray = [NSMutableArray array];
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 	[dict setObject:newArray forKey:@"points"];
 	[dict setObject:[self.currentColor stringFromColor] forKey:@"color"];
-	
+
 	CGPoint pt = [[touches anyObject] locationInView:self];
 	[newArray addObject:NSStringFromCGPoint(pt)];
-	
+
 	[self.points addObject:dict];
 }
 
@@ -156,7 +156,7 @@
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGContextClearRect(context, CGRectMake(0.0f, 0.0f, 320.0f, 416.0f));
-	
+
 	if (self.points)
 	{
 		int arraynum = 0;
@@ -165,9 +165,9 @@
 			NSArray *ptarray = [dict objectForKey:@"points"];
 			UIColor *color = [UIColor colorWithString:[dict objectForKey:@"color"]];
 			[color set];
-			
+
 			if (ptarray.count < 3)	{arraynum++; continue;}
-	
+
 			CGContextSetLineWidth(context, 4.0f);
 			for (int i = 0; i < (ptarray.count - 1); i++)
 			{
@@ -177,11 +177,11 @@
 				CGContextAddLineToPoint(context, pt2.x, pt2.y);
 				CGContextStrokePath(context);
 			}
-			
+
 			arraynum++;
 		}
 	}
-	
+
 	if (self.foreignPoints)
 	{
 		int arraynum = 0;
@@ -190,11 +190,11 @@
 			NSArray *ptarray = [dict objectForKey:@"points"];
 			UIColor *color = [UIColor colorWithString:[dict objectForKey:@"color"]];
 			[color set];
-			
+
 			if (ptarray.count < 3)	{arraynum++; continue;}
-			
+
 			CGContextSetLineWidth(context, 4.0f);
-			
+
 			for (int i = 0; i < (ptarray.count - 1); i++)
 			{
 				CGPoint pt1 = CGPointFromString([ptarray objectAtIndex:i]);
@@ -203,7 +203,7 @@
 				CGContextAddLineToPoint(context, pt2.x, pt2.y);
 				CGContextStrokePath(context);
 			}
-			
+
 			arraynum++;
 		}
 	}

@@ -43,7 +43,7 @@ CGRect rectWithCenter(CGRect rect, CGPoint center)
 	// Move in by the inset amount and then by size of the subview
 	CGRect baseRect = aView.bounds;
 	CGRect subRect = CGRectInset(baseRect, self.frame.size.width / 2.0f, self.frame.size.height / 2.0f);
-	
+
 	// Return a point that is h% horizontal and v% vertical
 	float px = (float)(h * subRect.size.width);
 	float py = (float)(v * subRect.size.height);
@@ -63,7 +63,7 @@ CGRect rectWithCenter(CGRect rect, CGPoint center)
 	// Move in by the inset amount and then by size of the subview
 	CGRect innerRect = UIEdgeInsetsInsetRect([aView bounds], insets);
 	CGRect subRect = CGRectInset(innerRect, self.frame.size.width / 2.0f, self.frame.size.height / 2.0f);
-	
+
 	// Return a random point
 	float rx = (float)(random() % (int)floor(subRect.size.width));
 	float ry = (float)(random() % (int)floor(subRect.size.height));
@@ -83,15 +83,15 @@ CGRect rectWithCenter(CGRect rect, CGPoint center)
 		self.center = [self randomCenterInView:aView withInset:5];
 		return;
 	}
-	
+
 	// Why 0.3f seconds? Because that is the time used to display a keyboard
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	[UIView beginAnimations:nil context:context];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:0.3f];
-	
+
 	self.center = [self randomCenterInView:aView withInset:5];
-	
+
 	[UIView commitAnimations];
 }
 

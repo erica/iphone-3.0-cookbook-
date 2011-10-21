@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Car : NSObject 
+@interface Car : NSObject
 {
 	int year;
 	NSString *make;

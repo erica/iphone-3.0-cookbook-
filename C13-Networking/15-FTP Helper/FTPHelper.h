@@ -24,7 +24,7 @@
 - (void) credentialsMissing;
 @end
 
-@interface FTPHelper : NSObject 
+@interface FTPHelper : NSObject
 {
 	NSString *urlString;
 	id <FTPHelperDelegate> delegate;

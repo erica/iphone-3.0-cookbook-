@@ -14,7 +14,7 @@
 #pragma mark Create and Initialize TreeNodes
 - (TreeNode *) init
 {
-	if (self = [super init]) 
+	if (self = [super init])
 	{
 		key = nil;
 		leafvalue = nil;
@@ -52,7 +52,7 @@
 - (NSArray *) allKeys
 {
 	NSMutableArray *results = [NSMutableArray array];
-	for (TreeNode *node in children) 
+	for (TreeNode *node in children)
 	{
 		[results addObject:[node key]];
 		[results addObjectsFromArray:[node allKeys]];
@@ -90,7 +90,7 @@
 - (NSArray *) allLeaves
 {
 	NSMutableArray *results = [NSMutableArray array];
-	for (TreeNode *node in children) 
+	for (TreeNode *node in children)
 	{
 		if ([node leafvalue]) [results addObject:[node leafvalue]];
 		[results addObjectsFromArray:[node allLeaves]];
@@ -104,7 +104,7 @@
 - (TreeNode *) objectForKey: (NSString *) aKey
 {
 	TreeNode *result = nil;
-	for (TreeNode *node in children) 
+	for (TreeNode *node in children)
 		if ([[node key] isEqualToString: aKey])
 		{
 			result = node;
@@ -123,9 +123,9 @@
 - (NSString *) leafForKey: (NSString *) aKey
 {
 	NSString *result = nil;
-	for (TreeNode *node in children) 
-		if ([[node key] isEqualToString: aKey]) 
-			if ([node leafvalue]) 
+	for (TreeNode *node in children)
+		if ([[node key] isEqualToString: aKey])
+			if ([node leafvalue])
 			{
 				result = [node leafvalue];
 				break;
@@ -143,7 +143,7 @@
 - (NSMutableArray *) objectsForKey: (NSString *) aKey
 {
 	NSMutableArray *result = [NSMutableArray array];
-	for (TreeNode *node in children) 
+	for (TreeNode *node in children)
 	{
 		if ([[node key] isEqualToString: aKey]) [result addObject:node];
 		[result addObjectsFromArray:[node objectsForKey:aKey]];
@@ -155,9 +155,9 @@
 - (NSMutableArray *) leavesForKey: (NSString *) aKey
 {
 	NSMutableArray *result = [NSMutableArray array];
-	for (TreeNode *node in children) 
+	for (TreeNode *node in children)
 	{
-		if ([[node key] isEqualToString: aKey]) 
+		if ([[node key] isEqualToString: aKey])
 			if ([node leafvalue])
 				[result addObject:[node leafvalue]];
 		[result addObjectsFromArray:[node leavesForKey:aKey]];
@@ -169,16 +169,16 @@
 - (TreeNode *) objectForKeys: (NSArray *) keys
 {
 	if ([keys count] == 0) return self;
-	
+
 	NSMutableArray *nextArray = [NSMutableArray arrayWithArray:keys];
 	[nextArray removeObjectAtIndex:0];
-	
+
 	for (TreeNode *node in children)
 	{
 		if ([[node key] isEqualToString:[keys objectAtIndex:0]])
 			return [node objectForKeys:nextArray];
 	}
-	
+
 	return nil;
 }
 
@@ -189,19 +189,19 @@
 	{
 		if ([self leafvalue])
 			return [self leafvalue];
-		else 
+		else
 			return nil;
 	}
-	
+
 	NSMutableArray *nextArray = [NSMutableArray arrayWithArray:keys];
 	[nextArray removeObjectAtIndex:0];
-	
+
 	for (TreeNode *node in children)
 	{
 		if ([[node key] isEqualToString:[keys objectAtIndex:0]])
 			return [node leafForKeys:nextArray];
 	}
-	
+
 	return nil;
 }
 
@@ -209,11 +209,11 @@
 - (void) dumpAtIndent: (int) indent
 {
 	for (int i = 0; i < indent; i++) printf("--");
-	
+
 	printf("[%2d] Key: %s ", indent, [key UTF8String]);
 	if (leafvalue) printf("(%s)", [leafvalue UTF8String]);
 	printf("\n");
-	
+
 	for (TreeNode *node in children) [node dumpAtIndent:indent + 1];
 }
 
@@ -226,10 +226,10 @@
 - (NSMutableDictionary *) dictionaryForChildren
 {
 	NSMutableDictionary *results = [NSMutableDictionary dictionary];
-	
+
 	for (TreeNode *node in children)
 		if ([node isLeaf]) [results setObject:[node leafvalue] forKey:[node key]];
-	
+
 	return results;
 }
 
@@ -239,7 +239,7 @@
 	self.children = nil;
 	self.key = nil;
 	self.leafvalue = nil;
-	
+
 	[super dealloc];
 }
 

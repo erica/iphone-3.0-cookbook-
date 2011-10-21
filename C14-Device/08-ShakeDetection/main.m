@@ -59,7 +59,7 @@
 	[self playSound:startSound];
 }
 
-/* Kind of overkill here 
+/* Kind of overkill here
  - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
  	if (motion != UIEventSubtypeMotionShake) return;
 	[self playSound:endSound];
@@ -87,7 +87,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -28,17 +28,17 @@
 @synthesize searchBar;
 @synthesize searchDC;
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	// Normal table
-	if (aTableView == self.tableView) 
+	if (aTableView == self.tableView)
 		return self.contacts.count;
-	
+
 	// Search table
 	self.filteredArray = [ABContactsHelper contactsMatchingName:self.searchBar.text];
 	return self.filteredArray.count;
@@ -47,7 +47,7 @@
 // Via Jack Lucky
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-	[self.searchBar setText:@""]; 
+	[self.searchBar setText:@""];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -56,19 +56,19 @@
 	UITableViewCellStyle style =  UITableViewCellStyleSubtitle;
 	UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:@"BaseCell"];
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
-	
+
 	NSArray *collection = (aTableView == self.tableView) ? self.contacts : self.filteredArray;
 	ABContact *contact = [collection objectAtIndex:indexPath.row];
 	cell.textLabel.text = contact.contactName;
 	cell.detailTextLabel.text = contact.phonenumbers;
-	
+
 	UIGraphicsBeginImageContext(CGSizeMake(45.0f, 45.0f));
-	if (contact.image) 
+	if (contact.image)
 		[contact.image drawInRect:CGRectMake(0.0f, 0.0f, 45.0f, 45.0f)];
 	UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	cell.imageView.image = img;
-	
+
 	return cell;
 }
 
@@ -101,7 +101,7 @@
 - (void) viewDidLoad
 {
 	self.contacts = [ABContactsHelper contacts];
-	
+
 	// Create a search bar
 	self.searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 44.0f)] autorelease];
 	self.searchBar.tintColor = COOKBOOK_PURPLE_COLOR;
@@ -109,7 +109,7 @@
 	self.searchBar.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	self.searchBar.keyboardType = UIKeyboardTypeAlphabet;
 	self.tableView.tableHeaderView = self.searchBar;
-	
+
 	// Create the search display controller
 	self.searchDC = [[[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self] autorelease];
 	self.searchDC.searchResultsDataSource = self;
@@ -121,13 +121,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

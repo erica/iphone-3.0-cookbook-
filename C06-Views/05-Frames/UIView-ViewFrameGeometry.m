@@ -172,21 +172,21 @@ CGRect CGRectMoveToCenter(CGRect rect, CGPoint center)
 {
 	CGFloat scale;
 	CGRect newframe = self.frame;
-	
+
 	if (newframe.size.height && (newframe.size.height > aSize.height))
 	{
 		scale = aSize.height / newframe.size.height;
 		newframe.size.width *= scale;
 		newframe.size.height *= scale;
 	}
-	
+
 	if (newframe.size.width && (newframe.size.width >= aSize.width))
 	{
 		scale = aSize.width / newframe.size.width;
 		newframe.size.width *= scale;
 		newframe.size.height *= scale;
 	}
-	
-	self.frame = newframe;	
+
+	self.frame = newframe;
 }
 @end

@@ -38,12 +38,12 @@
 	// create the sound
 	NSString *sndpath = [[NSBundle mainBundle] pathForResource:@"basicsound" ofType:@"wav"];
 	CFURLRef baseURL = (CFURLRef)[NSURL fileURLWithPath:sndpath];
-	
+
 	// Identify it as not a UI Sound
     AudioServicesCreateSystemSoundID(baseURL, &mysound);
 	AudioServicesPropertyID flag = 0;  // 0 means always play
 	AudioServicesSetProperty(kAudioServicesPropertyIsUISound, sizeof(SystemSoundID), &mysound, sizeof(AudioServicesPropertyID), &flag);
-	
+
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Sound", @selector(playSound));
 	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Vibrate", @selector(vibrate));
 }
@@ -59,7 +59,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

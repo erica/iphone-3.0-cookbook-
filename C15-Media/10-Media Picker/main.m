@@ -18,7 +18,7 @@
 {
 	for (MPMediaItem *item in [mediaItemCollection items])
 		NSLog(@"[%@] %@", [item valueForProperty:MPMediaItemPropertyArtist], [item valueForProperty:MPMediaItemPropertyTitle]);
-	
+
 	[self dismissModalViewControllerAnimated:YES];
 	[mediaPicker release];
 }
@@ -49,7 +49,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

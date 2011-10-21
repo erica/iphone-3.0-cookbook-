@@ -24,23 +24,23 @@ void centerText(CGContextRef context, NSString *fontname, float textsize, NSStri
 {
 	CGContextSaveGState(context);
 	CGContextSelectFont(context, [fontname UTF8String], textsize, kCGEncodingMacRoman);
-	
+
 	// Retrieve the text width without actually drawing anything
 	CGContextSaveGState(context);
 	CGContextSetTextDrawingMode(context, kCGTextInvisible);
 	CGContextShowTextAtPoint(context, 0.0f, 0.0f, [text UTF8String], text.length);
 	CGPoint endpoint = CGContextGetTextPosition(context);
 	CGContextRestoreGState(context);
-	
+
 	// Query for size to recover height. Width is less reliable
 	CGSize stringSize = [text sizeWithFont:[UIFont fontWithName:fontname size:textsize]];
-	
+
 	// Draw the text
 	[color setFill];
 	CGContextSetShouldAntialias(context, true);
 	CGContextSetTextDrawingMode(context, kCGTextFill);
 	CGContextSetTextMatrix (context, CGAffineTransformMake(1, 0, 0, -1, 0, 0));
-	CGContextShowTextAtPoint(context, point.x - endpoint.x / 2.0f, point.y + stringSize.height / 4.0f, [text UTF8String], text.length); 
+	CGContextShowTextAtPoint(context, point.x - endpoint.x / 2.0f, point.y + stringSize.height / 4.0f, [text UTF8String], text.length);
 	CGContextRestoreGState(context);
 }
 
@@ -53,12 +53,12 @@ void centerText(CGContextRef context, NSString *fontname, float textsize, NSStri
 	[color setFill];
 	CGContextAddEllipseInRect(context, CGRectMake(0.0f, 0.0f, SIDE_LENGTH, SIDE_LENGTH));
 	CGContextFillPath(context);
-	
+
 	// Label with a number
 	[[UIColor whiteColor] setFill];
 	NSString *numstring = [NSString stringWithFormat:@"%d", count++];
 	centerText(context, @"Georgia", 18.0f, numstring, CGPointMake(SIDE_LENGTH / 2.0f, SIDE_LENGTH / 2.0f), [UIColor whiteColor]);
-	
+
 	// Outline the circle
 	CGContextSetStrokeColorWithColor(context, [[UIColor whiteColor] CGColor]);
 	CGContextAddEllipseInRect(context, CGRectMake(INSET_AMT, INSET_AMT, SIDE_LENGTH - 2.0f * INSET_AMT, SIDE_LENGTH - 2.0f * INSET_AMT));
@@ -86,10 +86,10 @@ void centerText(CGContextRef context, NSString *fontname, float textsize, NSStri
 {
 	srandom(time(0));
 	count = 1;
-	
+
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Add", @selector(add:));
-	
+
 	UIView *outerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 240.0f, 240.0f)];
 	outerView.center = CGPointMake(160.0f, 140.0f);
 	outerView.backgroundColor = [UIColor lightGrayColor];
@@ -103,7 +103,7 @@ void centerText(CGContextRef context, NSString *fontname, float textsize, NSStri
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];
