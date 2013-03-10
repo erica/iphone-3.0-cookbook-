@@ -66,13 +66,13 @@
 {
 	NSMutableArray *colors =  [[NSMutableArray alloc] init];
 	NSMutableArray *locs = [[NSMutableArray alloc] init];
-	
-	for (DragView *dv in [[self.view viewWithTag:201] subviews]) 
+
+	for (DragView *dv in [[self.view viewWithTag:201] subviews])
 	{
 		[colors addObject:dv.whichFlower];
 		[locs addObject:NSStringFromCGRect(dv.frame)];
 	}
-	
+
 	[[NSUserDefaults standardUserDefaults] setObject:colors forKey:@"colors"];
 	[[NSUserDefaults standardUserDefaults] setObject:locs forKey:@"locs"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
@@ -82,7 +82,7 @@
 }
 
 
-CGPoint randomPoint() 
+CGPoint randomPoint()
 {
 	int half = 32; // half of flower size
 	int freesize = 240 - 2 * half; // inner area
@@ -94,20 +94,20 @@ CGPoint randomPoint()
 	// Attempt to read in previous colors and locations
 	NSMutableArray *colors = [[NSUserDefaults standardUserDefaults] objectForKey:@"colors"];
 	NSMutableArray *locs = [[NSUserDefaults standardUserDefaults] objectForKey:@"locs"];
-	
-	// Add the flowers to random points on the screen	
+
+	// Add the flowers to random points on the screen
 	for (int i = 0; i < MAXFLOWERS; i++)
 	{
-		
+
 		NSString *whichFlower = [[NSArray arrayWithObjects:@"blueFlower.png", @"pinkFlower.png", @"orangeFlower.png", nil] objectAtIndex:(random() % 3)];
 		if (colors && ([colors count] == MAXFLOWERS)) whichFlower = [colors objectAtIndex:i];
-		
+
 		DragView *dragger = [[DragView alloc] initWithImage:[UIImage imageNamed:whichFlower]];
 		dragger.center = randomPoint();
 		dragger.userInteractionEnabled = YES;
 		dragger.whichFlower = whichFlower;
 		if (locs && ([locs count] == MAXFLOWERS)) dragger.frame = CGRectFromString([locs objectAtIndex:i]);
-		
+
 		[backdrop addSubview:dragger];
 		[dragger release];
 	}
@@ -118,10 +118,10 @@ CGPoint randomPoint()
 	UIView *backdrop = [self.view viewWithTag:201];
 	for (UIView *view in [backdrop subviews])
 		[view removeFromSuperview];
-	
+
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"colors"];
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"locs"];
-	
+
 	[self loadFlowersInView:backdrop];
 }
 
@@ -130,7 +130,7 @@ CGPoint randomPoint()
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Restart", @selector(restart));
 	srandom(time(0));
-	
+
 	// Add backdrop which will bound the movement for the flowers
 	UIView *backdrop = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 282.0f)];
 	backdrop.backgroundColor = [UIColor blackColor];
@@ -154,7 +154,7 @@ CGPoint randomPoint()
 @implementation TestBedAppDelegate
 @synthesize tbvc;
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.tbvc = [[[TestBedViewController alloc] init] autorelease];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.tbvc];

@@ -8,11 +8,11 @@
 #import <GameKit/GameKit.h>
 
 /*
- 
+
  This version of GameKit helper is a little extra to demonstrate how to avoid
  using the built-in peer picker. It's pretty bare bones but hopefully the idea will
  get across.
- 
+
  */
 
 @protocol GameKitHelperDataDelegate <NSObject>

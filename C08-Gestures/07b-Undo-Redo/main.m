@@ -57,7 +57,7 @@
 {
 	// Calling set position prepares for undo-redo
 	[self setPosition:self.center];
-	
+
 	// Calculate and store offset, and pop view into front if needed
 	CGPoint pt = [[touches anyObject] locationInView:self];
 	startLocation = pt;
@@ -120,14 +120,14 @@
 {
 	while ([self.undoManager isUndoing]);
 	while ([self.undoManager isRedoing]);
-		
+
 	// Don't show the undo button if the undo stack is empty. Ditto redo
-	if (!self.undoManager.canUndo) 
+	if (!self.undoManager.canUndo)
 		self.navigationItem.rightBarButtonItem = nil;
 	else
 		self.navigationItem.rightBarButtonItem = BARBUTTON(@"Undo", @selector(undo));
-	
-	if (!self.undoManager.canRedo) 
+
+	if (!self.undoManager.canRedo)
 		self.navigationItem.leftBarButtonItem = nil;
 	else
 		self.navigationItem.leftBarButtonItem = BARBUTTON(@"Redo", @selector(redo));
@@ -157,7 +157,7 @@
 	NSArray *flowers = [NSKeyedUnarchiver unarchiveObjectWithFile:DATAPATH];
 	if (!flowers) return NO;
 
-	for (UIView *aView in flowers)	
+	for (UIView *aView in flowers)
 	{
 		[backdrop addSubview:aView];
 		[(DragView *)aView setViewController:self];
@@ -165,7 +165,7 @@
 	return YES;
 }
 
-CGPoint randomPoint() 
+CGPoint randomPoint()
 {
 	int half = 32; // half of flower size
 	int freesize = 240 - 2 * half; // inner area
@@ -190,7 +190,7 @@ CGPoint randomPoint()
 - (void) restart
 {
 	UIView *backdrop = [self.view viewWithTag:201];
-	for (UIView *view in [backdrop subviews]) [view removeFromSuperview];	
+	for (UIView *view in [backdrop subviews]) [view removeFromSuperview];
 	[self loadFlowersInView:backdrop];
 }
 
@@ -200,10 +200,10 @@ CGPoint randomPoint()
 	self.undoManager = [[NSUndoManager alloc] init];
 	[self.undoManager setLevelsOfUndo:999];
 	[self.undoManager release];
-	
+
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	srandom(time(0));
-	
+
 	// Add backdrop which will bound the movement for the flowers
 	UIView *backdrop = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 282.0f)];
 	backdrop.backgroundColor = [UIColor blackColor];
@@ -233,7 +233,7 @@ CGPoint randomPoint()
 @implementation TestBedAppDelegate
 @synthesize tbvc;
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.tbvc = [[[TestBedViewController alloc] init] autorelease];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.tbvc];

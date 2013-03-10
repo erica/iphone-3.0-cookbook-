@@ -66,7 +66,7 @@
 	[ppnc setDisplayedProperties:[NSArray arrayWithObject:NUMBER(kABPersonEmailProperty)]];
 	[self presentModalViewController:ppnc animated:YES];
 }
-	
+
 - (void) phone: (UIBarButtonItem *) bbi
 {
 	ABPeoplePickerNavigationController *ppnc = [[ABPeoplePickerNavigationController alloc] init];
@@ -88,7 +88,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

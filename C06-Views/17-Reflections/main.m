@@ -23,7 +23,7 @@
 
 - (void) updateColor: (UISegmentedControl *) seg
 {
-	if (seg.selectedSegmentIndex) 
+	if (seg.selectedSegmentIndex)
 		[self.view viewWithTag:88].backgroundColor = [UIColor blackColor];
 	else
 		[self.view viewWithTag:88].backgroundColor = [UIColor whiteColor];
@@ -33,13 +33,13 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	[self.view viewWithTag:101].clipsToBounds = NO;
-	
+
 #define WHICH_REFLECTION	1
 	if (WHICH_REFLECTION == 1)
 		[ImageHelper addReflectionToView:[self.view viewWithTag:101]];
 	else
 		[ImageHelper addSimpleReflectionToView:[self.view viewWithTag:101]];
-	
+
 	UISegmentedControl *seg = [[UISegmentedControl alloc] initWithItems:[@"White Black" componentsSeparatedByString:@" "]];
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
 	seg.selectedSegmentIndex = 0;
@@ -52,7 +52,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

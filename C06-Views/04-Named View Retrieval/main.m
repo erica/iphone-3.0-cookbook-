@@ -17,14 +17,14 @@
 @end
 
 @implementation TestBedViewController
-- (void) updateSwitch:(id)sender 
+- (void) updateSwitch:(id)sender
 {
 	// toggle the switch from its current setting
 	UISwitch *s = [self.view.window switchNamed:@"my switch"];
 	[s setOn:!s.isOn];
 }
 
-- (void) updateTime:(id)sender 
+- (void) updateTime:(id)sender
 {
 	// set the label to the current time
 	[self.view.window labelNamed:@"my label"].text = [[NSDate date] description];
@@ -35,7 +35,7 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Switch", @selector(updateSwitch:));
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Time", @selector(updateTime:));
-	
+
 	[[self.view viewWithTag:LABEL_TAG] registerName:@"my label"];
 	[[self.view viewWithTag:SWITCH_TAG] registerName:@"my switch"];
 }
@@ -50,7 +50,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

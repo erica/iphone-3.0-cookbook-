@@ -35,8 +35,8 @@
 
 - (void) library: (UIBarButtonItem *) bbi
 {
-	// stop any current recording	
-	if (isRecording) 
+	// stop any current recording
+	if (isRecording)
 	{
 		[button setImage:[UIImage imageNamed:@"green.png"] forState:UIControlStateNormal];
 		[button setImage:[UIImage imageNamed:@"green2.png"] forState:UIControlStateHighlighted];
@@ -46,11 +46,11 @@
 		self.title = nil;
 		isRecording = NO;
 	}
-	
+
 	// stop power monitoring
 	[timer invalidate];
 	timer = nil;
-	
+
 	// push the library controller
 	[self.navigationController pushViewController:[[[LibraryController alloc] init] autorelease] animated:YES];
 }
@@ -59,9 +59,9 @@
 {
 	int secs = num % 60;
 	int min = num / 60;
-	
+
 	if (num < 60) return [NSString stringWithFormat:@"0:%02d", num];
-	
+
 	return	[NSString stringWithFormat:@"%d:%02d", min, secs];
 }
 
@@ -98,7 +98,7 @@
 		NSLog(@"Error: Could not create recorder");
 		return;
 	}
-	
+
 	if (!isRecording)
 	{
 		BOOL success = [self.myRecorder startRecording:FILEPATH];
@@ -117,32 +117,32 @@
 		self.myRecorder = nil;
 		self.title = nil;
 	}
-	
+
 	isRecording = !isRecording;
-		
+
 	// Handle the GUI updates
 	if (isRecording)
 	{
 		// start monitoring the power level
 		timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(updateStatus) userInfo:nil repeats:YES];
-		
+
 		// Update the button art
 		[button setImage:[UIImage imageNamed:@"red.png"] forState:UIControlStateNormal];
 		[button setImage:[UIImage imageNamed:@"red2.png"] forState:UIControlStateHighlighted];
-		
+
 		self.navigationItem.leftBarButtonItem = BARBUTTON(@"Pause", @selector(pauseRecording));
 	}
-	else 
+	else
 	{
 		// Stop monitoring the power level
 		power.progress = 0.0f;
 		[timer invalidate];
 		timer = nil;
-		
+
 		// Update the button art
 		[button setImage:[UIImage imageNamed:@"green.png"] forState:UIControlStateNormal];
 		[button setImage:[UIImage imageNamed:@"green2.png"] forState:UIControlStateHighlighted];
-		
+
 		self.navigationItem.leftBarButtonItem = nil;
 	}
 }
@@ -159,7 +159,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

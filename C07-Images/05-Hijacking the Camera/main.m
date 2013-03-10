@@ -22,10 +22,10 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	va_start(arglist, formatstring);
 	id outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 	va_end(arglist);
-	
+
 	NSString *filename = [[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding] lastPathComponent];
 	NSString *debugInfo = [NSString stringWithFormat:@"%@:%d\n%s", filename, line, functname];
-    
+
     UIAlertView *av = [[[UIAlertView alloc] initWithTitle:outstring message:debugInfo delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil] autorelease];
 	[av show];
 }
@@ -52,7 +52,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 {
 	extern CGImageRef UIGetScreenImage();
 	SETIMAGE([UIImage imageWithCGImage:UIGetScreenImage()]);
-	
+
 	// When you're doing stop-motion, do not dismiss but restore the navigation bar
 	// [self.navbar setAlpha:1.0f];
 }
@@ -71,12 +71,12 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 
 	NSArray *svarray = [plcameraview subviews];
 	for (int i = 1; i < svarray.count; i++)	[[svarray objectAtIndex:i] setAlpha:0.0f];
-	
+
 	self.navbar = [[[UINavigationBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 44.0f)] autorelease];
 	UINavigationItem *navItem = [[[UINavigationItem alloc] init] autorelease];
 	navItem.rightBarButtonItem = BARBUTTON(@"Shoot", @selector(shoot:));
 	navItem.leftBarButtonItem = BARBUTTON(@"Cancel", @selector(dismiss:));
-	
+
 	[(UINavigationBar *)self.navbar pushNavigationItem:navItem animated:NO];
 	[plcameraview addSubview:self.navbar];
 }
@@ -85,7 +85,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 {
 	UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
 	ipc.sourceType =  UIImagePickerControllerSourceTypeCamera;
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 	[self performSelector:@selector(setup:) withObject:ipc.view afterDelay:0.5f];
 }
 
@@ -104,7 +104,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	[UIApplication sharedApplication].idleTimerDisabled = YES;
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];

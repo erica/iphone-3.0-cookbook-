@@ -17,12 +17,12 @@
 
 @implementation TableListViewController
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return [UIFont familyNames].count;
 }
@@ -30,16 +30,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:@"BaseCell"];
-	if (!cell) 
+	if (!cell)
 		cell = [[[NSBundle mainBundle] loadNibNamed:@"BaseCell" owner:self options:nil] lastObject];
-	
+
 	// You'd think this would work but it does not.
 	cell.textLabel.text = [[UIFont familyNames] objectAtIndex:indexPath.row];
 	cell.textLabel.backgroundColor = [UIColor clearColor];
 	return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSString *font = [[UIFont familyNames] objectAtIndex:indexPath.row];
 	[MAINLABEL setText:font];
@@ -49,10 +49,10 @@
 - (void) loadView
 {
 	[super loadView];
-	
+
 	// Customize the table view
 	self.tableView.separatorColor = [UIColor clearColor];
-	
+
 	// Set up the main label
 	self.navigationItem.titleView = [[[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 30.0f)] autorelease];
 	[MAINLABEL setBackgroundColor:[UIColor clearColor]];
@@ -65,13 +65,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

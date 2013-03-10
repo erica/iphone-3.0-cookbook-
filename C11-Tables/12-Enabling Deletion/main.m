@@ -23,12 +23,12 @@
 @synthesize count;
 @synthesize items;
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return self.items.count;
 }
@@ -36,7 +36,7 @@
 - (void) setBarButtonItems
 {
 	self.navigationItem.leftBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemAdd, @selector(addItem:));
-	
+
 	if (self.tableView.isEditing)
 		self.navigationItem.rightBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemDone, @selector(leaveEditMode));
 	else
@@ -48,7 +48,7 @@
 	// Return a dequeued cell
 	UITableViewCellStyle style =  UITableViewCellStyleDefault;
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:@"BaseCell"];
-	if (!cell) 
+	if (!cell)
 		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
 	cell.textLabel.text = [items objectAtIndex:indexPath.row];
 	return cell;
@@ -57,9 +57,9 @@
 - (void) updateItemAtIndexPath: (NSIndexPath *) indexPath withString: (NSString *) string
 {
 	// You cannot insert a nil item. Passing nil is a delete request.
-	if (!string) 
+	if (!string)
 		[self.items removeObjectAtIndex:indexPath.row];
-	else 
+	else
 		[self.items insertObject:string atIndex:indexPath.row];
 
 	[self.tableView reloadData];
@@ -74,7 +74,7 @@
 	[self updateItemAtIndexPath:newPath withString:newTitle];
 }
 
-- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// delete item
 	[self updateItemAtIndexPath:indexPath withString:nil];
@@ -107,13 +107,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

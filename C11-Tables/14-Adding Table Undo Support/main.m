@@ -26,12 +26,12 @@
 @synthesize items;
 @synthesize undoManager;
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return self.items.count;
 }
@@ -39,34 +39,34 @@
 - (void) setBarButtonItems
 {
 	self.navigationItem.leftBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemAdd, @selector(addItem:));
-	
+
 	if (self.tableView.isEditing)
 		self.navigationItem.rightBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemDone, @selector(leaveEditMode));
 	else
 		self.navigationItem.rightBarButtonItem = self.items.count ? SYSBARBUTTON(UIBarButtonSystemItemEdit, @selector(enterEditMode)) : nil;
-	
+
 	NSMutableArray *barItems = [NSMutableArray array];
 	UIBarButtonItem *spacer = SYSBARBUTTON(UIBarButtonSystemItemFixedSpace, nil);
 	spacer.width = 64;
-	
+
 	[barItems addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil)];
-	
+
 	// Undo button?
-	if ([self.undoManager canUndo])	
+	if ([self.undoManager canUndo])
 		[barItems addObject:SYSBARBUTTON(UIBarButtonSystemItemUndo, @selector(undo:))];
 	else
 		[barItems addObject:spacer];
 
 	[barItems addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil)];
-	
+
 	// Redo button?
-	if ([self.undoManager canRedo])	
+	if ([self.undoManager canRedo])
 		[barItems addObject:SYSBARBUTTON(UIBarButtonSystemItemRedo, @selector(redo:))];
 	else
 		[barItems addObject:spacer];
-	
+
 	[barItems addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil)];
-	
+
 	// Create the toolbar
 	UIToolbar *tb = [[[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 48.0f)] autorelease];
 	tb.barStyle = UIBarStyleBlack;
@@ -92,7 +92,7 @@
 	// Return a dequeued cell
 	UITableViewCellStyle style =  UITableViewCellStyleDefault;
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:@"BaseCell"];
-	if (!cell) 
+	if (!cell)
 		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
 	cell.textLabel.text = [items objectAtIndex:indexPath.row];
 	return cell;
@@ -102,11 +102,11 @@
 {
 	NSString *undoString = string ? nil : [self.items objectAtIndex:indexPath.row];
 	[[self.undoManager prepareWithInvocationTarget:self] updateItemAtIndexPath:indexPath withString:undoString];
-	
+
 	// You cannot insert a nil item. Passing nil is a delete request.
-	if (!string) 
+	if (!string)
 		[self.items removeObjectAtIndex:indexPath.row];
-	else 
+	else
 		[self.items insertObject:string atIndex:indexPath.row];
 
 	[self.tableView reloadData];
@@ -121,7 +121,7 @@
 	[self updateItemAtIndexPath:newPath withString:newTitle];
 }
 
-- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)aTableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// delete item
 	[self updateItemAtIndexPath:indexPath withString:nil];
@@ -132,7 +132,7 @@
 	if (oldPath.row == newPath.row) return;
 
 	[[self.undoManager prepareWithInvocationTarget:self] tableView:self.tableView moveRowAtIndexPath:newPath toIndexPath:oldPath];
-	
+
 	NSString *item = [[self.items objectAtIndex:oldPath.row] retain];
 	[self.items removeObjectAtIndex:oldPath.row];
 	[self.items insertObject:item atIndex:newPath.row];
@@ -161,9 +161,9 @@
 	count = 1;
 	self.items = [NSMutableArray array];
 	[self setBarButtonItems];
-	
+
 	self.navigationController.navigationBar.clipsToBounds = YES;
-	
+
 	self.undoManager = [[[NSUndoManager alloc] init] autorelease];
 	[self.undoManager setLevelsOfUndo:999];
 }
@@ -173,13 +173,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

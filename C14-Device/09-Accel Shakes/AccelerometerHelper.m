@@ -19,13 +19,13 @@ static AccelerometerHelper *sharedInstance = nil;
 - (id) init
 {
 	if (!(self = [super init])) return self;
-	
+
 	self.triggerTime = [NSDate date];
-	
+
 	cx = UNDEFINED_VALUE;
 	cy = UNDEFINED_VALUE;
 	cz = UNDEFINED_VALUE;
-	
+
 	lx = UNDEFINED_VALUE;
 	ly = UNDEFINED_VALUE;
 	lz = UNDEFINED_VALUE;
@@ -33,13 +33,13 @@ static AccelerometerHelper *sharedInstance = nil;
 	px = UNDEFINED_VALUE;
 	py = UNDEFINED_VALUE;
 	pz = UNDEFINED_VALUE;
-	
+
 	self.sensitivity = 0.5f;
 	self.lockout = 0.5f;
-	
+
 	// Start the accelerometer going
 	[[UIAccelerometer sharedAccelerometer] setDelegate:self];
-	
+
 	return self;
 }
 
@@ -69,18 +69,18 @@ static AccelerometerHelper *sharedInstance = nil;
 	if (cx == UNDEFINED_VALUE) return UNDEFINED_VALUE;
 	if (lx == UNDEFINED_VALUE) return UNDEFINED_VALUE;
 	if (px == UNDEFINED_VALUE) return UNDEFINED_VALUE;
-	
+
 	// Calculate the dot product of the first pair
 	float dot1 = cx * lx + cy * ly + cz * lz;
 	float a = ABS(sqrt(cx * cx + cy * cy + cz * cz));
 	float b = ABS(sqrt(lx * lx + ly * ly + lz * lz));
 	dot1 /= (a * b);
-	
+
 	// Calculate the dot product of the second pair
 	float dot2 = lx * px + ly * py + lz * pz;
 	a = ABS(sqrt(px * px + py * py + pz * pz));
 	dot2 /= a * b;
-	
+
 	// Return the difference between the vector angles
 	return acos(dot2) - acos(dot1);
 }
@@ -88,16 +88,16 @@ static AccelerometerHelper *sharedInstance = nil;
 - (BOOL) checkTrigger
 {
 	if (lx == UNDEFINED_VALUE) return NO;
-	
+
 	// Check to see if the new data can be triggered
 	if ([[NSDate date] timeIntervalSinceDate:self.triggerTime] < self.lockout) return NO;
-	
+
 	// Get the current angular change
 	float change = [self dAngle];
-	
+
 	// If we have not yet gathered two samples, return NO
 	if (change == UNDEFINED_VALUE) return NO;
-	
+
 	// Check to see if the dot product falls below the trigger sensitivity
 	if (change > self.sensitivity)
 	{
@@ -112,11 +112,11 @@ static AccelerometerHelper *sharedInstance = nil;
 	[self setX:-[acceleration x]];
 	[self setY:[acceleration y]];
 	[self setZ:[acceleration z]];
-	
+
 	// All accelerometer events
 	if (self.delegate && [self.delegate respondsToSelector:@selector(ping)])
 		[self.delegate performSelector:@selector(ping)];
-	
+
 	// All shake events
 	if ([self checkTrigger] && self.delegate && [self.delegate respondsToSelector:@selector(shake)])
 	{

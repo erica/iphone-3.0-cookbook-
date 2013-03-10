@@ -1,4 +1,4 @@
-// 
+//
 //  Department.m
 //  HelloWorld
 //
@@ -9,7 +9,7 @@
 #import "Department.h"
 
 
-@implementation Department 
+@implementation Department
 
 @dynamic groupName;
 @dynamic manager;

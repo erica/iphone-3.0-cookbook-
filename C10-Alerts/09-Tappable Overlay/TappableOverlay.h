@@ -6,6 +6,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TappableOverlay : UIView 
+@interface TappableOverlay : UIView
 @end
 

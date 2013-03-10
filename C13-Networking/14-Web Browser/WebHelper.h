@@ -22,11 +22,11 @@
 #define STATUS_ATTEMPT	1
 #define STATUS_ONLINE	2
 
-@interface WebHelper : NSObject 
+@interface WebHelper : NSObject
 {
 	NSString		*cwd;
 	id <WebHelperDelegate>	delegate;
-	
+
 	int				serverStatus;
 	BOOL			isServing;
 	int				listenfd;

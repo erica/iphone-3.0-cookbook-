@@ -14,16 +14,16 @@
 @implementation TableListViewController
 - (TableListViewController *) init
 {
-	self = [super initWithStyle:UITableViewStyleGrouped]; 
+	self = [super initWithStyle:UITableViewStyleGrouped];
 	return self;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 2; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	if (section == 0) return 4;
 	else if (section == 1) return 2;
@@ -33,14 +33,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	UITableViewCell *cell;
-	
+
 	if (indexPath.section == 0)
 	{
 		cell = [tView dequeueReusableCellWithIdentifier:@"SwitchCell"];
 		if (!cell)
 			cell = [[[NSBundle mainBundle] loadNibNamed:@"switchcell" owner:self options:nil] lastObject];
 		[(UILabel *)[cell viewWithTag:101] setText:[NSString stringWithFormat:@"Switch %d\n", indexPath.row + 1]];
-	} 
+	}
 	else if (indexPath.section == 1)
 	{
 		if (indexPath.row == 0)
@@ -56,7 +56,7 @@
 			cell.detailTextLabel.text = @"Subtitle World";
 		}
 	}
-	
+
 	return cell;
 }
 
@@ -81,13 +81,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

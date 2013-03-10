@@ -22,7 +22,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	va_start(arglist, formatstring);
 	id outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 	va_end(arglist);
-	
+
     UIAlertView *av = [[[UIAlertView alloc] initWithTitle:outstring message:nil delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil] autorelease];
 	[av show];
 }
@@ -69,7 +69,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	self.image = [ImageHelper image:img fillSize:(CGSizeMake(320.0f, 480.0f))];
 	UIImage *thumb = [ImageHelper image:self.image fitInSize:imageView.frame.size];
 	imageView.image = thumb;
-	
+
 	[self dismissModalViewControllerAnimated:YES];
 	[picker release];
 }
@@ -86,7 +86,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 	ipc.delegate = self;
 	ipc.allowsImageEditing = NO;
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 }
 
 - (void) tweet: (UIBarButtonItem *) bbi
@@ -96,15 +96,15 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 		showAlert(@"Please select image before uploading.");
 		return;
 	}
-	
+
 	[self hideButtons];
 	button.enabled = NO;
 	[activity startAnimating];
-	
+
 	TwitPicOperation *operation = [[[TwitPicOperation alloc] init] autorelease];
 	operation.delegate = self;
 	operation.theImage = self.image;
-	
+
 	NSOperationQueue *queue = [[[NSOperationQueue alloc] init] autorelease];
 	[queue addOperation:operation];
 }
@@ -139,7 +139,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

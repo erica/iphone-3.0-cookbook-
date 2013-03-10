@@ -40,19 +40,19 @@ static APNSHelper *sharedInstance = nil;
 	OSStatus result;
 
 	// Ensure device token
-	if (!self.deviceTokenID) 
+	if (!self.deviceTokenID)
 	{
 		printf("Error: Device Token is nil\n");
 		return NO;
 	}
-	
+
 	// Ensure certificate
 	if (!self.certificateData)
 	{
 		printf("Error: Certificate Data is nil\n");
 		return NO;
 	}
-	
+
 	// Establish connection to server.
 	PeerSpec peer;
 	if (self.useSandboxServer)
@@ -67,7 +67,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error creating server connection\n");
 		return NO;
 	}
-	
+
 	// Create new SSL context.
 	result = SSLNewContext(false, &context);
 	if (result)
@@ -75,7 +75,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error creating SSL context\n");
 		return NO;
 	}
-	
+
 	// Set callback functions for SSL context.
 	result = SSLSetIOFuncs(context, SocketRead, SocketWrite);
 	if (result)
@@ -83,7 +83,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error setting SSL context callback functions\n");
 		return NO;
 	}
-	
+
 	// Set SSL context connection.
 	result = SSLSetConnection(context, socket);
 	if (result)
@@ -91,7 +91,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error setting the SSL context connection\n");
 		return NO;
 	}
-	
+
 	// Set server domain name.
 	result = SSLSetPeerDomainName(context, "gateway.sandbox.push.apple.com", 30);
 	if (result)
@@ -99,7 +99,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error setting the server domain name\n");
 		return NO;
 	}
-	
+
 	// Open keychain.
 	result = SecKeychainCopyDefault(&keychain);
 	if (result)
@@ -107,7 +107,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error accessing keychain\n");
 		return NO;
 	}
-	
+
 	// Create certificate from data
 	CSSM_DATA data;
 	data.Data = (uint8 *)[self.certificateData bytes];
@@ -118,7 +118,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error creating certificate from data\n");
 		return NO;
 	}
-	
+
 	// Create identity.
 	result = SecIdentityCreateWithCertificate(keychain, certificate, &identity);
 	if (result)
@@ -126,7 +126,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error creating identity from certificate\n");
 		return NO;
 	}
-	
+
 	// Disable Verify
 	result = SSLSetEnableCertVerify(context, NO);
 	if (result)
@@ -134,7 +134,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error disabling cert verify\n");
 		return NO;
 	}
-	
+
 	// Set client certificate.
 	CFArrayRef certificates = CFArrayCreate(NULL, (const void **)&identity, 1, NULL);
 	result = SSLSetCertificate(context, certificates);
@@ -146,10 +146,10 @@ static APNSHelper *sharedInstance = nil;
 	}
 
 	CFRelease(certificates);
-	
+
 	// Perform SSL handshake.
 	do {result = SSLHandshake(context);} while(result == errSSLWouldBlock);
-	
+
 	// Convert string into device token data.
 	NSMutableData *deviceToken = [NSMutableData data];
 	unsigned value;
@@ -159,19 +159,19 @@ static APNSHelper *sharedInstance = nil;
 		value = htonl(value);
 		[deviceToken appendBytes:&value length:sizeof(value)];
 	}
-	
+
 	// Create C input variables.
 	char *deviceTokenBinary = (char *)[deviceToken bytes];
 	char *payloadBinary = (char *)[payload UTF8String];
 	size_t payloadLength = strlen(payloadBinary);
-	
+
 	// Prepare message
 	uint8_t command = 0;
 	char message[293];
 	char *pointer = message;
 	uint16_t networkTokenLength = htons(32);
 	uint16_t networkPayloadLength = htons(payloadLength);
-	
+
 	// Compose message.
 	memcpy(pointer, &command, sizeof(uint8_t));
 	pointer += sizeof(uint8_t);
@@ -183,7 +183,7 @@ static APNSHelper *sharedInstance = nil;
 	pointer += sizeof(uint16_t);
 	memcpy(pointer, payloadBinary, payloadLength);
 	pointer += payloadLength;
-	
+
 	// Send message over SSL.
 	size_t processed = 0;
 	result = SSLWrite(context, &message, (pointer - message), &processed);
@@ -207,26 +207,26 @@ static APNSHelper *sharedInstance = nil;
 	SecIdentityRef identity;
 	SecCertificateRef certificate;
 	OSStatus result;
-	
+
 	// Ensure device token
-	if (!self.deviceTokenID) 
+	if (!self.deviceTokenID)
 	{
 		printf("Error: Device Token is nil\n");
 		return NO;
 	}
-	
+
 	// Ensure certificate
 	if (!self.certificateData)
 	{
 		printf("Error: Certificate Data is nil\n");
 		return NO;
 	}
-	
+
 	// Establish connection to server.
 	PeerSpec peer;
 	if (self.useSandboxServer)
 	{
-		printf("Recovering feedback via sandbox\n");	
+		printf("Recovering feedback via sandbox\n");
 		result = MakeServerConnection("feedback.sandbox.push.apple.com", 2196, &socket, &peer);
 	}
 	else
@@ -236,7 +236,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error creating server connection\n");
 		return NO;
 	}
-	
+
 	// Create new SSL context.
 	result = SSLNewContext(false, &context);
 	if (result)
@@ -244,7 +244,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error creating SSL context\n");
 		return NO;
 	}
-	
+
 	// Set callback functions for SSL context.
 	result = SSLSetIOFuncs(context, SocketRead, SocketWrite);
 	if (result)
@@ -252,7 +252,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error setting SSL context callback functions\n");
 		return NO;
 	}
-	
+
 	// Set SSL context connection.
 	result = SSLSetConnection(context, socket);
 	if (result)
@@ -260,7 +260,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error setting the SSL context connection\n");
 		return NO;
 	}
-	
+
 	// Set server domain name.
 	result = SSLSetPeerDomainName(context, "gateway.sandbox.push.apple.com", 30);
 	if (result)
@@ -268,7 +268,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error setting the server domain name\n");
 		return NO;
 	}
-	
+
 	// Open keychain.
 	result = SecKeychainCopyDefault(&keychain);
 	if (result)
@@ -276,7 +276,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error accessing keychain\n");
 		return NO;
 	}
-	
+
 	// Create certificate from data
 	CSSM_DATA data;
 	data.Data = (uint8 *)[self.certificateData bytes];
@@ -287,7 +287,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error creating certificate from data\n");
 		return NO;
 	}
-	
+
 	// Create identity.
 	result = SecIdentityCreateWithCertificate(keychain, certificate, &identity);
 	if (result)
@@ -295,7 +295,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error creating identity from certificate\n");
 		return NO;
 	}
-		
+
 	// Disable Verify
 	result = SSLSetEnableCertVerify(context, NO);
 	if (result)
@@ -303,7 +303,7 @@ static APNSHelper *sharedInstance = nil;
 		printf("Error disabling cert verify\n");
 		return NO;
 	}
-	
+
 	// Set client certificate.
 	CFArrayRef certificates = CFArrayCreate(NULL, (const void **)&identity, 1, NULL);
 	result = SSLSetCertificate(context, certificates);
@@ -314,7 +314,7 @@ static APNSHelper *sharedInstance = nil;
 		return NO;
 	}
 	CFRelease(certificates);
-	
+
 	// Perform SSL handshake.
 	do {result = SSLHandshake(context);} while(result == errSSLWouldBlock);
 	if (result)
@@ -322,17 +322,17 @@ static APNSHelper *sharedInstance = nil;
 		cssmPerror("Error", result);
 		return NO;
 	}
-	
+
 	NSMutableArray *results = [NSMutableArray array];
-	
+
 	// 4 big endian bytes for time_t
 	// 2 big endian bytes for token length (always 0, 32)
 	// 32 bytes for device token
-	
+
 	// Retrieve message from SSL.
 	size_t processed = 0;
 	char buffer[38];
-	do 
+	do
 	{
 		result = SSLRead(context, buffer, 38, &processed);
 		if (result) break;
@@ -341,7 +341,7 @@ static APNSHelper *sharedInstance = nil;
 		char *b = buffer;
 		NSTimeInterval ti = ((unsigned char)b[0] << 24) + ((unsigned char)b[1] << 16) + ((unsigned char)b[2] << 8) + (unsigned char)b[3];
 		NSDate *date = [NSDate dateWithTimeIntervalSince1970:ti];
-				
+
 		// Recover Device ID
 		NSMutableString *deviceID = [NSMutableString string];
 		b += 6;
@@ -349,9 +349,9 @@ static APNSHelper *sharedInstance = nil;
 
 		// Add dictionary to results
 		[results addObject:[NSDictionary dictionaryWithObject:date forKey:deviceID]];
-		
+
 	} while (processed > 0);
-	
+
 	return results;
 }
 

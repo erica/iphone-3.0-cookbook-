@@ -13,12 +13,12 @@
 
 @implementation TableListViewController
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return 8;
 }
@@ -27,7 +27,7 @@
 {
 	UITableViewCellStyle style;
 	NSString *cellType;
-	
+
 	switch (indexPath.row % 4)
 	{
 		case 0:
@@ -46,16 +46,16 @@
 			style =  UITableViewCellStyleValue2;
 			cellType =  @"Value2 Style";
 			break;
-			
+
 	}
-	
+
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:cellType];
-	if (!cell) 
+	if (!cell)
 		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellType] autorelease];
-	
-	if (indexPath.row > 3) 
+
+	if (indexPath.row > 3)
 		cell.imageView.image = [UIImage imageNamed:@"icon.png"];
-	
+
 	cell.textLabel.text = cellType;
 	cell.detailTextLabel.text = @"Subtitle text";
 	return cell;
@@ -66,14 +66,14 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	tlvc.tableView.rowHeight = 58;
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

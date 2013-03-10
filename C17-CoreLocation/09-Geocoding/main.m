@@ -38,13 +38,13 @@
 	for (MKPinAnnotationView *mkaview in views)
 	{
 		mkaview.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-		
+
 		UIImage *origimage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[(MapAnnotation *)mkaview.annotation picstring]]]];
 		UIGraphicsBeginImageContext(CGSizeMake(PIC_SIZE, PIC_SIZE));
 		[origimage drawInRect:CGRectMake(0.0f, 0.0f, PIC_SIZE, PIC_SIZE)];
 		UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
-		
+
 		mkaview.leftCalloutAccessoryView = [[[UIImageView alloc] initWithImage:img] autorelease];
 	}
 }
@@ -53,14 +53,14 @@
 - (void) findme
 {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	
+
 	NSString *whichLocation = [LOCATIONS objectAtIndex:whichItem];
-	
+
 	// Geocode the location
 	[self performSelector:@selector(setTitle:) withObject:whichLocation afterDelay:0.1f];
 	NSMutableString *urlstring = [NSMutableString string];
 	[urlstring appendFormat:@"http://local.yahooapis.com/MapsService/V1/geocode?appid=%@", API_KEY];
-	
+
 	NSString *locationURLString;
 	NSString *picstring;
 	// All images courtesy of Wikipedia (http://en.wikipedia.org)
@@ -101,7 +101,7 @@
 	}
 	NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlstring]];
 	printf("Received %d bytes of data from Yahoo\n", data.length);
-	
+
 	// Recover the coordinate
 	TreeNode *root = [[XMLParser sharedInstance] parseXMLFromData:data];
 	CLLocationCoordinate2D coord;
@@ -111,7 +111,7 @@
 	// Set up the map view
 	mapView.region = MKCoordinateRegionMakeWithDistance(coord, 10000, 10000);
 	mapView.zoomEnabled = YES;
-	
+
 	// Create the annotation if it is not in the dictionary
 	if (![annotationDict objectForKey:whichLocation])
 	{
@@ -124,7 +124,7 @@
 		[mapView removeAnnotations:mapView.annotations];
 		[mapView addAnnotations:[annotationDict allValues]];
 	}
-	
+
 	whichItem = (whichItem + 1) % [LOCATIONS count];
 	whichLocation = [LOCATIONS objectAtIndex:whichItem];
 	self.navigationItem.rightBarButtonItem = BARBUTTON(whichLocation, @selector(findme));
@@ -144,7 +144,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

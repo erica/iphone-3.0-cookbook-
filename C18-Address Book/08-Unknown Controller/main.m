@@ -56,7 +56,7 @@
 	ABContact *contact = [ABContact contact];
 	NSArray *emails = [NSArray arrayWithObject:[ABContact dictionaryWithValue:@"feedback@ericasadun.com" andLabel:kABWorkLabel]];
 	contact.emailDictionaries = emails;
-	
+
 	// Create the controller
 	ABUnknownPersonViewController *upvc = [[ABUnknownPersonViewController alloc] init];
 	upvc.unknownPersonViewDelegate = self;
@@ -74,7 +74,7 @@
 	upvc.allowsAddingToAddressBook = NO; // can add these properties to a new or existing contact
 	upvc.displayedPerson = contact.record;
 	 */
-	
+
 	[self.navigationController pushViewController:upvc animated:YES];
 }
 
@@ -90,7 +90,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

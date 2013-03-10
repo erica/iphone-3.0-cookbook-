@@ -22,13 +22,13 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.title = @"Image Scroller";
-	
+
 	// Create the scroll view and set its content size and delegate
 	UIScrollView *sv = [[[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, BASEHEIGHT)] autorelease];
 	sv.contentSize = CGSizeMake(NPAGES * 320.0f, sv.frame.size.height);
 	sv.pagingEnabled = YES;
 	sv.delegate = self;
-	
+
 	// Load in all the pages
 	for (int i = 0; i < NPAGES; i++)
 	{
@@ -38,7 +38,7 @@
 		[sv addSubview:iv];
 		[iv release];
 	}
-	
+
 	[self.view addSubview:sv];
 }
 @end
@@ -47,7 +47,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

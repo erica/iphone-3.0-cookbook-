@@ -19,7 +19,7 @@
 	NSMutableString *log;
 	IBOutlet UITextView *textView;
 }
-@property (retain) NSMutableString *log;	
+@property (retain) NSMutableString *log;
 @property (retain) UITextView *textView;
 @end
 
@@ -60,7 +60,7 @@
 		[self doLog:@"Error: Could not find matching products"];
 		return;
 	}
-	
+
 	// Retrieve the localized price
 	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
 	[numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
@@ -68,7 +68,7 @@
 	[numberFormatter setLocale:product.priceLocale];
 	NSString *formattedString = [numberFormatter stringFromNumber:product.price];
 	[numberFormatter release];
-	
+
 	// Show the information
 	[self doLog:product.localizedTitle];
 	[self doLog:product.localizedDescription];
@@ -80,7 +80,7 @@
 	// Init log
 	self.log = [NSMutableString string];
 	[self doLog:@"Submitting Request... Please wait."];
-	
+
 	// Create the product request and start it
 	SKProductsRequest *preq = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObject:PRODUCT_ID]];
 	preq.delegate = self;
@@ -91,9 +91,9 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Action", @selector(action:));
-	
+
 	self.log = [NSMutableString string];
-	if (![UIDevice networkAvailable]) 
+	if (![UIDevice networkAvailable])
 		[self doLog:@"You are not connected to the network! All StoreKit calls will fail!"];
 }
 @end
@@ -102,7 +102,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

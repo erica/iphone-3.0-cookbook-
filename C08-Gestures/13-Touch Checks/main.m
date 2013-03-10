@@ -31,7 +31,7 @@ float distance (CGPoint p1, CGPoint p2)
 {
 	float dx = p2.x - p1.x;
 	float dy = p2.y - p1.y;
-	
+
 	return sqrt(dx*dx + dy*dy);
 }
 
@@ -51,7 +51,7 @@ float distance (CGPoint p1, CGPoint p2)
 @synthesize vc;
 
 #define SWIPE_DRAG_MIN 16
-#define DRAGLIMIT_MAX 8 
+#define DRAGLIMIT_MAX 8
 #define POINT_TOLERANCE 16
 #define MIN_PINCH	8
 
@@ -69,38 +69,38 @@ float distance (CGPoint p1, CGPoint p2)
 {
 	pointCount++;
 	if (finished) return;
-	
+
 	// Handle multitouch
 	if (touches.count > 1)
 	{
 		// get touches
 		UITouch *touch1 = [[touches allObjects] objectAtIndex:0];
 		UITouch *touch2 = [[touches allObjects] objectAtIndex:1];
-		
+
 		// find current and previous points
 		CGPoint cpoint1 = [touch1 locationInView:self];
 		CGPoint ppoint1 = [touch1 previousLocationInView:self];
 		CGPoint cpoint2 = [touch2 locationInView:self];
 		CGPoint ppoint2 = [touch2 previousLocationInView:self];
-		
+
 		// calculate distances between the points
 		CGFloat cdist = distance(cpoint1, cpoint2);
 		CGFloat pdist = distance(ppoint1, ppoint2);
-		
+
 		multitouch = YES;
 
 		// The pinch has to exceed a minimum distance
 		if (ABS(cdist - pdist) < MIN_PINCH) return;
-		
+
 		if (cdist < pdist)
 			touchtype = UITouchPinchIn;
 		else
 			touchtype = UITouchPinchOut;
-		
+
 		finished = YES;
 		return;
 	}
-	else 
+	else
 	{
 		// Check single touch for swipe
 		CGPoint cpoint = [[touches anyObject] locationInView:self];
@@ -125,12 +125,12 @@ float distance (CGPoint p1, CGPoint p2)
 - (void) touchesEnded:(NSSet *) touches withEvent: (UIEvent *) event
 {
 	// was not detected as a swipe
-	if (!finished && !multitouch) 
+	if (!finished && !multitouch)
 	{
 		// tap or double tap
-		if (pointCount < 3) 
+		if (pointCount < 3)
 		{
-			if ([[touches anyObject] tapCount] == 1) 
+			if ([[touches anyObject] tapCount] == 1)
 				touchtype = UITouchTap;
 			else
 				touchtype = UITouchDoubleTap;
@@ -138,26 +138,26 @@ float distance (CGPoint p1, CGPoint p2)
 		else
 			touchtype = UITouchDrag;
 	}
-	
+
 	// did points exceeded proper swipe?
-	if (finished && !multitouch) 
+	if (finished && !multitouch)
 	{
 		if (pointCount > POINT_TOLERANCE) touchtype = UITouchDrag;
 	}
-	
+
 	// Is this properly a tap/double tap?
 	if (multitouch || (touches.count > 1))
 	{
 		// tolerance is *very* high
 		if (pointCount < 10)
 		{
-			if ([[touches anyObject] tapCount] == 1) 
+			if ([[touches anyObject] tapCount] == 1)
 				touchtype = UITouchMultitouchTap;
 			else
 				touchtype = UITouchMultitouchDoubleTap;
 		}
 	}
-	
+
 	NSString *whichItem = nil;
 	if (touchtype == UITouchUnknown) whichItem = @"Unknown";
 	else if (touchtype == UITouchTap) whichItem = @"Tap";
@@ -199,7 +199,7 @@ float distance (CGPoint p1, CGPoint p2)
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"?", @selector(show));
 	self.view.userInteractionEnabled = YES;
 	self.title = @"Touch Distinction";
-	
+
 	TouchView *tv = [[TouchView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 280.0f)];
 	tv.backgroundColor = [UIColor blackColor];
 	tv.center = CGPointMake(160.0f, 140.0f);
@@ -213,7 +213,7 @@ float distance (CGPoint p1, CGPoint p2)
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -21,7 +21,7 @@
 	NSString *sessionID;
 	id <GameKitHelperDataDelegate> dataDelegate;
 	UIViewController *viewController;
-	
+
 	GKSession *session;
 	BOOL isConnected;
 }

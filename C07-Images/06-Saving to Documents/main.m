@@ -18,12 +18,12 @@
 - (NSString *) findUniqueSavePath
 {
 	int i = 1;
-	NSString *path; 
+	NSString *path;
 	do {
 		// iterate until a name does not match an existing file
 	    path = [NSString stringWithFormat:@"%@/Documents/IMAGE_%04d.PNG", NSHomeDirectory(), i++];
 	} while ([[NSFileManager defaultManager] fileExistsAtPath:path]);
-	
+
 	return path;
 }
 
@@ -57,7 +57,7 @@
 	ipc.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
 	ipc.delegate = self;
 	ipc.allowsImageEditing = NO;
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 }
 
 - (void) viewDidLoad
@@ -72,7 +72,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

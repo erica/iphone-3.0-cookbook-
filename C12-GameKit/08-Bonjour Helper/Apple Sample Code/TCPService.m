@@ -74,10 +74,10 @@ static void _AcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDat
 {
 	NSAutoreleasePool*		localPool = [NSAutoreleasePool new];
 	TCPService*				service = (TCPService*)info;
-	
+
 	if(kCFSocketAcceptCallBack == type)
 	[service handleNewConnectionWithSocket:*(CFSocketNativeHandle*)data fromRemoteAddress:(CFDataGetLength(address) >= sizeof(struct sockaddr) ? (const struct sockaddr*)CFDataGetBytePtr(address) : NULL)];
-	
+
 	[localPool release];
 }
 
@@ -91,21 +91,21 @@ static void _AcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDat
 {
 	if((self = [super init]))
 	_port = port;
-	
+
 	return self;
 }
 
 - (void) dealloc
 {
 	[self stop];
-	
+
 	[super dealloc];
 }
 
 - (void) handleNewConnectionWithSocket:(NSSocketNativeHandle)socket fromRemoteAddress:(const struct sockaddr*)address
 {
 	close(socket);
-	
+
 	[self doesNotRecognizeSelector:_cmd];
 }
 
@@ -116,22 +116,22 @@ static void _AcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDat
 	struct sockaddr_in			addr4;
 	CFRunLoopSourceRef			source;
 	socklen_t					length;
-	
+
 	if(_runLoop)
 	return NO;
 	_runLoop = runLoop;
 	if(!_runLoop)
 	return NO;
 	[_runLoop retain];
-	
+
 	_ipv4Socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, (CFSocketCallBack)&_AcceptCallBack, &socketCtxt);
 	if(!_ipv4Socket) {
 		[self stop];
 		return NO;
 	}
 	setsockopt(CFSocketGetNative(_ipv4Socket), SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(yes));
-	
-	
+
+
 	bzero(&addr4, sizeof(addr4));
 	addr4.sin_len = sizeof(addr4);
 	addr4.sin_family = AF_INET;
@@ -145,15 +145,15 @@ static void _AcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDat
 	_localAddress = malloc(length);
 	if(getsockname(CFSocketGetNative(_ipv4Socket), _localAddress, &length) < 0)
 	[NSException raise:NSInternalInconsistencyException format:@"Unable to retrieve socket address"];
-	
-	
+
+
 	source = CFSocketCreateRunLoopSource(kCFAllocatorDefault, _ipv4Socket, 0);
 	CFRunLoopAddSource([_runLoop getCFRunLoop], source, kCFRunLoopCommonModes);
 	CFRelease(source);
-	
-	
+
+
 	_running = YES;
-	
+
 	return YES;
 }
 
@@ -164,18 +164,18 @@ static void _AcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDat
 	domain = @""; //Will use default Bonjour registration doamins, typically just ".local"
 	if(![name length])
 	name = @""; //Will use default Bonjour name, e.g. the name assigned to the device in iTunes
-	
+
 	if(!protocol || !_running)
 	return NO;
-	
+
 	_netService = [[NSNetService alloc] initWithDomain:domain type:protocol name:name port:[self localPort]];
 	if(_netService == NULL)
 	return NO;
-	
+
 	[_netService scheduleInRunLoop:_runLoop forMode:NSRunLoopCommonModes];
 	[_netService publish];
 	[_netService setDelegate:self];
-	
+
 	return YES;
 }
 
@@ -209,9 +209,9 @@ static void _AcceptCallBack(CFSocketRef socket, CFSocketCallBackType type, CFDat
 - (void) stop
 {
 	_running = NO;
-	
+
 	[self disableBonjour];
-	
+
 	if(_ipv4Socket) {
 		CFSocketInvalidate(_ipv4Socket);
 		CFRelease(_ipv4Socket);

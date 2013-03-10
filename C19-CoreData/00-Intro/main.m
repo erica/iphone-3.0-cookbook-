@@ -32,11 +32,11 @@
 {
 	NSError *error;
 	NSURL *url = [NSURL fileURLWithPath:STOREPATH];
-	
+
 	// Init the model, coordinator, context
 	NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 	NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
-	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) 
+	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error])
 		NSLog(@"Error: %@", [error localizedDescription]);
 	else
 	{
@@ -58,24 +58,24 @@
 - (void) addObjects
 {
 	NSLog(@"Adding preset data");
-	
+
 	// Insert objects for department and two people, setting their properties
 	Department *department = (Department *)[NSEntityDescription insertNewObjectForEntityForName:@"Department" inManagedObjectContext:self.context];
 	department.groupName = @"Office of Personnel Management";
-	
+
 	Person *person1 = (Person *)[NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:self.context];
 	person1.name = @"John Smith";
 	person1.birthday = [self dateFromString:@"12-1-1901"];
 	person1.department = department;
-	
+
 	Person *person2 = (Person *)[NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:self.context];
 	person2.name = @"Jane Doe";
 	person2.birthday = [self dateFromString:@"4-13-1922"];
 	person2.department = department;
-	
+
 	department.manager = person1;
 	department.members = [NSSet setWithObjects:person1, person2, nil];
-	
+
     // Save the data
 	NSError *error;
 	if (![self.context save:&error]) NSLog(@"Error: %@", [error localizedDescription]);
@@ -86,13 +86,13 @@
 	// Create a basic fetch request
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:[NSEntityDescription entityForName:@"Person" inManagedObjectContext:self.context]];
-	
+
 	// Add a sort descriptor
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:nil];
 	NSArray *descriptors = [NSArray arrayWithObject:sortDescriptor];
 	[fetchRequest setSortDescriptors:descriptors];
 	[sortDescriptor release];
-	
+
 	// Init the fetched results controller
 	NSError *error;
 	self.results = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.context sectionNameKeyPath:nil cacheName:@"Root"];
@@ -110,34 +110,34 @@
 - (void) listPeople
 {
 	[self fetchObjects];
-	if (!self.results.fetchedObjects.count) 
+	if (!self.results.fetchedObjects.count)
 	{
 		NSLog(@"Database has no people at this time");
 		return;
 	}
-	
+
 	NSLog(@"People:");
-	for (Person *person in self.results.fetchedObjects)	
+	for (Person *person in self.results.fetchedObjects)
 		NSLog(@"%@ : %@", person.name, person.department.groupName);
 }
 
 - (void) removeObjects
 {
 	NSError *error = nil;
-	
+
 	// remove all people (if they exist)
 	[self fetchObjects];
-	if (!self.results.fetchedObjects.count) 
+	if (!self.results.fetchedObjects.count)
 	{
 		NSLog(@"No one to delete");
 		return;
 	}
-	
+
 	// remove each person
-	for (Person *person in self.results.fetchedObjects)	
+	for (Person *person in self.results.fetchedObjects)
 	{
 		NSLog(@"Deleting %@\n", person.name);
-		
+
 		// remove person as manager if necessary
 		if (person.department.manager == person) person.department.manager = nil;
 
@@ -148,7 +148,7 @@
 		// delete the person object
 		[self.context deleteObject:person];
 	}
-	
+
 	// save
 	if (![self.context save:&error]) NSLog(@"Error: %@ (%@)", [error localizedDescription], [error userInfo]);
 	[self fetchObjects];
@@ -158,7 +158,7 @@
 {
 	NSArray *buttons = [@"Init People*Remove All People" componentsSeparatedByString:@"*"];
 	int answer = [ModalAlert ask:@"Do what?" withCancel:@"Cancel" withButtons:buttons];
-	
+
 	switch(answer)
 	{
 		case 1:
@@ -188,7 +188,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

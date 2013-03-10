@@ -32,7 +32,7 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	[GameKitHelper sharedInstance].sessionID = @"Peeking at GameKit";
 	[GameKitHelper assignViewController:self];
-	
+
 	freopen([STDERR_OUT fileSystemRepresentation], "w", stderr);
 	[NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(listenForStderr:) userInfo:nil repeats:YES];
 }
@@ -42,7 +42,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

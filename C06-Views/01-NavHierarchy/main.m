@@ -12,9 +12,9 @@
 @implementation TestBedController
 
 /*
- 
+
  DISPLAY A RECURSIVE VIEW HIERARCHY TREE
- 
+
  */
 
 // Recursively travel down the view tree, increasing the indentation level for children
@@ -40,22 +40,22 @@
 }
 
 /*
- 
- The following methods are hard-coded to produce the two-item list to match the view 
+
+ The following methods are hard-coded to produce the two-item list to match the view
  hierarchy example in the Views chapter.
- 
+
  This application is basically non-functional, meant only to show view hierarchies.
- 
+
  */
 
 #define DATA_ARRAY	[NSArray arrayWithObjects:@"Pick Up Milk", @"Call Anna", nil]
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	return 2;
 }
@@ -72,23 +72,23 @@
 - (void) loadView
 {
 	[super loadView];
-	
+
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc]
-											   initWithTitle:@"Edit" 
-											   style:UIBarButtonItemStylePlain 
-											   target:self 
+											   initWithTitle:@"Edit"
+											   style:UIBarButtonItemStylePlain
+											   target:self
 											   action:nil] autorelease];
-	
+
 	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc]
-											   initWithTitle:@"New" 
-											   style:UIBarButtonItemStylePlain 
-											   target:self 
+											   initWithTitle:@"New"
+											   style:UIBarButtonItemStylePlain
+											   target:self
 											   action:nil] autorelease];
 
 	self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.20392f green:0.19607f blue:0.61176f alpha:1.0f];
-	
+
 	self.title = @"To Do";
-	
+
 	[self performSelector:@selector(displayViews) withObject:nil afterDelay:1.0f];
 }
 @end

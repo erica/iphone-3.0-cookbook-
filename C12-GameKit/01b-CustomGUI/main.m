@@ -16,7 +16,7 @@
 - (void)textViewDidChange:(UITextView *)textView
 {
 	if (![helper isConnected]) return;
-	
+
 	NSString *text = sendView.text;
 	if (!text || (text.length == 0)) text = @"xyzzyclear";
 	NSData *textData = [text dataUsingEncoding:NSUTF8StringEncoding];
@@ -41,7 +41,7 @@
 	self.navigationItem.rightBarButtonItem = HBARBUTTON(@"Connect", @selector(connect));
 
 	helper.sessionID = @"Typing Together";
-	[sendView becomeFirstResponder];		
+	[sendView becomeFirstResponder];
 }
 @end
 
@@ -49,7 +49,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

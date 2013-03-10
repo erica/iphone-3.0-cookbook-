@@ -60,7 +60,7 @@
 	ipc.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
 	ipc.delegate = self;
 	ipc.allowsImageEditing = NO;
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 }
 
 - (void) viewDidLoad
@@ -68,13 +68,13 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Pick", @selector(pickImage:));
 	self.title = @"Image Picker";
-	
+
 	// Add the smaller thumbnail subview
 	UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(10.0f, 10.0f, 300.0f, 264.0f)];
 	iv.tag = 101;
 	[self.view addSubview:iv];
 	[iv release];
-	
+
 	// Add a segmented control for fitting options
 	UISegmentedControl *seg = [[UISegmentedControl alloc] initWithItems:[@"Fit Center Fill" componentsSeparatedByString:@" "]];
 	seg.selectedSegmentIndex = 0;
@@ -89,7 +89,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

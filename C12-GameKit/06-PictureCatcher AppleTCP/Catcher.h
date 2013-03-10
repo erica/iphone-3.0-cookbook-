@@ -9,10 +9,10 @@
 	IBOutlet NSButton *button;
 	IBOutlet NSMenuItem *saveItem;
 	IBOutlet NSProgressIndicator *progress;
-	
+
 	NSData *imageData;
 	NSNetServiceBrowser *browser;
-	
+
 	BOOL success;
 }
 

@@ -37,9 +37,9 @@
 {
 	int secs = num % 60;
 	int min = num / 60;
-	
+
 	if (num < 60) return [NSString stringWithFormat:@"0:%02d", num];
-	
+
 	return	[NSString stringWithFormat:@"%d:%02d", min, secs];
 }
 
@@ -50,7 +50,7 @@
 	float peak = -1.0f * [self.player peakPowerForChannel:0];
 	meter1.progress = (XMAX - avg) / XMAX;
 	meter2.progress = (XMAX - peak) / XMAX;
-	
+
 	self.title = [NSString stringWithFormat:@"%@ of %@", [self formatTime:self.player.currentTime], [self formatTime:self.player.duration]];
 	scrubber.value = (self.player.currentTime / self.player.duration);
 }
@@ -72,7 +72,7 @@
 
 	volumeSlider.value = self.player.volume;
 	volumeSlider.enabled = YES;
-	
+
 	self.navigationItem.rightBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemPause, self, @selector(pause:));
 	timer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(updateMeters) userInfo:nil repeats:YES];
 	scrubber.enabled = YES;
@@ -92,10 +92,10 @@
 {
 	// Pause the player
 	[self.player pause];
-	
+
 	// Calculate the new current time
 	self.player.currentTime = scrubber.value * self.player.duration;
-	
+
 	// Update the title, nav bar
 	self.title = [NSString stringWithFormat:@"%@ of %@", [self formatTime:self.player.currentTime], [self formatTime:self.player.duration]];
 	self.navigationItem.rightBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemPlay, self, @selector(play:));
@@ -105,23 +105,23 @@
 {
 	NSError *error;
 	if (![[NSFileManager defaultManager] fileExistsAtPath:self.path]) return NO;
-	
+
 	self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:self.path] error:&error];
 	if (!self.player)
 	{
 		NSLog(@"Error: %@", [error localizedDescription]);
 		return NO;
 	}
-	
+
 	[self.player prepareToPlay];
 	self.player.meteringEnabled = YES;
 	meter1.progress = 0.0f;
 	meter2.progress = 0.0f;
-	
+
 	self.player.delegate = self;
 	self.navigationItem.rightBarButtonItem = SYSBARBUTTON(UIBarButtonSystemItemPlay, self, @selector(play:));
 	scrubber.enabled = NO;
-	
+
 	return YES;
 }
 
@@ -139,10 +139,10 @@
 	// Each of these media files is in the public domain via archive.org
 	NSArray *choices = [@"Alexander's Ragtime Band*Hello My Baby*Ragtime Echoes*Rhapsody In Blue*A Tisket A Tasket*In the Mood*Cancel" componentsSeparatedByString:@"*"];
 	NSArray *media = [@"ARB-AJ*HMB1936*ragtime*RhapsodyInBlue*Tisket*InTheMood" componentsSeparatedByString:@"*"];
-	
+
 	int answer = [ModalMenu menuWithTitle:@"Musical selections" view:self.view andButtons:choices];
 	if (answer == (choices.count - 1)) return;
-	
+
 	self.path = [[NSBundle mainBundle] pathForResource:[media objectAtIndex:answer] ofType:@"mp3"];
 	nowPlaying.text = [choices objectAtIndex:answer];
 	[self.view viewWithTag:101].hidden = NO;
@@ -162,7 +162,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

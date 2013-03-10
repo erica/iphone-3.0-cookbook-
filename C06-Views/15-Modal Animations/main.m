@@ -23,7 +23,7 @@
 	// Hide the bar button and show the view
 	self.navigationItem.rightBarButtonItem = nil;
 	[self.view viewWithTag:101].alpha = 1.0f;
-	
+
 	// Bounce to 115% of the normal size
 	[UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -37,17 +37,17 @@
 	[UIView setAnimationDuration:0.3f];
 	[self.view viewWithTag:101].transform = CGAffineTransformMakeScale(1.0f, 1.0f);
 	[UIView commitModalAnimations];
-	
+
 	// Pause for a second and appreciate the presentation
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1.0f]];
-	
+
 	// Slowly zoom back down and hide the view
 	[UIView beginAnimations:nil context:UIGraphicsGetCurrentContext()];
 	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 	[UIView setAnimationDuration:1.0f];
 	[self.view viewWithTag:101].transform = CGAffineTransformMakeScale(0.01f, 0.01f);
 	[UIView commitModalAnimations];
-	
+
 	// Restore the bar button
 	[self.view viewWithTag:101].alpha = 0.0f;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Bounce", @selector(animate:));
@@ -67,7 +67,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

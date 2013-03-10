@@ -52,7 +52,7 @@
 	}
 	else
 		self.title = @"Cancelled";
-	
+
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -62,7 +62,7 @@
 	[self dismissModalViewControllerAnimated:YES];
 	[peoplePicker release];
 	ABContact *contact = [ABContact contactWithRecord:person];
-	
+
 	if ([ModalAlert ask:@"Really delete %@?", contact.compositeName])
 	{
 		self.title = [NSString stringWithFormat:@"Deleted %@", contact.compositeName];
@@ -91,14 +91,14 @@
 {
 	// create a new view controller
 	ABNewPersonViewController *npvc = [[ABNewPersonViewController alloc] init];
-	
+
 	// Create a new contact
 	ABContact *contact = [ABContact contact];
 	npvc.displayedPerson = contact.record;
-	
+
 	// Set delegate
 	npvc.newPersonViewDelegate = self;
-	
+
 	[self.navigationController pushViewController:npvc animated:YES];
 }
 
@@ -122,7 +122,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -22,7 +22,7 @@
 {
 	float xx = [acceleration x];
 	xarrow.transform = CGAffineTransformMakeScale(MAX(MIN(xx, 1.0f), -1.0f), 1.0f);
-	
+
 	float yy = -[acceleration y];
 	yarrow.transform = CGAffineTransformRotate(CGAffineTransformMakeScale(1.0f, MAX(MIN(yy, 1.0f), -1.0f)), M_PI/2.0f);
 }
@@ -38,7 +38,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

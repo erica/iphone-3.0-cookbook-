@@ -45,7 +45,7 @@ int which = 0;
 		default:
 			break;
 	}
-	
+
 	NSString *next = [NSString stringWithFormat:@"Example %d", (which = (which + 1) % NUM_OPTIONS) + 1];
 	self.navigationItem.rightBarButtonItem = BARBUTTON(next, @selector(action:));
 }
@@ -61,7 +61,7 @@ int which = 0;
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

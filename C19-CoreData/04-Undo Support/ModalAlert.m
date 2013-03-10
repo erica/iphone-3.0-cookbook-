@@ -6,7 +6,7 @@
 
 /*
  Thanks to Kevin Ballard for suggesting the UITextField as subview approach
- All credit to Kenny TM. Mistakes are mine. 
+ All credit to Kenny TM. Mistakes are mine.
  To Do: Ensure that only one runs at a time -- is that possible?
  */
 
@@ -15,7 +15,7 @@
 
 #define TEXT_FIELD_TAG	9999
 
-@interface ModalAlertDelegate : NSObject <UIAlertViewDelegate, UITextFieldDelegate> 
+@interface ModalAlertDelegate : NSObject <UIAlertViewDelegate, UITextFieldDelegate>
 {
 	CFRunLoopRef currentLoop;
 	NSString *text;
@@ -29,14 +29,14 @@
 @synthesize index;
 @synthesize text;
 
--(id) initWithRunLoop: (CFRunLoopRef)runLoop 
+-(id) initWithRunLoop: (CFRunLoopRef)runLoop
 {
 	if (self = [super init]) currentLoop = runLoop;
 	return self;
 }
 
 // User pressed button. Retrieve results
--(void)alertView:(UIAlertView*)aView clickedButtonAtIndex:(NSInteger)anIndex 
+-(void)alertView:(UIAlertView*)aView clickedButtonAtIndex:(NSInteger)anIndex
 {
 	UITextField *tf = (UITextField *)[aView viewWithTag:TEXT_FIELD_TAG];
 	if (tf) self.text = tf.text;
@@ -59,10 +59,10 @@
 	[UIView setAnimationDuration:0.25f];
 	if (![self isLandscape])
 		alertView.center = CGPointMake(160.0f, 180.0f);
-	else 
+	else
 		alertView.center = CGPointMake(240.0f, 90.0f);
 	[UIView commitAnimations];
-	
+
 	[[alertView viewWithTag:TEXT_FIELD_TAG] becomeFirstResponder];
 }
 
@@ -79,16 +79,16 @@
 + (NSUInteger) ask: (NSString *) question withCancel: (NSString *) cancelButtonTitle withButtons: (NSArray *) buttons
 {
 	CFRunLoopRef currentLoop = CFRunLoopGetCurrent();
-	
+
 	// Create Alert
 	ModalAlertDelegate *madelegate = [[ModalAlertDelegate alloc] initWithRunLoop:currentLoop];
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:question message:nil delegate:madelegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil];
 	for (NSString *buttonTitle in buttons) [alertView addButtonWithTitle:buttonTitle];
 	[alertView show];
-	
+
 	// Wait for response
 	CFRunLoopRun();
-	
+
 	// Retrieve answer
 	NSUInteger answer = madelegate.index;
 	[alertView release];
@@ -150,19 +150,19 @@
 	// Show alert and wait for it to finish displaying
 	[alertView show];
 	while (CGRectEqualToRect(alertView.bounds, CGRectZero));
-	
+
 	// Find the center for the text field and add it
 	CGRect bounds = alertView.bounds;
 	tf.center = CGPointMake(bounds.size.width / 2.0f, bounds.size.height / 2.0f - 10.0f);
 	[alertView addSubview:tf];
 	[tf release];
-	
+
 	// Set the field to first responder and move it into place
 	[madelegate performSelector:@selector(moveAlert:) withObject:alertView afterDelay: 0.7f];
-	
+
 	// Start the run loop
 	CFRunLoopRun();
-	
+
 	// Retrieve the user choices
 	NSUInteger index = madelegate.index;
 	NSString *answer = [[madelegate.text copy] autorelease];

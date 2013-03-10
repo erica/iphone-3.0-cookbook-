@@ -68,17 +68,17 @@
 	NSNumber *aLevel = NUMBER((dangerButton.enabled) ? 1.0f : 0.25f);
 	[UIView modalAnimationWithTarget:self selector:@selector(updateAlpha:) object:aLevel duration:0.3f];
 	dangerButton.transform = CGAffineTransformIdentity;
-	
+
 	if (!dangerButton.enabled) return;
-	
+
 	// When the switch enables the button, add a little animation to introduce the change. Zoom out and in
 	[UIView modalAnimationWithTarget:self selector:@selector(expand:) object:NUMBER(2.0f) duration:0.3f];
 	[UIView modalAnimationWithTarget:self selector:@selector(expand:) object:NUMBER(1.0f) duration:0.3f];
-	
+
 	// Rotate by 360 degrees
 	for (int i = 0; i < 4; i++)
 		[UIView modalAnimationWithTarget:self selector:@selector(rotate) object:nil duration:0.3f];
-	
+
 	// Flip to back and again to front
 	for (int i = 0; i < 2; i++)
 		[UIView modalAnimationWithTarget:self selector:@selector(flipLeft) object:nil duration:1.0f];
@@ -106,7 +106,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

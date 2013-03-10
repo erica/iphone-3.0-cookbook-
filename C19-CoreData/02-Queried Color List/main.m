@@ -41,16 +41,16 @@
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Crayon" inManagedObjectContext:self.context];
 	[fetchRequest setEntity:entity];
-	
+
 	// Apply an ascending sort for the color items
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:nil];
 	NSArray *descriptors = [NSArray arrayWithObject:sortDescriptor];
 	[fetchRequest setSortDescriptors:descriptors];
-	
+
 	// Recover query
 	NSString *query = self.searchBar.text;
 	if (query && query.length) fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", query];
-		
+
 	// Init the fetched results controller
 	NSError *error;
 	self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.context sectionNameKeyPath:@"section" cacheName:@"Root"];
@@ -64,12 +64,12 @@
 
 - (void) addColorToDB: (NSString *) colorString
 {
-	NSError *error; 
+	NSError *error;
 
 	// Extract the color/name pair
 	NSArray *colorComponents = [colorString componentsSeparatedByString:@"#"];
 	if (colorComponents.count != 2) return;
-	
+
 	// Store a name/color pair into the database
 	Crayon *item = (Crayon *)[NSEntityDescription insertNewObjectForEntityForName:@"Crayon" inManagedObjectContext:self.context];
 	item.color = [colorComponents objectAtIndex:1];
@@ -86,11 +86,11 @@
 	NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents/colors_03.sqlite"];
 	NSURL *url = [NSURL fileURLWithPath:path];
 	BOOL needsBuilding = ![[NSFileManager defaultManager] fileExistsAtPath:path];
-	
+
 	// Init the model, coordinator, context
 	NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 	NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
-	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) 
+	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error])
 		NSLog(@"Error: %@", [error localizedDescription]);
 	else
 	{
@@ -98,7 +98,7 @@
 		[self.context setPersistentStoreCoordinator:persistentStoreCoordinator];
 	}
 	[persistentStoreCoordinator release];
-	
+
 	if (needsBuilding)
 	{
 		NSString *pathname = [[NSBundle mainBundle]  pathForResource:@"crayons" ofType:@"txt" inDirectory:@"/"];
@@ -119,10 +119,10 @@
 	range.length = 2;
 	range.location = 0;
 	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&red];
-	range.location = 2; 
+	range.location = 2;
 	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&green];
-	range.location = 4; 
-	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&blue];	
+	range.location = 4;
+	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&blue];
 	return [UIColor colorWithRed:(float)(red/255.0f) green:(float)(green/255.0f) blue:(float)(blue/255.0f) alpha:1.0f];
 }
 
@@ -131,17 +131,17 @@
     // Retrieve or create a cell
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"basic cell"];
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"basic cell"] autorelease];
-	
+
 	// Recover object from fetched results
 	NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
 	cell.textLabel.text = [[managedObject valueForKey:@"name"] description];
 	UIColor *color = [self getColor:[managedObject valueForKey:@"color"]];
 	cell.textLabel.textColor = ([[managedObject valueForKey:@"color"] hasPrefix:@"FFFFFF"]) ? [UIColor blackColor] : color;
-	
+
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// When a row is selected, color the navigation bar accordingly
 	NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -151,19 +151,19 @@
 }
 
 #pragma mark Sections
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	// Use the fetched results section count
 	return [[self.fetchedResultsController sections] count];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	// Return  the count for each section
 	return [[[self.fetchedResultsController sections] objectAtIndex:section] numberOfObjects];
 }
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView
 {
 	// Return the array of section index titles
 	NSArray *searchArray = [NSArray arrayWithObject:UITableViewIndexSearch];
@@ -181,7 +181,7 @@
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index
 {
 	// Query the titles for the section associated with an index title
-	if (title == UITableViewIndexSearch) 
+	if (title == UITableViewIndexSearch)
 	{
 		[self.tableView scrollRectToVisible:self.searchBar.frame animated:NO];
 		return -1;
@@ -194,8 +194,8 @@
 /*
 Cancel button fix suggested by Jack Lucky, who writes:
 
-"After some more research, I think my solution was really a workaround. After reading the documentation for 
- UISearchDisplayController, I think the problem is that when tableView:numberOfRowsInSection: fires, there is a 
+"After some more research, I think my solution was really a workaround. After reading the documentation for
+ UISearchDisplayController, I think the problem is that when tableView:numberOfRowsInSection: fires, there is a
  disconnect between it and [tableView reload]... Here's my approach:
 
 - (void)refreshTableView {
@@ -204,14 +204,14 @@ Cancel button fix suggested by Jack Lucky, who writes:
         [self.searchDC.searchResultsTableView reloadData];
     } else {
         [self.tableView reloadData];
-    }  
+    }
 }
  "
  */
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-	[self.searchBar setText:@""]; 
+	[self.searchBar setText:@""];
 	[self performFetch];
 }
 
@@ -223,7 +223,7 @@ Cancel button fix suggested by Jack Lucky, who writes:
 - (void) viewDidLoad
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	// Create a search bar
 	self.searchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 44.0f)] autorelease];
 	self.searchBar.tintColor = COOKBOOK_PURPLE_COLOR;
@@ -232,12 +232,12 @@ Cancel button fix suggested by Jack Lucky, who writes:
 	self.searchBar.keyboardType = UIKeyboardTypeAlphabet;
 	self.searchBar.delegate = self;
 	self.tableView.tableHeaderView = self.searchBar;
-	
+
 	// Create the search display controller
 	self.searchDC = [[[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self] autorelease];
 	self.searchDC.searchResultsDataSource = self;
 	self.searchDC.searchResultsDelegate = self;
-	
+
 	// On load, initialize the core data elements
 	[self initCoreData];
 }
@@ -247,7 +247,7 @@ Cancel button fix suggested by Jack Lucky, who writes:
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

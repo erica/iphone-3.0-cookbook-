@@ -76,7 +76,7 @@
 {
 	self.log = [NSMutableString string];
 	[self doLog:@"Starting Download..."];
-	
+
 	// Prepare for download
 	self.navigationItem.rightBarButtonItem = nil;
 	self.navigationItem.leftBarButtonItem = nil;
@@ -94,12 +94,12 @@
 {
 	self.log = [NSMutableString string];
 	[self doLog:@"Starting Download..."];
-	
+
 	// Prepare for download
 	self.navigationItem.rightBarButtonItem = nil;
 	self.navigationItem.leftBarButtonItem = nil;
 	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	
+
 	// Set up the Download Helper and start download
 	NSString *urlString = @"http://ericasadun.com/Private/";
 	[DownloadHelper sharedInstance].username = @"PrivateAccess";
@@ -120,7 +120,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

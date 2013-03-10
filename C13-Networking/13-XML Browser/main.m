@@ -18,7 +18,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 	va_start(arglist, formatstring);
 	id outstring = [[[NSString alloc] initWithFormat:formatstring arguments:arglist] autorelease];
 	va_end(arglist);
-	
+
     UIAlertView *av = [[[UIAlertView alloc] initWithTitle:outstring message:nil delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil] autorelease];
 	[av show];
 }
@@ -35,7 +35,7 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 
 - (id) initWithRoot:(TreeNode *) newRoot
 {
-	if (self = [super init]) 
+	if (self = [super init])
 	{
 		self.root = newRoot;
 		if (newRoot.key) self.title = newRoot.key;
@@ -64,13 +64,13 @@ void myShowAlert(int line, char *functname, id formatstring,...)
 		cell.textLabel.text = [NSString stringWithFormat:@"%@:%@", child.key, child.leafvalue];
 	else
 		cell.textLabel.text = child.key;
-	
+
 	// Set color
 	if (child.isLeaf)
 		cell.textLabel.textColor = [UIColor darkGrayColor];
 	else
 		cell.textLabel.textColor = [UIColor blackColor];
-	
+
 	return cell;
 }
 

@@ -94,7 +94,7 @@
 	return YES;
 }
 
-CGPoint randomPoint() 
+CGPoint randomPoint()
 {
 	int half = 32; // half of flower size
 	int freesize = 240 - 2 * half; // inner area
@@ -118,7 +118,7 @@ CGPoint randomPoint()
 - (void) restart
 {
 	UIView *backdrop = [self.view viewWithTag:201];
-	for (UIView *view in [backdrop subviews]) [view removeFromSuperview];	
+	for (UIView *view in [backdrop subviews]) [view removeFromSuperview];
 	[self loadFlowersInView:backdrop];
 }
 
@@ -127,7 +127,7 @@ CGPoint randomPoint()
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Restart", @selector(restart));
 	srandom(time(0));
-	
+
 	// Add backdrop which will bound the movement for the flowers
 	UIView *backdrop = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 282.0f)];
 	backdrop.backgroundColor = [UIColor blackColor];
@@ -151,7 +151,7 @@ CGPoint randomPoint()
 @implementation TestBedAppDelegate
 @synthesize tbvc;
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	self.tbvc = [[[TestBedViewController alloc] init] autorelease];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:self.tbvc];

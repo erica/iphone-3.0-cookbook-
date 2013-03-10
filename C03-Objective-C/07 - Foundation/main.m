@@ -21,20 +21,20 @@
 {
 	// Create strings
 	NSString *myString = @"A string constant";
-	myString = [NSString stringWithFormat:@"The number is %d", 5]; 
-	
+	myString = [NSString stringWithFormat:@"The number is %d", 5];
+
 	// Append strings
 	NSLog(@"%@", [myString stringByAppendingString:@"22"]);
 	NSLog(@"%@", [myString stringByAppendingFormat:@"%d", 22]);
-	
+
 	// Access length and characters
 	NSLog(@"%d", myString.length);
 	printf("%c\n", [myString characterAtIndex:2]);
-	
+
 	// Convert to C-string
 	printf("%s\n", [myString UTF8String]);
 	printf("%s\n", [myString cStringUsingEncoding: NSUTF8StringEncoding]);
-	
+
 	// Convert from C-string
 	NSLog(@"%@", [NSString stringWithCString:"Hello World" encoding: NSUTF8StringEncoding]);
 }
@@ -50,7 +50,7 @@
 		return;
 	}
 	NSLog(@"File successfully written to file");
-	
+
 	NSString *inString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
 	if (!inString)
 	{
@@ -59,7 +59,7 @@
 	}
 	NSLog(@"File successfully read from file");
 	NSLog(@"%@", inString);
-	
+
 	// This produces a non-existent file error
 	path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/foobar.txt"];
 	inString = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
@@ -75,27 +75,27 @@
 	NSString *myString = @"One Two Three Four Five Six Seven";
 	NSArray *wordArray = [myString componentsSeparatedByString:@" "];
 	NSLog(@"%@", wordArray);
-	
+
 	NSString *sub1 = [myString substringToIndex:7];
 	NSLog(@"%@", sub1);
-	
+
 	NSString *sub2 = [myString substringFromIndex:4];
 	NSLog(@"%@", sub2);
-	
+
 	NSRange r;
 	r.location = 4;
 	r.length = 2;
 	NSString *sub3 = [myString substringWithRange:r];
 	NSLog(@"%@", sub3);
-	
+
 	NSRange searchRange = [myString rangeOfString:@"Five"];
 	if (searchRange.location != NSNotFound)
 	{
 		NSLog(@"Range location: %d, length: %d", searchRange.location, searchRange.length);
 		NSLog(@"%@", [myString stringByReplacingCharactersInRange:searchRange withString:@"New String"]);
 	}
-	
-	
+
+
 	NSString *replaced = [myString stringByReplacingOccurrencesOfString:@" " withString:@" * "];
 	NSLog(@"%@", replaced);
 }
@@ -144,10 +144,10 @@
 {
 	// current time
 	NSDate *date = [NSDate date];
-	
+
 	// time 10 seconds from now
 	date = [NSDate dateWithTimeIntervalSinceNow:10.0f];
-	
+
 	// Show the date
 	NSLog(@"%@", [date description]);
 
@@ -157,7 +157,7 @@
 	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:5.0f]];
 	NSLog(@"Slept %f seconds", [[NSDate date] timeIntervalSinceDate:date]);
 	 */
-	
+
 	// Produce a formatted string representing the current date
 	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
 	formatter.dateFormat = @"MM/dd/YY HH:mm:ss";
@@ -168,7 +168,7 @@
 - (void) handleTimer: (NSTimer *) timer
 {
 	printf("Timer count: %d\n", count++);
-	if (count > 3) 
+	if (count > 3)
 	{
 		[timer invalidate];
 		printf("Timer disabled\n");
@@ -185,58 +185,58 @@
 {
 	NSArray *array = [NSArray arrayWithObjects:@"One", @"Two", @"Three", nil];
 	NSLog(@"%d", array.count);
-	
+
 	// Indices start with 0
 	NSLog(@"%@", [array objectAtIndex:0]);
-	
+
 	// This causes a crash. The last object is at count - 1
 	// NSLog(@"%@", [array objectAtIndex:array.count]);
-	
+
 	// Mutable arrays can be edited
 	NSMutableArray *marray = [NSMutableArray arrayWithArray:array];
 	[marray addObject:@"Four"];
 	[marray removeObjectAtIndex:2];
 	NSLog(@"%@", marray);
-	
+
 	// Combining arrays
 	NSLog(@"%@", [array arrayByAddingObjectsFromArray:marray]);
-	
+
 	// Checking arrays
 	if ([marray containsObject:@"Four"])
 		NSLog(@"The index is %d", [marray indexOfObject:@"Four"]);
-	
-	
+
+
 	// Joining Components
 	NSLog(@"%@", [array componentsJoinedByString:@" "]);
-	
+
 	// Create and populate a dictionary
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 	[dict setObject:@"1" forKey:@"A"];
 	[dict setObject:@"2" forKey:@"B"];
 	[dict setObject:@"3" forKey:@"C"];
 	NSLog(@"%@", [dict description]);
-	
+
 	// Query
 	NSLog(@"%@", [dict objectForKey:@"A"]);
 	NSLog(@"%@", [dict objectForKey:@"F"]);
-	
+
 
 	// Replacing an object
 	[dict setObject:@"foo" forKey:@"C"];
 	NSLog(@"%@", [dict objectForKey:@"C"]);
-	
+
 	// Removing an object
 	[dict removeObjectForKey:@"B"];
-	
+
 	// Count and allKeys
 	NSLog(@"The dictionary has %d objects", [dict count]);
 	NSLog(@"%@", [dict allKeys]);
-	
+
 	// Write to file and read back in
 	NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/ArraySample.txt"];
 	if ([array writeToFile:path atomically:YES])
 		NSLog(@"File was written successfully");
-	
+
 	NSArray *newArray = [NSArray arrayWithContentsOfFile:path];
 	NSLog(@"%@", newArray);
 }
@@ -246,11 +246,11 @@
 	NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/foo.txt"];
 	NSURL *url1 = [NSURL fileURLWithPath:path];
 	NSLog(@"%@", url1);
-		
+
 	NSString *urlpath = @"http://ericasadun.com";
 	NSURL *url2 = [NSURL URLWithString:urlpath];
 	NSLog(@"%d characters read", [[NSString stringWithContentsOfURL:url2] length]);
-	
+
 	NSData *data = [NSData dataWithContentsOfURL:url2];
 	NSLog(@"%d", [data length]);
 }
@@ -258,30 +258,30 @@
 - (void) showFileManager
 {
 	NSFileManager *fm = [NSFileManager defaultManager];
-	
+
 	// List the files in the sandbox Documents folder
 	NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
 	NSLog(@"%@",[fm directoryContentsAtPath:path]);
-	
+
 	// List the files in the application bundle
-	path = [[NSBundle mainBundle] bundlePath];	
+	path = [[NSBundle mainBundle] bundlePath];
 	NSLog(@"%@",[fm directoryContentsAtPath:path]);
-	
+
 	// Retrieve a path from the bundle
 	NSBundle *mb = [NSBundle mainBundle];
 	NSLog(@"%@", [mb pathForResource:@"Default" ofType:@"png"]);
-	
+
 	// Show move, copy, and remove
 	NSError *error;
-	
+
 	// Create a file
 	NSString *docspath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
 	NSString *filepath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/testfile"];
 	NSArray *array = [@"One Two Three" componentsSeparatedByString:@" "];
 	[array writeToFile:filepath atomically:YES];
 	NSLog(@"%@", [fm directoryContentsAtPath:docspath]);
-	
-	
+
+
 	// Copy the file
 	NSString *copypath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/copied"];
 	if (![fm copyItemAtPath:filepath toPath:copypath error:&error])
@@ -290,7 +290,7 @@
 		return;
 	}
 	NSLog(@"%@", [fm directoryContentsAtPath:docspath]);
-	
+
 	// Move the file
 	NSString *newpath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/renamed"];
 	if (![fm moveItemAtPath:filepath toPath:newpath error:&error])
@@ -299,7 +299,7 @@
 		return;
 	}
 	NSLog(@"%@", [fm directoryContentsAtPath:docspath]);
-	
+
 	// Remove a file
 	if (![fm removeItemAtPath:copypath error:&error])
 	{
@@ -307,7 +307,7 @@
 		return;
 	}
 	NSLog(@"%@", [fm directoryContentsAtPath:docspath]);
-	
+
 }
 
 - (void) action: (id) sender
@@ -320,18 +320,18 @@
 	[self compareAndTest];
 	[self convertToNumbers];
 	[self mutableStrings];
-	
+
 	// NUMBERS AND DATES
 	[self basicNumbers];
 	[self basicDates];
 	// [self startTimer]; // Uncomment to run the timer
-	
+
 	// COLLECTIONS
 	[self collectionsOverview];
-	
+
 	// URLs
 	[self basicURLsAndNSData];
-	
+
 	// File Manager
 	[self showFileManager];
 }
@@ -347,7 +347,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

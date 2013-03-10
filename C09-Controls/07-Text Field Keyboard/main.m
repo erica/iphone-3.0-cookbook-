@@ -12,7 +12,7 @@
 @interface TestBedViewController : UIViewController <UITextFieldDelegate>
 @end
 
-@implementation TestBedViewController 
+@implementation TestBedViewController
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
@@ -23,11 +23,11 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.title = @"Keyboard Dismissal";
-	
+
 	// Text field defined in interface builder
 	UITextField *tf = (UITextField *)[self.view viewWithTag:101];
 	tf.delegate = self;
-	
+
 	// Create a text field by hand
 	tf = [[UITextField alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 100.0f, 30.0f)];
 	tf.center = CGPointMake(160.0f, 120.0f);
@@ -46,7 +46,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

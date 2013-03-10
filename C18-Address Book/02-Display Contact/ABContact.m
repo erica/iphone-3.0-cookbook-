@@ -104,9 +104,9 @@
 		case kABPersonPhoneProperty: return @"Phone";
 		case kABPersonInstantMessageProperty: return @"Instant Message";
 		case kABPersonURLProperty: return @"URL";
-		case kABPersonRelatedNamesProperty: return @"Related Name";			
+		case kABPersonRelatedNamesProperty: return @"Related Name";
 	} */
-	
+
 	if (aProperty == kABPersonFirstNameProperty) return @"First Name";
 	if (aProperty == kABPersonLastNameProperty) return @"Last Name";
 	if (aProperty == kABPersonMiddleNameProperty) return @"Middle Name";
@@ -152,7 +152,7 @@
 	if (aProperty == kABPersonNoteProperty) return NO;
 	if (aProperty == kABPersonCreationDateProperty) return NO;
 	if (aProperty == kABPersonModificationDateProperty) return NO;
-	
+
 	return YES;
 	/*
 	if (aProperty == kABPersonEmailProperty) return YES;
@@ -245,20 +245,20 @@
 - (NSString *) contactName
 {
 	NSMutableString *string = [NSMutableString string];
-	
+
 	if (self.firstname || self.lastname)
 	{
 		if (self.prefix) [string appendFormat:@"%@ ", self.prefix];
 		if (self.firstname) [string appendFormat:@"%@ ", self.firstname];
 		if (self.nickname) [string appendFormat:@"\"%@\" ", self.nickname];
 		if (self.lastname) [string appendFormat:@"%@", self.lastname];
-		
+
 		if (self.suffix && string.length)
 			[string appendFormat:@", %@ ", self.suffix];
 		else
 			[string appendFormat:@" "];
 	}
-	
+
 	if (self.organization) [string appendString:self.organization];
 	return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
@@ -325,7 +325,7 @@
 {
 	NSArray *valueArray = [self arrayForProperty:aProperty];
 	NSArray *labelArray = [self labelsForProperty:aProperty];
-	
+
 	int num = MIN(valueArray.count, labelArray.count);
 	NSMutableArray *items = [NSMutableArray array];
 	for (int i = 0; i < num; i++)
@@ -457,9 +457,9 @@
 - (void) setRelatedNameDictionaries: (NSArray *) dictionaries
 {
 	// kABWorkLabel, kABHomeLabel, kABOtherLabel
-	// kABPersonMotherLabel, kABPersonFatherLabel, kABPersonParentLabel, 
-	// kABPersonSisterLabel, kABPersonBrotherLabel, kABPersonChildLabel, 
-	// kABPersonFriendLabel, kABPersonSpouseLabel, kABPersonPartnerLabel, 
+	// kABPersonMotherLabel, kABPersonFatherLabel, kABPersonParentLabel,
+	// kABPersonSisterLabel, kABPersonBrotherLabel, kABPersonChildLabel,
+	// kABPersonFriendLabel, kABPersonSpouseLabel, kABPersonPartnerLabel,
 	// kABPersonManagerLabel, kABPersonAssistantLabel
 	ABMutableMultiValueRef multi = [self createMultiValueFromArray:dictionaries withType:kABMultiStringPropertyType];
 	[self setMulti:multi forProperty:kABPersonRelatedNamesProperty];
@@ -485,11 +485,11 @@
 
 - (void) setSmsDictionaries: (NSArray *) dictionaries
 {
-	// kABWorkLabel, kABHomeLabel, kABOtherLabel, 
+	// kABWorkLabel, kABHomeLabel, kABOtherLabel,
 	// kABPersonInstantMessageServiceKey, kABPersonInstantMessageUsernameKey
 	// kABPersonInstantMessageServiceYahoo, kABPersonInstantMessageServiceJabber
 	// kABPersonInstantMessageServiceMSN, kABPersonInstantMessageServiceICQ
-	// kABPersonInstantMessageServiceAIM, 
+	// kABPersonInstantMessageServiceAIM,
 	ABMutableMultiValueRef multi = [self createMultiValueFromArray:dictionaries withType:kABMultiDictionaryPropertyType];
 	[self setMulti:multi forProperty:kABPersonInstantMessageProperty];
 	CFRelease(multi);
@@ -509,7 +509,7 @@
 {
 	CFErrorRef error;
 	BOOL success;
-	
+
 	if (image == nil) // remove
 	{
 		if (!ABPersonHasImageData(record)) return; // no image to remove
@@ -517,7 +517,7 @@
 		if (!success) NSLog(@"Error: %@", [(NSError *)error localizedDescription]);
 		return;
 	}
-	
+
 	NSData *data = UIImagePNGRepresentation(image);
 	success = ABPersonSetImageData(record, (CFDataRef) data, &error);
 	if (!success) NSLog(@"Error: %@", [(NSError *)error localizedDescription]);

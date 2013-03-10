@@ -10,7 +10,7 @@
 
 #define SUPPPORTS_UNDOCUMENTED_APIS	1
 
-@interface ImageHelper : NSObject 
+@interface ImageHelper : NSObject
 // Create image
 + (UIImage *) imageFromView: (UIView *) theView;
 
@@ -19,13 +19,13 @@
 + (UIImage *) unrotateImage: (UIImage *) image;
 
 + (UIImage *) image: (UIImage *) image fitInSize: (CGSize) size; // retain proportions, fit in size
-+ (UIImage *) image: (UIImage *) image fitInView: (UIView *) view; 
++ (UIImage *) image: (UIImage *) image fitInView: (UIView *) view;
 
 + (UIImage *) image: (UIImage *) image centerInSize: (CGSize) size; // center, no resize
-+ (UIImage *) image: (UIImage *) image centerInView: (UIView *) view; 
++ (UIImage *) image: (UIImage *) image centerInView: (UIView *) view;
 
 + (UIImage *) image: (UIImage *) image fillSize: (CGSize) size; // fill all pixels
-+ (UIImage *) image: (UIImage *) image fillView: (UIView *) view; 
++ (UIImage *) image: (UIImage *) image fillView: (UIView *) view;
 
 #if SUPPPORTS_UNDOCUMENTED_APIS
 + (UIImage *) image: (UIImage *) image withOrientation: (UIImageOrientation) orientation;

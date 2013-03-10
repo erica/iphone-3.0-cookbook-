@@ -20,16 +20,16 @@
 {
 	float percent =  sv.contentOffset.y / sv.contentSize.height;
 	percent = 0.25 + 3 * (MAX(MIN(1.0f, percent), 0.0f) / 4.0f);
-	
+
 	self.tableView.backgroundColor = [UIColor colorWithRed:percent * 0.20392 green:percent * 0.19607 blue:percent * 0.61176 alpha: 1.0f];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return [UIFont familyNames].count;
 }
@@ -38,14 +38,14 @@
 {
 	UITableViewCellStyle style =  UITableViewCellStyleDefault;
 	UITableViewCell *cell = [tView dequeueReusableCellWithIdentifier:@"BaseCell"];
-	if (!cell) 
+	if (!cell)
 		cell = [[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:@"BaseCell"] autorelease];
 	cell.textLabel.text = [[UIFont familyNames] objectAtIndex:indexPath.row];
 	cell.textLabel.textColor = [UIColor whiteColor];
 	return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSString *font = [[UIFont familyNames] objectAtIndex:indexPath.row];
 	[MAINLABEL setText:font];
@@ -66,15 +66,15 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	float percent = 0.25f;
 	tlvc.tableView.backgroundColor = [UIColor colorWithRed:percent * 0.20392 green:percent * 0.19607 blue:percent * 0.61176 alpha: 1.0f];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

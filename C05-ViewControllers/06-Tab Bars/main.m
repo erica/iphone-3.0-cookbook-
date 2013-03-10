@@ -21,7 +21,7 @@
 	CGFloat gray[4] = {tint, tint, tint, 1.0f};
 	CGContextSetFillColor(context, gray);
 	CGContextFillPath(context);
-	
+
 	CGImageRef myRef = CGBitmapContextCreateImage (context);
 	free(CGBitmapContextGetData(context));
 	CGContextRelease(context);
@@ -51,10 +51,10 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	NSMutableArray *controllers = [NSMutableArray array];
-		
-	for (int i = 0; i <= 10; i++) 
+
+	for (int i = 0; i <= 10; i++)
 	{
 		BrightnessController *bControl = [[BrightnessController alloc] initWithBrightness:i];
 		UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:bControl];
@@ -64,13 +64,13 @@
 		[controllers addObject:nav];
 		[nav release];
 	}
-		
+
 	// Create the toolbar and add the view controllers
 	UITabBarController *tbarController = [[UITabBarController alloc] init];
 	tbarController.viewControllers = controllers;
 	tbarController.customizableViewControllers = controllers;
 	tbarController.delegate = self;
-	
+
 	// Set up the window
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:tbarController.view];

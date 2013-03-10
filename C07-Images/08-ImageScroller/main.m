@@ -37,17 +37,17 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.weathermap = URLIMAGE(MAP_URL);
 	self.title = @"Weather Scroller";
-	
+
 	// Create the scroll view and set its content size and delegate
 	UIScrollView *sv = [[[UIScrollView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 284.0f)] autorelease];
 	sv.contentSize = self.weathermap.size;
 	sv.delegate = self;
-	
+
 	// Create an image view to hold the weather map and add it to the scroll view
 	UIImageView *iv = [[[UIImageView alloc] initWithImage:self.weathermap] autorelease];
 	iv.userInteractionEnabled = YES;
 	iv.tag = 201;
-	
+
 	// Calculate and set the zoom scale values
 	float minzoomx = sv.frame.size.width / self.weathermap.size.width;
 	float minzoomy = sv.frame.size.height / self.weathermap.size.height;
@@ -64,7 +64,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

@@ -65,7 +65,7 @@ NSString *pushStatus ()
 		[self updateSwitches];
 		return;
 	}
-	
+
 	NSString *status = [NSString stringWithFormat:@"%@\nAttempting registration", pushStatus()];
 	textView.text = status;
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:[self switchSettings]];
@@ -92,7 +92,7 @@ NSString *pushStatus ()
 // Update background art when the device is rotated
 - (void) setBackgroundArt: (id) sender
 {
-	imageView.image = NAMED_IMAGE(@"cover");	
+	imageView.image = NAMED_IMAGE(@"cover");
 }
 
 - (void) viewDidLoad
@@ -101,9 +101,9 @@ NSString *pushStatus ()
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Action", @selector(action:));
 	self.title = @"Push Client";
 	textView.tag = TEXTVIEWTAG;
-	
+
 	// Prepare to update art as the orientation changes
-	imageView.image = NAMED_IMAGE(@"cover");	
+	imageView.image = NAMED_IMAGE(@"cover");
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setBackgroundArt:) name:@"UIDeviceOrientationDidChangeNotification" object:nil];
 
@@ -112,9 +112,9 @@ NSString *pushStatus ()
 	self.navigationItem.leftBarButtonItem = BARBUTTON(@"Unregister", @selector(doOff));
 	[self updateSwitches];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(confirmationWasHidden:) name:@"UIApplicationDidBecomeActiveNotification" object:nil];
-	
+
 }
-	 
+
 -(void) viewDidUnload
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"UIDeviceOrientationDidChangeNotification" object:nil];
@@ -141,22 +141,22 @@ NSString *pushStatus ()
 {
 	NSUInteger rntypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
 	NSString *results = [NSString stringWithFormat:@"Badge: %@, Alert:%@, Sound: %@",
-						 (rntypes & UIRemoteNotificationTypeBadge) ? @"Yes" : @"No", 
+						 (rntypes & UIRemoteNotificationTypeBadge) ? @"Yes" : @"No",
 						 (rntypes & UIRemoteNotificationTypeAlert) ? @"Yes" : @"No",
 						 (rntypes & UIRemoteNotificationTypeSound) ? @"Yes" : @"No"];
-	
+
 	NSString *status = [NSString stringWithFormat:@"%@\nRegistration succeeded.\n\nDevice Token: %@\n%@", pushStatus(), deviceToken, results];
 	[self showString:status];
-	NSLog(@"deviceToken: %@", deviceToken); 
-} 
+	NSLog(@"deviceToken: %@", deviceToken);
+}
 
 // Provide a user explanation for when the registration fails
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error 
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
 	NSString *status = [NSString stringWithFormat:@"%@\nRegistration failed.\n\nError: %@", pushStatus(), [error localizedDescription]];
 	[self showString:status];
-    NSLog(@"Error in registration. Error: %@", error); 
-} 
+    NSLog(@"Error in registration. Error: %@", error);
+}
 
 // Handle an actual notification
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -182,12 +182,12 @@ NSString *pushStatus ()
  }
  */
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	nav = [[UINavigationController alloc] initWithRootViewController:[[[TestBedViewController alloc] init] autorelease]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];
-	
+
 	// Listen for remote notification launches
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(launchNotification:) name:@"UIApplicationDidFinishLaunchingNotification" object:nil];
 }

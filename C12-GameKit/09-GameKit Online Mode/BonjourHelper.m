@@ -58,17 +58,17 @@ BOOL outConnected;
 	if (!IPAddress || ![IPAddress length]) {
 		return NO;
 	}
-	
+
 	memset((char *) address, sizeof(struct sockaddr_in), 0);
 	address->sin_family = AF_INET;
 	address->sin_len = sizeof(struct sockaddr_in);
-	
+
 	int conversionResult = inet_aton([IPAddress UTF8String], &address->sin_addr);
 	if (conversionResult == 0) {
 		NSAssert1(conversionResult != 1, @"Failed to convert the IP address string into a sockaddr_in: %@", IPAddress);
 		return NO;
 	}
-	
+
 	return YES;
 }
 
@@ -78,7 +78,7 @@ BOOL outConnected;
 		const struct sockaddr_in* sin = (struct sockaddr_in*) address;
 		return [NSString stringWithFormat:@"%@:%d", [NSString stringWithUTF8String:inet_ntoa(sin->sin_addr)], ntohs(sin->sin_port)];
 	}
-	
+
 	return nil;
 }
 
@@ -90,7 +90,7 @@ BOOL outConnected;
 	baseHostName[255] = '\0';
 #if TARGET_IPHONE_SIMULATOR
 	return [NSString stringWithCString:baseHostName encoding: NSUTF8StringEncoding];
-#else 
+#else
 	return [[NSString stringWithCString:baseHostName encoding: NSUTF8StringEncoding] stringByAppendingString:@".local"];
 #endif
 }
@@ -124,7 +124,7 @@ BOOL outConnected;
 {
 	printf("Base:  Incoming: %s, Outgoing: %s\n", inConnection ? "connected" : "not connected", outConnection ? "connected" : "not connected");
 	printf("Final: Incoming: %s, Outgoing: %s\n", inConnected ? "connected" : "not connected", outConnected ? "connected" : "not connected");
-	
+
 	// Must be connected to continue
 	if (!(self.inConnection && self.outConnection) ||
 		!(inConnected && outConnected))
@@ -132,7 +132,7 @@ BOOL outConnected;
 		self.isConnected = NO;
 		return;
 	}
-	
+
 	// Send callback, dismiss HUD, update bar button
 	self.isConnected = YES;
 	DO_DATA_CALLBACK(connectionEstablished, nil);
@@ -145,7 +145,7 @@ BOOL outConnected;
 - (void)netServiceDidResolveAddress:(NSNetService *)netService
 {
 	NSArray* addresses = [netService addresses];
-	
+
 	if (addresses && addresses.count)
 	{
 		for (int i = 0; i < addresses.count; i++)
@@ -153,13 +153,13 @@ BOOL outConnected;
 			struct sockaddr* address = (struct sockaddr*)[[addresses objectAtIndex:i] bytes];
 			NSString *addressString = [BonjourHelper stringFromAddress:address];
 			if (!addressString) continue;
-			
+
 			if ([addressString hasPrefix:[BonjourHelper localIPAddress]])
 			{
 				printf("Will not resolve with self. Continuing to browse.\n");
 				continue;
 			}
-			
+
 			printf("Found a matching external service\n");
 			printf("My address: %s\n", [[BonjourHelper localIPAddress] UTF8String]);
 			printf("Remote address: %s\n", [addressString UTF8String]);
@@ -167,7 +167,7 @@ BOOL outConnected;
 			// Stop browsing for services
 			[self.browser stop];
 			[netService release];
-			
+
 			// Create an outbound connection to this new service
 			self.outConnection = [[[TCPConnection alloc] initWithRemoteAddress:address] autorelease];
 			[self.outConnection setDelegate:self];
@@ -176,7 +176,7 @@ BOOL outConnected;
 			[self updateStatus];
 			return;
 		}
-	} 
+	}
 	[netService release];
 }
 
@@ -217,7 +217,7 @@ BOOL outConnected;
 {
 	[sharedInstance.browser stop];
 	[sharedInstance.server stop];
-	
+
 	sharedInstance.inConnection = nil;
 	sharedInstance.outConnection = nil;
 	sharedInstance.isConnected = NO;
@@ -236,7 +236,7 @@ BOOL outConnected;
 	if (sharedInstance.viewController)
 		sharedInstance.viewController.navigationItem.rightBarButtonItem = nil;
 	if (!sharedInstance.sessionID) sharedInstance.sessionID = @"Sample Session";
-	
+
 	// Prepare for duplex connection
 	[self initConnections];
 	[self startBrowsingForServices];
@@ -257,12 +257,12 @@ BOOL outConnected;
 	[sharedInstance.inConnection invalidate];
 	[sharedInstance.outConnection invalidate];
 	[self initConnections];
-	
+
 	// stop server
 	[sharedInstance.server stop];
 	[sharedInstance updateStatus];
-	
-	// reset 
+
+	// reset
 	[sharedInstance.hud dismissWithClickedButtonIndex:1 animated:YES];
 	if (sharedInstance.viewController)
 		sharedInstance.viewController.navigationItem.rightBarButtonItem = GBARBUTTON(@"Connect", @selector(connect));
@@ -309,7 +309,7 @@ BOOL outConnected;
 	NSString *addressString = [BonjourHelper stringFromAddress:connection.remoteSocketAddress];
 	[BonjourHelper disconnect];
 
-	if (addressString) 
+	if (addressString)
 		[ModalAlert say:@"Error while opening %@ connection (from %@). Wait a few seconds or relaunch before trying to connect again.", (connection == self.inConnection) ? @"incoming" : @"outgoing", addressString];
 	else
 		printf("Failed to open connection from unknown address\n");
@@ -321,10 +321,10 @@ BOOL outConnected;
 	if (!connection) return;
 	NSString *addressString = [BonjourHelper stringFromAddress:connection.remoteSocketAddress];
 	if (!addressString) return;
-	
+
 	[BonjourHelper disconnect];
 	printf("Lost connection from %s\n", [addressString UTF8String]);
-	
+
 	[ModalAlert say:@"Disconnected from peer (%@). You are no longer connected to another device.", addressString];
 }
 

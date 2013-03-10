@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface MIMEHelper : NSObject 
+@interface MIMEHelper : NSObject
 {
 }
 + (NSString *) mimeForExt: (NSString *) ext;

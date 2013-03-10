@@ -36,12 +36,12 @@
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Crayon" inManagedObjectContext:self.context];
 	[fetchRequest setEntity:entity];
 	[fetchRequest setFetchBatchSize:100]; // more than needed for this example
-	
+
 	// Apply an ascending sort for the color items
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:nil];
 	NSArray *descriptors = [NSArray arrayWithObject:sortDescriptor];
 	[fetchRequest setSortDescriptors:descriptors];
-		
+
 	// Init the fetched results controller
 	NSError *error;
 	self.results = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.context sectionNameKeyPath:@"section" cacheName:@"Root"];
@@ -55,12 +55,12 @@
 
 - (void) addColorToDB: (NSString *) colorString
 {
-	NSError *error; 
+	NSError *error;
 
 	// Extract the color/name pair
 	NSArray *colorComponents = [colorString componentsSeparatedByString:@"#"];
 	if (colorComponents.count != 2) return;
-	
+
 	// Store a name/color pair into the database
 	Crayon *item = (Crayon *)[NSEntityDescription insertNewObjectForEntityForName:@"Crayon" inManagedObjectContext:self.context];
 	item.color = [colorComponents objectAtIndex:1];
@@ -77,11 +77,11 @@
 	NSString *path = [NSHomeDirectory() stringByAppendingString:@"/Documents/colors_02.sqlite"];
 	NSURL *url = [NSURL fileURLWithPath:path];
 	BOOL needsBuilding = ![[NSFileManager defaultManager] fileExistsAtPath:path];
-	
+
 	// Init the model, coordinator, context
 	NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
 	NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
-	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) 
+	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error])
 		NSLog(@"Error: %@", [error localizedDescription]);
 	else
 	{
@@ -89,7 +89,7 @@
 		[self.context setPersistentStoreCoordinator:persistentStoreCoordinator];
     }
 	[persistentStoreCoordinator release];
-	
+
 	if (needsBuilding)
 	{
 		NSString *pathname = [[NSBundle mainBundle]  pathForResource:@"crayons" ofType:@"txt" inDirectory:@"/"];
@@ -110,10 +110,10 @@
 	range.length = 2;
 	range.location = 0;
 	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&red];
-	range.location = 2; 
+	range.location = 2;
 	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&green];
-	range.location = 4; 
-	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&blue];	
+	range.location = 4;
+	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&blue];
 	return [UIColor colorWithRed:(float)(red/255.0f) green:(float)(green/255.0f) blue:(float)(blue/255.0f) alpha:1.0f];
 }
 
@@ -122,17 +122,17 @@
     // Retrieve or create a cell
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"basic cell"];
 	if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"basic cell"] autorelease];
-	
+
 	// Recover object from fetched results
 	NSManagedObject *managedObject = [self.results objectAtIndexPath:indexPath];
 	cell.textLabel.text = [managedObject valueForKey:@"name"];
 	UIColor *color = [self getColor:[managedObject valueForKey:@"color"]];
 	cell.textLabel.textColor = ([[managedObject valueForKey:@"color"] hasPrefix:@"FFFFFF"]) ? [UIColor blackColor] : color;
-	
+
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	// When a row is selected, color the navigation bar accordingly
 	NSManagedObject *managedObject = [self.results objectAtIndexPath:indexPath];
@@ -141,19 +141,19 @@
 }
 
 #pragma mark Sections
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	// Use the fetched results section count
 	return [[self.results sections] count];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	// Return  the count for each section
 	return [[[self.results sections] objectAtIndex:section] numberOfObjects];
 }
 
-- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)aTableView
 {
 	// Return the array of section index titles
 	return self.results.sectionIndexTitles;
@@ -176,7 +176,7 @@
 - (void) viewDidLoad
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	// On load, initialize the core data elements
 	[self initCoreData];
 }
@@ -186,7 +186,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

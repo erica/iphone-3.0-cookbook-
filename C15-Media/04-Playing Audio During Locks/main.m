@@ -40,13 +40,13 @@ void interruptionListenerCallback (void    *userData, UInt32  interruptionState)
 	NSError *error;
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"MeetMeInSt.Louis1904" ofType:@"mp3"];
 	if (![[NSFileManager defaultManager] fileExistsAtPath:path]) return NO;
-	
+
 	// Catch interruptions via callback
 	AudioSessionInitialize(NULL, NULL, interruptionListenerCallback, self);
 	AudioSessionSetActive(true);
 	UInt32 sessionCategory = kAudioSessionCategory_MediaPlayback;
 	AudioSessionSetProperty( kAudioSessionProperty_AudioCategory, sizeof(sessionCategory), &sessionCategory);
-	
+
 	/* Audio ends up too low!
 	if (![[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:&error])
 	{
@@ -54,17 +54,17 @@ void interruptionListenerCallback (void    *userData, UInt32  interruptionState)
 		return NO;
 	}
 	 */
-	
+
 	// Initialize the player
 	self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&error];
 	self.player.volume = 1.0f;
-	self.player.delegate = self; 
+	self.player.delegate = self;
 	if (!self.player)
 	{
 		NSLog(@"Error: %@", [error localizedDescription]);
 		return NO;
 	}
-	
+
 	[self.player prepareToPlay];
 
 	return YES;
@@ -88,7 +88,7 @@ void interruptionListenerCallback (void    *userData, UInt32  interruptionState)
 	// resume playback at the end of the interruption
 	printf("(apei) Interruption ended\n");
 	[self.player play];
-	
+
 	// remove the interruption key. it won't be needed
 	[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Interruption"];
 }
@@ -104,7 +104,7 @@ void interruptionListenerCallback (void    *userData, UInt32  interruptionState)
 		self.player.currentTime = [[NSUserDefaults standardUserDefaults] floatForKey:@"Interruption"];
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Interruption"];
 	}
-	
+
 	// Start playback
 	[self.player play];
 }
@@ -115,7 +115,7 @@ void interruptionListenerCallback (void    *userData, UInt32  interruptionState)
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

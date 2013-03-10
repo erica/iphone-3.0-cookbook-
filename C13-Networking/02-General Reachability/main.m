@@ -16,7 +16,7 @@
 @implementation TestBedViewController
 - (void) viewDidLoad
 {
-	NSString *results = [NSString stringWithFormat:@"Network %@available %@%@", 
+	NSString *results = [NSString stringWithFormat:@"Network %@available %@%@",
 						 ([UIDevice networkAvailable] ? @"" : @"un"),
 						 ([UIDevice activeWLAN] ? @"[WiFi]" : @""),
 						 ([UIDevice activeWWAN] ? @"[Cell]" : @"")];
@@ -29,7 +29,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

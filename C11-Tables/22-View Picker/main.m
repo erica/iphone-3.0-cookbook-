@@ -32,7 +32,7 @@
 	UIImageView *imageView;
 	imageView = view ? (UIImageView *) view : [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 60.0f, 60.0f)];
 	NSArray *names = [NSArray arrayWithObjects:@"club.png", @"diamond.png", @"heart.png", @"spade.png", nil];
-	imageView.image = [UIImage imageNamed:[names objectAtIndex:(row % 4)]];	
+	imageView.image = [UIImage imageNamed:[names objectAtIndex:(row % 4)]];
 	CFShow(imageView.image);
 	return imageView;
 }
@@ -41,9 +41,9 @@
 {
 	UIPickerView *pickerView = (UIPickerView *)[actionSheet viewWithTag:101];
 	NSArray *names = [NSArray arrayWithObjects:@"C", @"D", @"H", @"S", nil];
-	self.title = [NSString stringWithFormat:@"%@•%@•%@", 
-				  [names objectAtIndex:([pickerView selectedRowInComponent:0] % 4)], 
-				  [names objectAtIndex:([pickerView selectedRowInComponent:1] % 4)], 
+	self.title = [NSString stringWithFormat:@"%@•%@•%@",
+				  [names objectAtIndex:([pickerView selectedRowInComponent:0] % 4)],
+				  [names objectAtIndex:([pickerView selectedRowInComponent:1] % 4)],
 				  [names objectAtIndex:([pickerView selectedRowInComponent:2] % 4)]];
 	[actionSheet release];
 }
@@ -62,12 +62,12 @@
 	pickerView.showsSelectionIndicator = YES;
 
 	[actionSheet addSubview:pickerView];
-	
+
 	// Pick a random item in the middle of the table
 	[pickerView selectRow:50000 + (random() % 4) inComponent:0 animated:YES];
 	[pickerView selectRow:50000 + (random() % 4) inComponent:1 animated:YES];
 	[pickerView selectRow:50000 + (random() % 4) inComponent:2 animated:YES];
-	
+
 	// Peek at dimensions
 	// CFShow(NSStringFromCGRect(pickerView.frame));
 }
@@ -89,7 +89,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

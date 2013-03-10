@@ -47,8 +47,8 @@
 - (NSArray *) allLeaves;
 
 // Key Utils
-- (NSArray *) keys; 
-- (NSArray *) allKeys; 
+- (NSArray *) keys;
+- (NSArray *) allKeys;
 - (NSArray *) uniqKeys;
 - (NSArray *) uniqAllKeys;
 

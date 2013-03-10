@@ -30,8 +30,8 @@ NSString *DCIMFolder()
 {
 	NSString *file;
 	NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:path];
-	while (file = [dirEnum nextObject]) 
-		if ([[file lastPathComponent] isEqualToString:fname]) 
+	while (file = [dirEnum nextObject])
+		if ([[file lastPathComponent] isEqualToString:fname])
 			return [path stringByAppendingPathComponent:file];
 	return nil;
 }

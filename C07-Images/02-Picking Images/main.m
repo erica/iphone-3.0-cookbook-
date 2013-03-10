@@ -20,10 +20,10 @@
 {
 	SEL allowsSelector;
 	if ([ipc respondsToSelector:@selector(setAllowsEditing:)]) allowsSelector = @selector(setAllowsEditing:);
-	
+
 	NSMethodSignature *ms = [ipc methodSignatureForSelector:allowsSelector];
 	NSInvocation *inv = [NSInvocation invocationWithMethodSignature:ms];
-	
+
 	[inv setTarget:ipc];
 	[inv setSelector:allowsSelector];
 	[inv setArgument:&doesAllow atIndex:2];
@@ -46,7 +46,7 @@
 
 // Optional but "expected" dismiss
 /*
-- (void) imagePickerControllerDidCancel: 
+- (void) imagePickerControllerDidCancel:
 (UIImagePickerController *)picker
 {
 	[self dismissModalViewControllerAnimated:YES];
@@ -60,7 +60,7 @@
 	ipc.sourceType =  UIImagePickerControllerSourceTypePhotoLibrary;
 	ipc.delegate = self;
 	ipc.allowsImageEditing = NO;
-	[self presentModalViewController:ipc animated:YES];	
+	[self presentModalViewController:ipc animated:YES];
 }
 
 - (void) viewDidLoad
@@ -75,7 +75,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

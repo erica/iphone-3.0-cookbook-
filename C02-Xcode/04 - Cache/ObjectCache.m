@@ -20,7 +20,7 @@
 - (id) retrieveObjectNamed: (NSString *) someKey
 {
 	id object = [self.myCache objectForKey:someKey];
-	if (!object) 
+	if (!object)
 	{
 		object = [self loadObjectNamed:someKey];
 		[self.myCache setObject:object forKey:someKey];

@@ -28,7 +28,7 @@
 - (NSArray *) playItems
 {
 	NSMutableArray *items = [NSMutableArray array];
-	
+
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil, nil)];
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemRewind, self, @selector(rewind))];
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil, nil)];
@@ -36,14 +36,14 @@
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil, nil)];
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFastForward, self, @selector(fastforward))];
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil, nil)];
-	
+
 	return items;
 }
 
 - (NSArray *) pauseItems
 {
 	NSMutableArray *items = [NSMutableArray array];
-	
+
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil, nil)];
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemRewind, self, @selector(rewind))];
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil, nil)];
@@ -51,7 +51,7 @@
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil, nil)];
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFastForward, self, @selector(fastforward))];
 	[items addObject:SYSBARBUTTON(UIBarButtonSystemItemFlexibleSpace, nil, nil)];
-	
+
 	return items;
 }
 
@@ -121,7 +121,7 @@
 	mpc.delegate = self;
 	mpc.prompt = @"Please select items to play";
 	mpc.allowsPickingMultipleItems = YES;
-	
+
 	[self presentModalViewController:mpc animated:YES];
 }
 
@@ -132,10 +132,10 @@
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Pick", @selector(pick:));
 	toolbar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	// Stop any ongoing music
 	[PLAYER stop];
-	
+
 	// Add listeners
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackStateChanged:) name:MPMusicPlayerControllerPlaybackStateDidChangeNotification object:PLAYER];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackItemChanged:) name:MPMusicPlayerControllerNowPlayingItemDidChangeNotification object:PLAYER];
@@ -147,7 +147,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

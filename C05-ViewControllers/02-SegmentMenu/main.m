@@ -37,24 +37,24 @@ NSArray *allSubviews(UIView *aView)
 {
 	self.view = [[[NSBundle mainBundle] loadNibNamed:@"mainview" owner:self options:nil] lastObject];
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	// Create the segmented control. Choose one of the three styles
 	NSArray *buttonNames = [NSArray arrayWithObjects:@"One", @"Two", @"Three", @"Four", @"Five", @"Six", nil];
 	UISegmentedControl* segmentedControl = [[UISegmentedControl alloc] initWithItems:buttonNames];
-	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar; 
+	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
 	[segmentedControl addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
 
 // For menus, the momentary behavior is preferred. Otherwise, the segmented control
 // provides a radio-button style interface
 #define TESTWITHMOMENTARY		1
-	
+
 #if TESTWITHMOMENTARY == 1
 	segmentedControl.momentary = YES;
 #else
 	segmentedControl.momentary = NO;
 	segmentedControl.selectedSegmentIndex = 0;
 #endif
-	
+
 	CFShow(allSubviews(segmentedControl));
 
 
@@ -68,7 +68,7 @@ NSArray *allSubviews(UIView *aView)
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

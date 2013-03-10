@@ -22,28 +22,28 @@
 - (NSImage *) imageFromData: (NSData *) data
 {
 	NSImage *image = [[[NSImage alloc] initWithData:data] autorelease];
-	
+
 	// Recover orientation
 	CGImageSourceRef imageSource = CGImageSourceCreateWithData ((CFDataRef)data, NULL);
 	CFDictionaryRef properties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, NULL);
     int orientation = [(NSNumber *)CFDictionaryGetValue(properties, kCGImagePropertyOrientation) intValue];
 	CFRelease(properties);
-    
+
 	// Gather width and  height info
 	CGImageRef imageRef = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
-    float x = 1; 
-    float y = 1; 
+    float x = 1;
+    float y = 1;
     float w = CGImageGetWidth(imageRef);
     float h = CGImageGetHeight(imageRef);
 	CFRelease(imageRef);
 	CFRelease(imageSource);
-    
+
 	// Recover new size and new transform
     NSAffineTransformStruct ntms[8] = {
         { x, 0, 0, y, 0, 0}, {-x, 0, 0, y, w, 0},
         {-x, 0, 0,-y, w, h}, { x, 0, 0,-y, 0, h},
-        { 0,-x,-y, 0, h, w}, { 0,-x, y, 0, 0, w}, 
-		{ 0, x, y, 0, 0, 0}, { 0, x,-y, 0, h, 0} 
+        { 0,-x,-y, 0, h, w}, { 0,-x, y, 0, 0, w},
+		{ 0, x, y, 0, 0, 0}, { 0, x,-y, 0, h, 0}
     };
 	CGSize size = (orientation < 4)  ? CGSizeMake(w, h) : CGSizeMake(h, w);
 	NSAffineTransformStruct nats = ntms[orientation - 1];
@@ -56,7 +56,7 @@
 	[transform concat];
 	[image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
 	[rotated unlockFocus];
-	
+
 	// Return the correctly oriented image
 	return [rotated autorelease];
 }
@@ -68,12 +68,12 @@
 	self.imageData = data;
 	NSImage *image = [self imageFromData:data];
 	[imageView setImage:image];
-	
+
 	[saveItem setEnabled:YES];
 	[button setEnabled:YES];
 
 	[progress stopAnimation:nil];
-	
+
 	ANNOUNCE(@"Recived JPEG image (%d bytes).\n\nUse File > Save to save the received image to disk.", data.length);
 }
 
@@ -82,7 +82,7 @@
 {
 	if (success) return;
 	ANNOUNCE(@"Connection denied or lost. Sorry.");
-	
+
 	self.imageData = nil;
 	[saveItem setEnabled:NO];
 	[imageView setImage:nil];
@@ -125,12 +125,12 @@
 {
 	success = NO;
 	[statusText setTitleWithMnemonic:@"Scanning for service"];
-	
+
 	self.browser = [[[NSNetServiceBrowser alloc] init] autorelease];
 	[self.browser setDelegate:self];
 	NSString *type = [TCPConnection bonjourTypeFromIdentifier:@"PictureThrow"];
 	[self.browser searchForServicesOfType:type inDomain:@"local"];
-	
+
 	[button setEnabled:NO];
 	self.imageData = nil;
 	[saveItem setEnabled:NO];
@@ -154,7 +154,7 @@
 {
 	NSSavePanel *savePanel = [NSSavePanel savePanel];
 	savePanel.delegate = self;
-	
+
 	NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
 	formatter.dateFormat = @"hhmmss";
 	NSString *fname = [NSString stringWithFormat:@"PictureCatch-%@.jpg", [formatter stringFromDate:[NSDate date]]];

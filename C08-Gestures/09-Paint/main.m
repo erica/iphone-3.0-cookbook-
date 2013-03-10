@@ -45,11 +45,11 @@ UIColor *current;
 {
 	if (!self.points) return;
 	if (self.points.count < 2) return;
-	
+
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	[current set];
 	CGContextSetLineWidth(context, 4.0f);
-	
+
 	for (int i = 0; i < (self.points.count - 1); i++)
 	{
 		CGPoint pt1 = POINT(i);
@@ -69,7 +69,7 @@ UIColor *current;
 {
 	switch ([seg selectedSegmentIndex])
 	{
-		case 0: 
+		case 0:
 			current = [UIColor whiteColor];
 			break;
 		case 1:
@@ -95,13 +95,13 @@ UIColor *current;
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.view.userInteractionEnabled = YES;
 	self.title = @"Simple Draw";
-	
+
 	TouchView *tv = [[TouchView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 240.0f, 240.0f)];
 	tv.backgroundColor = [UIColor blackColor];
 	tv.center = CGPointMake(160.0f, 140.0f);
 	[self.view addSubview:tv];
 	[tv release];
-	
+
 	UISegmentedControl *seg = [[UISegmentedControl alloc] initWithItems:[@"White Red Green Orange Yellow" componentsSeparatedByString:@" "]];
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
 	seg.selectedSegmentIndex = 0;
@@ -116,7 +116,7 @@ UIColor *current;
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

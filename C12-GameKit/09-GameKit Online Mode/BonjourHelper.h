@@ -18,7 +18,7 @@
 
 @interface BonjourHelper : NSObject <TCPConnectionDelegate, TCPServerDelegate>
 {
-	TCPServer *server;	
+	TCPServer *server;
 	NSNetServiceBrowser *browser;
 	TCPConnection *inConnection;
 	TCPConnection *outConnection;
@@ -26,9 +26,9 @@
 	NSString *sessionID;
 	id <BonjourHelperDataDelegate> dataDelegate;
 	UIViewController *viewController;
-	
+
 	BOOL isConnected;
-	
+
 	UIAlertView *hud;
 }
 @property (retain) TCPServer *server;

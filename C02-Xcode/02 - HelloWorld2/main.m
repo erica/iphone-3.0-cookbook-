@@ -8,7 +8,7 @@
 {
     UIView *contentView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
 	contentView.backgroundColor = [UIColor lightGrayColor];
-	
+
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, 30.0f)];
     label.text = @"Hello World";
     label.center = contentView.center;
@@ -17,10 +17,10 @@
 
     [contentView addSubview:label];
     [label release];
-	
+
 	self.view = contentView;
     [contentView release];
-	
+
 	// For testing the console pane
 	NSLog(@"Hello World!");
 }
@@ -32,7 +32,7 @@
 @end
 
 @implementation HelloWorldAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {    
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	// Technically these leak. But dealloc is never called on the application delegate
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	HelloWorldViewController *hwvc = [[HelloWorldViewController alloc] init];

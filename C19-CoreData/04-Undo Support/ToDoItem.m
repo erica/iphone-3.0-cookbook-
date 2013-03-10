@@ -1,4 +1,4 @@
-// 
+//
 //  ToDoItem.m
 //  HelloWorld
 //
@@ -9,7 +9,7 @@
 #import "ToDoItem.h"
 
 
-@implementation ToDoItem 
+@implementation ToDoItem
 
 @dynamic action;
 @dynamic sectionName;

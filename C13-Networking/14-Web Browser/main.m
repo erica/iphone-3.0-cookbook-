@@ -10,10 +10,10 @@
 
 /*
  NOTE
- 
- This sample code uses the WebHelper class in its default state. To add meaning, create a category that implements 
+
+ This sample code uses the WebHelper class in its default state. To add meaning, create a category that implements
  the handleWebRequest: call. To see this in action, add the WebHelper-FileService category from the sample code
- folder, add it to the project and compile. 
+ folder, add it to the project and compile.
  */
 
 #define COOKBOOK_PURPLE_COLOR	[UIColor colorWithRed:0.20392f green:0.19607f blue:0.61176f alpha:1.0f]
@@ -70,7 +70,7 @@
 {
 	self.log = [NSMutableString string];
 	self.navigationItem.rightBarButtonItem = nil;
-	
+
 	[WebHelper sharedInstance].delegate = self;
 	[WebHelper sharedInstance].cwd = [NSHomeDirectory() stringByAppendingString:@"/"];
 	[[WebHelper sharedInstance] startService];
@@ -87,7 +87,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

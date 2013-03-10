@@ -17,14 +17,14 @@
 @end
 
 @implementation TestBedViewController
-- (void) updateSwitch:(id)sender 
+- (void) updateSwitch:(id)sender
 {
 	// toggle the switch from its current setting
 	UISwitch *s = [self.view.window switchWithTag:SWITCH_TAG];
 	[s setOn:!s.isOn];
 }
 
-- (void) updateTime:(id)sender 
+- (void) updateTime:(id)sender
 {
 	// set the label to the current time
 	[self.view.window labelWithTag:LABEL_TAG].text = [[NSDate date] description];
@@ -47,7 +47,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

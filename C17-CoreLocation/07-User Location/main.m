@@ -52,7 +52,7 @@
 		NSLog(@"User has opted out of location services");
 		return;
 	}
-	else 
+	else
 	{
 		// User generally allows location calls
 		self.locManager.desiredAccuracy = kCLLocationAccuracyBest;
@@ -67,7 +67,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

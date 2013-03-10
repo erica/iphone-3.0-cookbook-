@@ -89,13 +89,13 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 - (void) _invalidate
 {
 	TCPServer*			server;
-	
+
 	server = [_server retain];
-	
+
 	[super _invalidate]; //NOTE: The server delegate may destroy the server when notified this connection was invalidated
-	
+
 	[server _removeConnection:self];
-	
+
 	[server release];
 }
 
@@ -115,23 +115,23 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	if((self = [super initWithPort:port])) {
 		_connections = [NSMutableSet new];
 	}
-	
+
 	return self;
 }
 
 - (void) dealloc
 {
 	[self stop]; //NOTE: Make sure our -stop is executed immediately
-	
+
 	[_connections release];
-	
+
 	[super dealloc];
 }
 
 - (void) setDelegate:(id<TCPServerDelegate>)delegate
 {
 	_delegate = delegate;
-	
+
 	SET_DELEGATE_METHOD_BIT(0, serverDidStart:);
 	SET_DELEGATE_METHOD_BIT(1, serverDidEnableBonjour:withName:);
 	SET_DELEGATE_METHOD_BIT(2, server:shouldAcceptConnectionFromAddress:);
@@ -146,10 +146,10 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 {
 	if(![super startUsingRunLoop:runLoop])
 	return NO;
-	
+
 	if(TEST_DELEGATE_METHOD_BIT(0))
 	[_delegate serverDidStart:self];
-	
+
 	return YES;
 }
 
@@ -178,7 +178,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 {
 	if([self isBonjourEnabled] && TEST_DELEGATE_METHOD_BIT(5))
 	[_delegate serverWillDisableBonjour:self];
-	
+
 	[super disableBonjour];
 }
 
@@ -186,12 +186,12 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 {
 	NSArray*			connections;
 	TCPConnection*		connection;
-	
+
 	if([self isRunning] && TEST_DELEGATE_METHOD_BIT(6))
 	[_delegate serverWillStop:self];
-	
+
 	[super stop];
-	
+
 	connections = [self allConnections];
 	for(connection in connections)
 	[connection invalidate];
@@ -200,9 +200,9 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 - (NSArray*) allConnections
 {
 	NSArray*				connections;
-	
+
 	connections = [_connections allObjects];
-	
+
 	return connections;
 }
 
@@ -210,7 +210,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 {
 	[_connections addObject:connection];
 	[connection _setServer:self];
-	
+
 	if(TEST_DELEGATE_METHOD_BIT(3))
 	[_delegate server:self didOpenConnection:connection];
 }
@@ -219,7 +219,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 {
 	if(TEST_DELEGATE_METHOD_BIT(4))
 	[_delegate server:self didCloseConnection:connection];
-	
+
 	[connection _setServer:nil];
 	[_connections removeObject:connection];
 }
@@ -227,7 +227,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 - (void) handleNewConnectionWithSocket:(NSSocketNativeHandle)socket fromRemoteAddress:(const struct sockaddr*)address
 {
 	TCPServerConnection*		connection;
-	
+
 	if(!TEST_DELEGATE_METHOD_BIT(2) || [_delegate server:self shouldAcceptConnectionFromAddress:address]) {
 		connection = [[[[self class] connectionClass] alloc] initWithSocketHandle:socket];
 		if(connection) {

@@ -21,13 +21,13 @@
 {
 	// Solicit text response
 	NSString *answer = [ModalAlert ask:@"What is your name?" withTextPrompt:@"Name"];
-	
+
 	// Show result based on answer
 	if (answer)
 		[ModalAlert say:@"Nice to meet you, %@.", answer];
 	else
 		[ModalAlert say:@"You can stay anonymous"];
-	
+
 	// Ask a Yes/No question and respond
 	if ([ModalAlert ask:@"Are you feeling well%@?", answer ? [NSString stringWithFormat:@", %@", answer] : @", anonymous person"])
 		[ModalAlert say:@"Glad to hear it."];
@@ -51,7 +51,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

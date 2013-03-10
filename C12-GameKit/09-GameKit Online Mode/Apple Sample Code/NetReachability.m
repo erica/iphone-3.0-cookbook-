@@ -84,9 +84,9 @@ static void _ReachabilityCallBack(SCNetworkReachabilityRef target, SCNetworkConn
 {
 	NSAutoreleasePool*		pool = [NSAutoreleasePool new];
 	NetReachability*		self = (NetReachability*)info;
-	
+
 	[self->_delegate reachabilityDidUpdate:self reachable:(IS_REACHABLE(flags) ? YES : NO) usingCell:(IS_CELL(flags) ? YES : NO)];
-	
+
 	[pool release];
 }
 
@@ -101,12 +101,12 @@ This will consume a reference of "reachability"
 		[self release];
 		return nil;
 	}
-	
+
 	if((self = [super init])) {
 		_runLoop = [[NSRunLoop currentRunLoop] retain];
 		_netReachability = (void*)reachability;
 	}
-	
+
 	return self;
 }
 
@@ -123,12 +123,12 @@ This will consume a reference of "reachability"
 - (id) initWithIPv4Address:(UInt32)address
 {
 	struct sockaddr_in				ipAddress;
-	
+
 	bzero(&ipAddress, sizeof(ipAddress));
 	ipAddress.sin_len = sizeof(ipAddress);
 	ipAddress.sin_family = AF_INET;
 	ipAddress.sin_addr.s_addr = address;
-	
+
 	return [self initWithAddress:(struct sockaddr*)&ipAddress];
 }
 
@@ -140,32 +140,32 @@ This will consume a reference of "reachability"
 - (void) dealloc
 {
 	[self setDelegate:nil];
-	
+
 	[_runLoop release];
 	if(_netReachability)
 	CFRelease(_netReachability);
-	
+
 	[super dealloc];
 }
 
 - (BOOL) isReachable
 {
 	SCNetworkConnectionFlags		flags;
-	
+
 	return (SCNetworkReachabilityGetFlags(_netReachability, &flags) && IS_REACHABLE(flags) ? YES : NO);
 }
 
 - (BOOL) isUsingCell
 {
 	SCNetworkConnectionFlags		flags;
-	
+
 	return (SCNetworkReachabilityGetFlags(_netReachability, &flags) && IS_CELL(flags) ? YES : NO);
 }
 
 - (void) setDelegate:(id<NetReachabilityDelegate>)delegate
 {
 	SCNetworkReachabilityContext	context = {0, self, NULL, NULL, NULL};
-	
+
 	if(delegate && !_delegate) {
 		if(SCNetworkReachabilitySetCallback(_netReachability, _ReachabilityCallBack, &context)) {
 			if(!SCNetworkReachabilityScheduleWithRunLoop(_netReachability, [_runLoop getCFRunLoop], kCFRunLoopCommonModes)) {
@@ -182,7 +182,7 @@ This will consume a reference of "reachability"
 		SCNetworkReachabilityUnscheduleFromRunLoop(_netReachability, [_runLoop getCFRunLoop], kCFRunLoopCommonModes);
 		SCNetworkReachabilitySetCallback(_netReachability, NULL, NULL);
 	}
-	
+
 	_delegate = delegate;
 }
 

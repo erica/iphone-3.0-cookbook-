@@ -40,12 +40,12 @@
 @implementation TableListViewController
 @synthesize items;
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
-{ 
-	return 1; 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView
+{
+	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section
 {
 	return items.count;
 }
@@ -55,14 +55,14 @@
 	unsigned int red, green, blue;
 	NSRange range;
 	range.length = 2;
-	
-	range.location = 0; 
+
+	range.location = 0;
 	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&red];
-	range.location = 2; 
+	range.location = 2;
 	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&green];
-	range.location = 4; 
-	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&blue];	
-	
+	range.location = 4;
+	[[NSScanner scannerWithString:[hexColor substringWithRange:range]] scanHexInt:&blue];
+
 	return [UIColor colorWithRed:(float)(red/255.0f) green:(float)(green/255.0f) blue:(float)(blue/255.0f) alpha:1.0f];
 }
 
@@ -80,7 +80,7 @@
 	return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSString *crayon = [self.items objectAtIndex:indexPath.row];
 	self.navigationController.navigationBar.tintColor = CRAYON_COLOR(crayon);
@@ -102,7 +102,7 @@
 {
 	NSString *pathname = [[NSBundle mainBundle]  pathForResource:@"crayons" ofType:@"txt" inDirectory:@"/"];
 	self.items = [[NSString stringWithContentsOfFile:pathname] componentsSeparatedByString:@"\n"];
-	
+
 	UISegmentedControl *seg = [[[UISegmentedControl alloc] initWithItems:[@"Ascending Descending Length" componentsSeparatedByString:@" "]] autorelease];
 	seg.segmentedControlStyle = UISegmentedControlStyleBar;
 	seg.selectedSegmentIndex = 0;
@@ -115,13 +115,13 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application 
-{	
-	
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+
 	TableListViewController *tlvc = [[TableListViewController alloc] init];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tlvc];
 	nav.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
-	
+
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	[window addSubview:nav.view];
 	[window makeKeyAndVisible];

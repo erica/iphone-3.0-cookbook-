@@ -13,21 +13,21 @@
 	self.view.frame = [[UIScreen mainScreen] applicationFrame];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	
+
 	return YES;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 	UIInterfaceOrientation orientation = [[UIDevice currentDevice] orientation];
-	
+
 	UILabel *flabel = (UILabel *) [self.view viewWithTag:11];
 	UILabel *clabel = (UILabel *) [self.view viewWithTag:12];
 	UITextField *ffield = (UITextField *) [self.view viewWithTag:101];
 	UITextField *cfield = (UITextField *) [self.view viewWithTag:102];
-	
+
 	switch (orientation)
 	{
 		case UIInterfaceOrientationLandscapeLeft:

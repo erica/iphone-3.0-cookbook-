@@ -75,7 +75,7 @@ You can also enable Bonjour advertising for the listening TCP port.
 {
 @private
 	UInt16				_port;
-	
+
 	NSRunLoop*			_runLoop;
 	CFSocketRef			_ipv4Socket;
 	NSNetService*		_netService;

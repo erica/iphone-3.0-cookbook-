@@ -24,7 +24,7 @@
 	// Rotate each iteration by 1% of PI
     CGFloat angle = theta * (M_PI / 100.0f);
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
-    
+
 	// Theta ranges between 0% and 199% of PI, i.e. between 0 and 2*PI
 	theta = (theta + 1) % 200;
 
@@ -32,10 +32,10 @@
     float degree = cos(angle);
     if (degree < 0.0) degree *= -1.0f;
     degree += 0.5f;
-	
+
 	// Create add scaling to the rotation transform
     CGAffineTransform scaled = CGAffineTransformScale(transform, degree, degree);
-	
+
     // Apply the affine transform
     [[self.view viewWithTag:999] setTransform:scaled];
 }
@@ -58,13 +58,13 @@
 {
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Start", @selector(start:));
-	
+
 	UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"BflyCircle.png"]];
 	imgView.tag = 999;
 	imgView.center = CGPointMake(160.0f, 143.0f);
 	[self.view addSubview:imgView];
 	[imgView release];
-	
+
 	timer = nil;
 	theta = 0;
 }
@@ -74,7 +74,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

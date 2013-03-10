@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 
-@interface ScrollWheel : UIControl 
+@interface ScrollWheel : UIControl
 {
 	float theta;
 	float value;

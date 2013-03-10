@@ -29,17 +29,17 @@
 - (BOOL)addressFromString:(NSString *)IPAddress address:(struct sockaddr_in *)address
 {
     if (!IPAddress || ![IPAddress length]) return NO;
-	
+
     memset((char *) address, sizeof(struct sockaddr_in), 0);
     address->sin_family = AF_INET;
     address->sin_len = sizeof(struct sockaddr_in);
-	
+
     int conversionResult = inet_aton([IPAddress UTF8String], &address->sin_addr);
     if (conversionResult == 0) {
 		NSAssert1(conversionResult != 1, @"Failed to convert the IP address string into a sockaddr_in: %@", IPAddress);
         return NO;
     }
-	
+
     return YES;
 }
 
@@ -54,35 +54,35 @@
 
 - (BOOL) hostAvailable: (NSString *) theHost
 {
-	
+
     NSString *addressString = [self getIPAddressForHost:theHost];
     if (!addressString)
     {
         printf("Error recovering IP address from host name\n");
         return NO;
     }
-	
+
     struct sockaddr_in address;
     BOOL gotAddress = [self addressFromString:addressString address:&address];
-	
+
     if (!gotAddress)
     {
 		printf("Error recovering sockaddr address from %s\n", [addressString UTF8String]);
         return NO;
     }
-	
+
 	SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&address);
     SCNetworkReachabilityFlags flags;
-	
+
 	BOOL didRetrieveFlags =SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
     CFRelease(defaultRouteReachability);
-	
+
     if (!didRetrieveFlags)
     {
         printf("Error. Could not recover network reachability flags\n");
         return NO;
     }
-	
+
     BOOL isReachable = flags & kSCNetworkFlagsReachable;
     return isReachable ? YES : NO;;
 }
@@ -125,7 +125,7 @@
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];

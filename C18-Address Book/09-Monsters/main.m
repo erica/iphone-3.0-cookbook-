@@ -43,14 +43,14 @@
 	[unknownPersonView release];
 }
 
-/* monsterid was inspired by a post by Don Park and the Combinatoric Critters. All graphics were created by Andreas Gohr. 
-The source code and the graphics are provided under the Creative Commons Attribution 2.5 License [4] 
+/* monsterid was inspired by a post by Don Park and the Combinatoric Critters. All graphics were created by Andreas Gohr.
+The source code and the graphics are provided under the Creative Commons Attribution 2.5 License [4]
 If you use this software and/or graphics please link back to http://www.splitbrain.org/go/monsterid */
 - (UIImage *) randomImage
 {
 	CGRect rect = CGRectMake(0.0f, 0.0f, 120.0f, 120.0f);
 	UIGraphicsBeginImageContext(CGSizeMake(120.0f, 120.0f));
-	
+
 	UIImage *part;
 	part = [UIImage imageNamed:IMAGEFILE(@"oldarms_%d.png", 5)];
 	[part drawInRect:rect];
@@ -64,7 +64,7 @@ If you use this software and/or graphics please link back to http://www.splitbra
 	[part drawInRect:rect];
 	part = [UIImage imageNamed:IMAGEFILE(@"oldhair_%d.png", 5)];
 	[part drawInRect:rect];
-	
+
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 
@@ -76,7 +76,7 @@ If you use this software and/or graphics please link back to http://www.splitbra
 	// Create and prefill object
 	ABContact *contact = [ABContact contact];
 	contact.image = [self randomImage];
-	
+
 	// Create the controller
 	ABUnknownPersonViewController *upvc = [[ABUnknownPersonViewController alloc] init];
 	upvc.unknownPersonViewDelegate = self;
@@ -86,7 +86,7 @@ If you use this software and/or graphics please link back to http://www.splitbra
 	upvc.allowsAddingToAddressBook = YES; // can add these properties to a new or existing contact
 	upvc.message = @"Who does this look like?"; // optional text to display below alternateName
 	upvc.displayedPerson = contact.record;
-	
+
 	[self.navigationController pushViewController:upvc animated:YES];
 }
 
@@ -102,7 +102,7 @@ If you use this software and/or graphics please link back to http://www.splitbra
 @end
 
 @implementation TestBedAppDelegate
-- (void)applicationDidFinishLaunching:(UIApplication *)application {	
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
 	[window addSubview:nav.view];
