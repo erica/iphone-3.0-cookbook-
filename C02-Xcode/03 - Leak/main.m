@@ -39,13 +39,17 @@ void show(id formatstring,...)
 - (void) leakString
 {
 	char *leakystring = malloc(sizeof(char)*128);
-	leakystring = NULL; 
+    //leakystring = NULL;
+    free(leakystring);
 }
 
 - (void) leakArray
 {
 	NSArray *leakyarray = [[NSMutableArray alloc] init];
-	leakyarray = nil; 
+
+	leakyarray = nil;
+    [leakyarray release];
+    
 }
 
 - (void) intro
@@ -55,6 +59,7 @@ void show(id formatstring,...)
 
 - (void) viewDidLoad
 {
+    [super viewDidLoad];
 	self.navigationController.navigationBar.tintColor = COOKBOOK_PURPLE_COLOR;
 	self.navigationItem.rightBarButtonItem = BARBUTTON(@"Leak Array", @selector(leakArray));
 	self.navigationItem.leftBarButtonItem =  BARBUTTON(@"Leak String", @selector(leakString));
@@ -70,7 +75,9 @@ void show(id formatstring,...)
 	// Technically window and nav both leak but dealloc is never called for the application delegate
 	UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[TestBedViewController alloc] init]];
-	[window addSubview:nav.view];
+    
+    window.rootViewController = nav;
+	//[window addSubview:nav.view];
 	[window makeKeyAndVisible];
 }
 @end

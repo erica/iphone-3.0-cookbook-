@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>6B0728B1-C2BA-4427-AC3E-3A6CE00ECB29</string>
+	<key>IDESourceControlProjectName</key>
+	<string>HelloWorld</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FBD2ACF4FBDAFAAE457AB2D685689E5DE25B97A1</key>
+		<string>https://github.com/peihm/iphone-3.0-cookbook-.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>C13-Networking/06-Synchronous Downloads/HelloWorld.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FBD2ACF4FBDAFAAE457AB2D685689E5DE25B97A1</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/peihm/iphone-3.0-cookbook-.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FBD2ACF4FBDAFAAE457AB2D685689E5DE25B97A1</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FBD2ACF4FBDAFAAE457AB2D685689E5DE25B97A1</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iphone-3.0-cookbook-</string>
+		</dict>
+	</array>
+</dict>
+</plist>
